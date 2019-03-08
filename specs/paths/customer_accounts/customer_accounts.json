@@ -1,0 +1,7 @@
+{
+  "/customer_accounts/{id}": {
+    "get": {
+      "$ref": "./customer_account_get_by_id.json"
+    }
+  }
+}

@@ -1,0 +1,103 @@
+{
+  "type": "object",
+  "properties": {
+    "Id": {
+      "type": "string"
+    },
+    "Date_Of_Birth": {
+      "type": "string",
+      "format": "date"
+    },
+    "Email": {
+      "type": "string",
+      "format": "email"
+    },
+    "Prefix": {
+      "type": "string"
+    },
+    "Suffix": {
+      "type": "string"
+    },
+    "First_Name": {
+      "type": "string"
+    },
+    "Middle_Name": {
+      "type": "string"
+    },
+    "Last_Name": {
+      "type": "string"
+    },
+    "Language": {
+      "type": "string"
+    },
+    "Drivers_License": {
+      "type": "object",
+      "properties": {
+        "Number": {
+          "type": "string"
+        },
+        "State": {
+          "type": "string"
+        }
+      }
+    },
+    "AlternateID": {
+      "type": "object",
+      "properties": {
+        "Number": "string",
+        "Type": {
+          "type": "string",
+          "enum": [
+            "None",
+            "StateId",
+            "Passport",
+            "Visa",
+            "ResidentCard",
+            "MilitaryId",
+            "BirthCertificate",
+            "MatriculaConsular"
+          ]
+        }
+      }
+    },
+    "Social_Security_Number": {
+      "type": "string"
+    },
+    "Masked_Social_Security_Number": {
+      "type": "string"
+    },
+    "Past_Due": {
+      "type": "number"
+    },
+    "Bad_Debt_Balance": {
+      "type": "number"
+    },
+    "Pledge_On_Entity": {
+      "type": "boolean"
+    },
+    "Primary_Phone": {
+      "type": "object",
+      "properties": {
+        "Type":{
+          "type": "string",
+          "enum": ["Landline","Mobile"]
+        },
+        "Area_Code": {
+          "type": "string"
+        },
+        "Number": {
+          "type": "string"
+        },
+        "Extension": {
+          "type": "string"
+        },
+        "Agree_To_Marketing": {
+          "type": "boolean"
+        }
+      }
+    },
+    "EnrolledInShareAndSave": {
+      "type": "boolean"
+    }
+  }
+}

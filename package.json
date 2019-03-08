@@ -1,0 +1,32 @@
+{
+  "name": "ls",
+  "version": "1.0.0",
+  "description": "Gexa Servicing as a Service",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "swagger_join": "swagger-merger -i ./specs/spec.json -o ./specs/swagger.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "ssh://git@neer-bitbucket:7999/gd/gexa-saas.git"
+  },
+  "author": "Ryan Purcell",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.5",
+    "dotenv": "^6.2.0",
+    "express": "^4.16.4",
+    "express-jwt": "^5.3.1",
+    "lodash": "^4.17.11",
+    "log-driver": "^1.2.7",
+    "morgan": "^1.9.1",
+    "superagent": "^4.1.0",
+    "superagent-prefix": "0.0.2",
+    "swagger-ui-express": "^4.0.2"
+  },
+  "devDependencies": {
+    "swagger-merger": "^1.4.3"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "customer_account": {
+    "$ref": "./customer_accounts/customer_account.json"
+  },
+  "error_list": {
+    "$ref": "./error_list.json"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Servicing API",
+    "description": "API to get service details about customers"
+  },
+  "host": "host",
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "basePath": "/api/",
+  "securityDefinitions": {
+    "Bearer": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header",
+      "description": "Secured endpoints require a valid JWT token with appropriate claims.  The following syntax must be used in the 'Authorization' header : Bearer xxxxxx.yyyyyyy.zzzzzz"
+    }
+  },
+  "security": [
+    {
+      "Bearer": []
+    }
+  ],
+  "paths": {
+    "$ref": "./paths/paths.json"
+  },
+  "definitions": {
+    "$ref": "./definitions/definitions.json"
+  }
+}

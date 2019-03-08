@@ -1,0 +1,186 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Servicing API",
+    "description": "API to get service details about customers"
+  },
+  "host": "host",
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "basePath": "/api/",
+  "securityDefinitions": {
+    "Bearer": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header",
+      "description": "Secured endpoints require a valid JWT token with appropriate claims.  The following syntax must be used in the 'Authorization' header : Bearer xxxxxx.yyyyyyy.zzzzzz"
+    }
+  },
+  "security": [
+    {
+      "Bearer": []
+    }
+  ],
+  "paths": {
+    "/customer_accounts/{id}": {
+      "get": {
+        "tags": [
+          "customer_accounts"
+        ],
+        "summary": "Retrieves customer information by id",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of customer to fetch",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 returns the updated channel",
+            "schema": {
+              "$ref": "#/definitions/customer_account"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/error_list"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Customer not found"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "customer_account": {
+      "type": "object",
+      "properties": {
+        "Id": {
+          "type": "string"
+        },
+        "Date_Of_Birth": {
+          "type": "string",
+          "format": "date"
+        },
+        "Email": {
+          "type": "string",
+          "format": "email"
+        },
+        "Prefix": {
+          "type": "string"
+        },
+        "Suffix": {
+          "type": "string"
+        },
+        "First_Name": {
+          "type": "string"
+        },
+        "Middle_Name": {
+          "type": "string"
+        },
+        "Last_Name": {
+          "type": "string"
+        },
+        "Language": {
+          "type": "string"
+        },
+        "Drivers_License": {
+          "type": "object",
+          "properties": {
+            "Number": {
+              "type": "string"
+            },
+            "State": {
+              "type": "string"
+            }
+          }
+        },
+        "AlternateID": {
+          "type": "object",
+          "properties": {
+            "Number": "string",
+            "Type": {
+              "type": "string",
+              "enum": [
+                "None",
+                "StateId",
+                "Passport",
+                "Visa",
+                "ResidentCard",
+                "MilitaryId",
+                "BirthCertificate",
+                "MatriculaConsular"
+              ]
+            }
+          }
+        },
+        "Social_Security_Number": {
+          "type": "string"
+        },
+        "Masked_Social_Security_Number": {
+          "type": "string"
+        },
+        "Past_Due": {
+          "type": "number"
+        },
+        "Bad_Debt_Balance": {
+          "type": "number"
+        },
+        "Pledge_On_Entity": {
+          "type": "boolean"
+        },
+        "Primary_Phone": {
+          "type": "object",
+          "properties": {
+            "Type": {
+              "type": "string",
+              "enum": [
+                "Landline",
+                "Mobile"
+              ]
+            },
+            "Area_Code": {
+              "type": "string"
+            },
+            "Number": {
+              "type": "string"
+            },
+            "Extension": {
+              "type": "string"
+            },
+            "Agree_To_Marketing": {
+              "type": "boolean"
+            }
+          }
+        },
+        "EnrolledInShareAndSave": {
+          "type": "boolean"
+        }
+      }
+    },
+    "error_list": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}
