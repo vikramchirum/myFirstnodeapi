@@ -2,6 +2,15 @@
   "customer_account": {
     "$ref": "./customer_accounts/customer_account.json"
   },
+  "service_account": {
+    "$ref": "./service_accounts/service_account.json"
+  },
+  "invoice": {
+    "$ref": "./invoices/invoice.json"
+  },
+  "invoice_line_item": {
+    "$ref": "./invoices/invoice_line_item.json"
+  },
   "error_list": {
     "$ref": "./error_list.json"
   }

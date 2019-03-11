@@ -1,0 +1,42 @@
+{
+  "type": "object",
+  "properties": {
+    "Description": {
+      "type": "string"
+    },
+    "Amount": {
+      "type": "number"
+    },
+    "UOM": {
+      "type": "string"
+    },
+    "Quantity": {
+      "type": "string"
+    },
+    "Multiplier": {
+      "type": "number"
+    },
+    "Min": {
+      "type": "integer"
+    },
+    "Max": {
+      "type": "integer"
+    },
+    "Bill_Line_Item_Type": {
+      "type": "string",
+      "enum": [
+        "GEXA",
+        "TDSP",
+        "DEPOSITS",
+        "TAX"
+      ]
+    },
+    "Bill_Line_Item_Sub_Type": {
+      "type": "string",
+      "enum": [
+        "None",
+        "Energy"
+      ]
+    }
+  }
+}

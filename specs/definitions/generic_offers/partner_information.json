@@ -1,0 +1,37 @@
+{
+  "type": "object",
+  "properties": {
+    "Partner": {
+      "type": "object",
+      "properties": {
+        "Id": {
+          "type": "string"
+        },
+        "Name": {
+          "type": "string"
+        },
+        "Description": {
+          "type": "string"
+        },
+        "Billing_Code": {
+          "type": "string"
+        },
+        "Creation_Time": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "Date_Created": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "Date_Last_Modified": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "Code": {
+      "type": "string"
+    }
+  }
+}

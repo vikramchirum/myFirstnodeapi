@@ -1,0 +1,30 @@
+{
+  "type": "object",
+  "properties": {
+    "Min": {
+      "type": "integer"
+    },
+    "Max": {
+      "type": "integer"
+    },
+    "Amount": {
+      "type": "number"
+    },
+    "Operation_Type": {
+      "type": "string",
+      "enum": [
+        "Additive",
+        "Multiplicative"
+      ]
+    },
+    "IsCompound": {
+      "type": "boolean"
+    },
+    "TimeOfUseInterval": {
+      "type": "string"
+    },
+    "DisplayContent": {
+      "type": "string"
+    }
+  }
+}

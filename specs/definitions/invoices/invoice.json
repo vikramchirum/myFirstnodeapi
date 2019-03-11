@@ -1,0 +1,34 @@
+{
+  "type": "object",
+  "properties": {
+    "Id": {
+      "type": "string"
+    },
+    "Invoice_Date": {
+      "type": "string",
+      "format": "date"
+    },
+    "Due_Date": {
+      "type": "string",
+      "format": "date"
+    },
+    "Usage": {
+      "type": "integer"
+    },
+    "Total_Usage": {
+      "type": "integer"
+    },
+    "Current_Charges": {
+      "type": "number"
+    },
+    "Amount_Due": {
+      "type": "number"
+    },
+    "Credit": {
+      "type": "number"
+    },
+    "Balance_Forward": {
+      "type": "number"
+    }
+  }
+}

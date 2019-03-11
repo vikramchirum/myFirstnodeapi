@@ -1,0 +1,14 @@
+{
+  "type": "object",
+  "properties": {
+    "Min": {
+      "type": "integer"
+    },
+    "Max": {
+      "type": "integer"
+    },
+    "Amount": {
+      "type": "number"
+    }
+  }
+}
