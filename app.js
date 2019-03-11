@@ -16,7 +16,7 @@ let swaggerUi = require('swagger-ui-express'),
 
 let app = express();
 
-app.use(morgan(logger.format, {stream: logger.loggerstream}));
+app.use(morgan('combined'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 

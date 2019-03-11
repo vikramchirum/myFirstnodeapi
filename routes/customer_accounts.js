@@ -15,16 +15,14 @@ router.get('/:id',
     async function (req, res, next) {
         try {
             let result = await external_api.get('/api/customer_accounts/' + req.params.id, false);
-            if (result && result.status && result.status === 200) {
-                res.send(result.body);
-            }
-            else {
-                res.sendStatus(404);
-            }
+            req.Result = result;
+            next();
         }
         catch (err) {
             next(err);
         }
-    });
+    },
+    external_api.format_result_middleware
+);
 
 module.exports = router;

@@ -26,7 +26,7 @@
       }
     },
     "200": {
-      "description": "200 returns the updated channel",
+      "description": "200 returns a customer account",
       "schema": {
         "$ref": "#/definitions/customer_account"
       }

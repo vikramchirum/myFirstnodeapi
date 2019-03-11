@@ -1,3 +1,4 @@
 {
-  "$ref": "./customer_accounts/customer_accounts.json"
+  "$ref": "./customer_accounts/customer_accounts.json",
+  "$ref": "./invoices/invoices.json"
 }
