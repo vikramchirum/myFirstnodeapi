@@ -59,9 +59,11 @@ app.use(function (err, req, res, next) {
 
     if (err.name === 'UnauthorizedError') {
         res.status(err.status).send(err.message);
-    } else if (err.status && err.message) {
+    }
+    else if (err.status && err.message) {
         res.status(err.status).send(err.message);
-    } else {
+    }
+    else {
 
         logger.error({
             message: err.message,
@@ -78,7 +80,8 @@ app.use(function (err, req, res, next) {
         if (err.name === 'MongoError' && err.message.includes('duplicate')) {
             res.status(409);
             res.send({Messsage: err.message});
-        } else {
+        }
+        else {
             res.status(err.status || 500);
             res.send({Message: 'Uh Oh... an error occured.<br>We are already working on it.'});
         }
