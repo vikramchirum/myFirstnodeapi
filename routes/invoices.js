@@ -9,14 +9,7 @@ router.use(jwt_authorization.middleware({
 }));
 
 router.get('/',
-    function (req, res, next) {
-        if (req.query.service_account_id) {
-            jwt_authorization.verify_claims('Service_Account_Ids', req.query.service_account_id)(req, res, next);
-        }
-        else {
-            next();
-        }
-    },
+    jwt_authorization.verify_claims_from_request_property('Service_Account_Ids', 'query.service_account_id'),
     async function (req, res, next) {
         try {
             let result = await external_api.search('/api/invoice', req.query);
@@ -32,9 +25,7 @@ router.get('/',
 
 
 router.get('/:service_account_id/:invoice_id/details',
-    function (req, res, next) {
-        jwt_authorization.verify_claims('Service_Account_Ids', req.params.service_account_id)(req, res, next);
-    },
+    jwt_authorization.verify_claims_from_request_property('Service_Account_Ids', 'params.service_account_id'),
     async function (req, res, next) {
         let result = await  external_api.get('/api/invoice/' + req.params.service_account_id + '/' + req.params.invoice_id  + '/details');
         req.Result = result;
@@ -44,9 +35,7 @@ router.get('/:service_account_id/:invoice_id/details',
 );
 
 router.get('/:service_account_id/:invoice_id',
-    function (req, res, next) {
-        jwt_authorization.verify_claims('Service_Account_Ids', req.params.service_account_id)(req, res, next);
-    },
+    jwt_authorization.verify_claims_from_request_property('Service_Account_Ids', 'params.service_account_id'),
     async function (req, res, next) {
         try {
             let result = await external_api.get('/api/invoice/' + req.params.service_account_id + '/' + req.params.invoice_id);

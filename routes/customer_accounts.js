@@ -9,9 +9,7 @@ router.use(jwt_authorization.middleware({
 }));
 
 router.get('/:id',
-    function (req, res, next) {
-        jwt_authorization.verify_claims('Customer_Account_Id', req.params.id)(req, res, next);
-    },
+    jwt_authorization.verify_claims_from_request_property('Customer_Account_Id', 'params.id'),
     async function (req, res, next) {
         try {
             let result = await external_api.get('/api/customer_accounts/' + req.params.id, false);
