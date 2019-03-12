@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+# [1.2.0](http://neer-bitbucket:7999/gd/gexa-saas/compare/v1.1.0...v1.2.0) (2019-03-12)
+
+
+### Features
+
+* **service_accounts:** Added specs and endpoints for service accounts ([cd9a470](http://neer-bitbucket:7999/gd/gexa-saas/commits/cd9a470))
+
+
+
 # 1.1.0 (2019-03-11)
 
 
