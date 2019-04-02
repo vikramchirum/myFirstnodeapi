@@ -1,0 +1,7 @@
+{
+    "definitions": {
+        "address": {
+            "$ref": "./definitions/address/address.json"
+        }
+    }
+}

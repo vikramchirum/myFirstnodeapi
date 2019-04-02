@@ -1,0 +1,45 @@
+{
+    "tags": [
+      "address"
+    ],
+    "summary": "Gets all addresses matching the given address information",
+    "consumes": [
+      "application/json"
+    ],
+    "produces": [
+      "application/json"
+    ],
+    "parameters": [
+      {
+        "name": "address",
+        "in": "body",
+        "required": true,
+        "schema": {
+          "$ref": "#/definitions/address"
+        }
+      }
+    ],
+    "responses": {
+      "400": {
+        "description": "Bad Request",
+        "schema": {
+          "$ref": "#/definitions/error_list"
+        }
+      },
+      "200": {
+        "description": "Returns a list of matching addresses",
+        "schema": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/service_location"
+          }
+        }
+      },
+      "401": {
+        "description": "Unauthorized"
+      },
+      "404": {
+        "description": "address not found"
+      }
+    }
+  }
