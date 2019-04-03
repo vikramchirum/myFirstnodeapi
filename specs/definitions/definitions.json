@@ -13,5 +13,11 @@
   },
   "error_list": {
     "$ref": "./error_list.json"
+  },
+  "address": {
+    "$ref": "./address/address.json"
+  },
+  "service_location": {
+    "$ref": "./address/service_location.json"
   }
 }
