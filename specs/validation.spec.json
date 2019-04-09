@@ -4,7 +4,10 @@
       "$ref": "./definitions/address/address.json"
     },
     "customer": {
-      "$ref": "./definitions/customer/customer.json"
+      "$ref": "./definitions/customer/customer.spec.json"
+    },
+    "customer_account_patch": {
+      "$ref": "./definitions/customer_accounts/customer_account_patch.spec.json"
     }
   }
 }

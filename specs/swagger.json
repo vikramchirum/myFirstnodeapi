@@ -66,6 +66,56 @@
             "description": "Customer not found"
           }
         }
+      },
+      "patch": {
+        "tags": [
+          "customer_accounts"
+        ],
+        "summary": "Updates customers email and/or primary phone number",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of customer to update",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "update_request",
+            "in": "body",
+            "description": "Information to update",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/customer_account_patch"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 returns a customer account",
+            "schema": {
+              "$ref": "#/definitions/customer_account"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/error_list"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Customer not found"
+          }
+        }
       }
     },
     "/service_accounts": {
@@ -553,10 +603,16 @@
               ]
             },
             "Area_Code": {
-              "type": "string"
+              "type": "string",
+              "minLength": 3,
+              "maxLength": 3,
+              "pattern": "^\\d{3}$"
             },
             "Number": {
-              "type": "string"
+              "type": "string",
+              "minLength": 7,
+              "maxLength": 7,
+              "pattern": "^\\d{7}$"
             },
             "Extension": {
               "type": "string"
@@ -564,10 +620,59 @@
             "Agree_To_Marketing": {
               "type": "boolean"
             }
-          }
+          },
+          "required": [
+            "Type",
+            "Area_Code",
+            "Number"
+          ]
         },
         "EnrolledInShareAndSave": {
           "type": "boolean"
+        }
+      }
+    },
+    "customer_account_patch": {
+      "type": "object",
+      "properties": {
+        "Email": {
+          "type": "string",
+          "format": "email"
+        },
+        "Primary_Phone_Number": {
+          "type": "object",
+          "properties": {
+            "Type": {
+              "type": "string",
+              "enum": [
+                "Landline",
+                "Mobile"
+              ]
+            },
+            "Area_Code": {
+              "type": "string",
+              "minLength": 3,
+              "maxLength": 3,
+              "pattern": "^\\d{3}$"
+            },
+            "Number": {
+              "type": "string",
+              "minLength": 7,
+              "maxLength": 7,
+              "pattern": "^\\d{7}$"
+            },
+            "Extension": {
+              "type": "string"
+            },
+            "Agree_To_Marketing": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "Type",
+            "Area_Code",
+            "Number"
+          ]
         }
       }
     },

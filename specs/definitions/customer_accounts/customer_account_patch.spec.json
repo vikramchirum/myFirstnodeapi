@@ -1,0 +1,24 @@
+{
+  "type": "object",
+  "properties": {
+    "Email": {
+      "type": "string",
+      "format": "email"
+    },
+    "Primary_Phone_Number": {
+      "$ref": "../phone_number.json"
+    }
+  },
+  "anyOf": [
+    {
+      "required": [
+        "Email"
+      ]
+    },
+    {
+      "required": [
+        "Primary_Phone_Number"
+      ]
+    }
+  ]
+}

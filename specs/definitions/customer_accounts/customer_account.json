@@ -76,25 +76,7 @@
       "type": "boolean"
     },
     "Primary_Phone": {
-      "type": "object",
-      "properties": {
-        "Type":{
-          "type": "string",
-          "enum": ["Landline","Mobile"]
-        },
-        "Area_Code": {
-          "type": "string"
-        },
-        "Number": {
-          "type": "string"
-        },
-        "Extension": {
-          "type": "string"
-        },
-        "Agree_To_Marketing": {
-          "type": "boolean"
-        }
-      }
+      "$ref": "../phone_number.json"
     },
     "EnrolledInShareAndSave": {
       "type": "boolean"
