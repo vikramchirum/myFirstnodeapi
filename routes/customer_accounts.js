@@ -9,7 +9,7 @@ router.use(jwt_authorization.middleware({
 }));
 
 router.get('/:id',
-    //jwt_authorization.verify_claims_from_request_property('Customer_Account_Id', 'params.id'),
+    jwt_authorization.verify_claims_from_request_property('Customer_Account_Id', 'params.id'),
     async function (req, res, next) {
         try {
             let result = await external_api.get('/api/customer_accounts/' + req.params.id, false);
@@ -22,5 +22,9 @@ router.get('/:id',
     },
     external_api.format_result_middleware
 );
+
+router.patch('/:id', function (req, res, next) {
+    next();
+});
 
 module.exports = router;
