@@ -1,7 +1,10 @@
 {
-    "definitions": {
-        "address": {
-            "$ref": "./definitions/address/address.json"
-        }
+  "definitions": {
+    "address": {
+      "$ref": "./definitions/address/address.json"
+    },
+    "customer": {
+      "$ref": "./definitions/customer/customer.json"
     }
+  }
 }

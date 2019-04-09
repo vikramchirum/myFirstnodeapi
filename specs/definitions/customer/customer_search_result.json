@@ -2,7 +2,7 @@
     "title": "customer_fuzzysearch_response",
     "description": "Model for returing customer search results in AST Model",
     "type": "object",
-    "properties": {           
+    "properties": {
       "FirstName": {
         "type": "string"
       },
@@ -16,55 +16,55 @@
         "type": "string"
       },
       "SecondaryPhoneNumber": {
-        "type": "string"        
+        "type": "string"
       },
       "SSN": {
-        "type": "string"        
+        "type": "string"
       },
       "DL": {
-        "type": "string"        
+        "type": "string"
       },
       "DateOfBirth": {
-        "type": "string"        
+        "type": "string"
       },
       "PrimaryEmail": {
-        "type": "string"        
+        "type": "string"
       },
       "SecondaryEmail": {
-        "type": "string"        
+        "type": "string"
       },
       "CSPId": {
-        "type": "string"        
+        "type": "string"
       },
       "CSPStatus": {
-        "type": "string"        
+        "type": "string"
       },
       "CSPStartDate": {
-        "type": "string"        
+        "type": "string"
       },
       "ESIID": {
-        "type": "string"        
+        "type": "string"
       },
       "ZipCode": {
-        "type": "string"        
+        "type": "string"
       },
       "AddressLine1": {
-        "type": "string"        
+        "type": "string"
       },
       "AddressLine2": {
-        "type": "string"        
+        "type": "string"
       },
       "AddressLine3": {
-        "type": "string"        
+        "type": "string"
       },
       "AddressLine4": {
-        "type": "string"        
+        "type": "string"
       },
       "AsOfDateDueAmount": {
-        "type": "number"        
+        "type": "number"
       },
       "BadDebtAmount": {
-        "type": "number"        
+        "type": "number"
       },
       "SearchResultBasedOn":{
         "type": "string"
