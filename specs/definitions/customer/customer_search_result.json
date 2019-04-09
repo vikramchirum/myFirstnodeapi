@@ -1,0 +1,73 @@
+{
+    "title": "customer_fuzzysearch_response",
+    "description": "Model for returing customer search results in AST Model",
+    "type": "object",
+    "properties": {
+      "FirstName": {
+        "type": "string"
+      },
+      "LastName": {
+        "type": "string"
+      },
+      "EntityID": {
+        "type": "string"
+      },
+      "PrimaryPhoneNumber": {
+        "type": "string"
+      },
+      "SecondaryPhoneNumber": {
+        "type": "string"
+      },
+      "SSN": {
+        "type": "string"
+      },
+      "DL": {
+        "type": "string"
+      },
+      "DateOfBirth": {
+        "type": "string"
+      },
+      "PrimaryEmail": {
+        "type": "string"
+      },
+      "SecondaryEmail": {
+        "type": "string"
+      },
+      "CSPId": {
+        "type": "string"
+      },
+      "CSPStatus": {
+        "type": "string"
+      },
+      "CSPStartDate": {
+        "type": "string"
+      },
+      "ESIID": {
+        "type": "string"
+      },
+      "ZipCode": {
+        "type": "string"
+      },
+      "AddressLine1": {
+        "type": "string"
+      },
+      "AddressLine2": {
+        "type": "string"
+      },
+      "AddressLine3": {
+        "type": "string"
+      },
+      "AddressLine4": {
+        "type": "string"
+      },
+      "AsOfDateDueAmount": {
+        "type": "number"
+      },
+      "BadDebtAmount": {
+        "type": "number"
+      },
+      "SearchResultBasedOn":{
+        "type": "string"
+      }
+    }
+  }

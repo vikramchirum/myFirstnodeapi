@@ -1,0 +1,26 @@
+{
+  "$ref": "./customer.json",
+  "anyOf": [
+    {
+      "required": ["CSPId"]
+    },
+    {
+      "required": ["LastName"]
+    },
+    {
+      "required": ["SSN"]
+    },
+    {
+      "required": ["DL"]
+    },
+    {
+      "required": ["PhoneNumber"]
+    },
+    {
+      "required": ["Email"]
+    },
+    {
+      "required": ["ESIID"]
+    }
+  ]
+}

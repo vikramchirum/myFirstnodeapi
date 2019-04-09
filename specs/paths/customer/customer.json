@@ -1,0 +1,9 @@
+{
+    "/customer": {
+        "post": {"$ref": "customer_search.json"}
+    },    
+
+    "/customer/fromMongoDB": {
+        "post": {"$ref": "customer_search_mongodb.json"}
+    }    
+}

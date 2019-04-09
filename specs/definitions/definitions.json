@@ -19,5 +19,11 @@
   },
   "service_location": {
     "$ref": "./address/service_location.json"
+  },
+  "customer": {
+    "$ref": "./customer/customer.json"
+  },
+  "customer_search_result": {
+    "$ref": "./customer/customer_search_result.json"
   }
 }

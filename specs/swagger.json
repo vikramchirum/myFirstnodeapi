@@ -368,6 +368,100 @@
           }
         }
       }
+    },
+    "/customer": {
+      "post": {
+        "tags": [
+          "customer"
+        ],
+        "summary": "Call GEXA External API to get all the customers matching the given customer information",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "customer",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/customer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns a list of matching customer",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/customer_search_result"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/error_list"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "customer not found"
+          }
+        }
+      }
+    },
+    "/customer/fromMongoDB": {
+      "post": {
+        "tags": [
+          "customer"
+        ],
+        "summary": "Retrieves all customers from the MongoDB",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "customer",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/customer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns a list of matching customer",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/customer_search_result"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/error_list"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "customer not found"
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -1250,6 +1344,107 @@
         },
         "Debt_Hold": {
           "type": "boolean"
+        }
+      }
+    },
+    "customer": {
+      "title": "customer",
+      "description": "Model for searching customer info in AST",
+      "type": "object",
+      "properties": {
+        "CSPId": {
+          "type": "string"
+        },
+        "LastName": {
+          "type": "string"
+        },
+        "SSN": {
+          "type": "string"
+        },
+        "DL": {
+          "type": "string"
+        },
+        "PhoneNumber": {
+          "type": "string"
+        },
+        "Email": {
+          "type": "string"
+        },
+        "ESIID": {
+          "type": "string"
+        }
+      }
+    },
+    "customer_search_result": {
+      "title": "customer_fuzzysearch_response",
+      "description": "Model for returing customer search results in AST Model",
+      "type": "object",
+      "properties": {
+        "FirstName": {
+          "type": "string"
+        },
+        "LastName": {
+          "type": "string"
+        },
+        "EntityID": {
+          "type": "string"
+        },
+        "PrimaryPhoneNumber": {
+          "type": "string"
+        },
+        "SecondaryPhoneNumber": {
+          "type": "string"
+        },
+        "SSN": {
+          "type": "string"
+        },
+        "DL": {
+          "type": "string"
+        },
+        "DateOfBirth": {
+          "type": "string"
+        },
+        "PrimaryEmail": {
+          "type": "string"
+        },
+        "SecondaryEmail": {
+          "type": "string"
+        },
+        "CSPId": {
+          "type": "string"
+        },
+        "CSPStatus": {
+          "type": "string"
+        },
+        "CSPStartDate": {
+          "type": "string"
+        },
+        "ESIID": {
+          "type": "string"
+        },
+        "ZipCode": {
+          "type": "string"
+        },
+        "AddressLine1": {
+          "type": "string"
+        },
+        "AddressLine2": {
+          "type": "string"
+        },
+        "AddressLine3": {
+          "type": "string"
+        },
+        "AddressLine4": {
+          "type": "string"
+        },
+        "AsOfDateDueAmount": {
+          "type": "number"
+        },
+        "BadDebtAmount": {
+          "type": "number"
+        },
+        "SearchResultBasedOn": {
+          "type": "string"
         }
       }
     }
