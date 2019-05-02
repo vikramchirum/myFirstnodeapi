@@ -3,41 +3,46 @@
     "customer_accounts"
   ],
   "summary": "Updates customers email and/or primary phone number",
-  "consumes": [
-    "application/json"
-  ],
-  "produces": [
-    "application/json"
-  ],
   "parameters": [
     {
       "name": "id",
       "in": "path",
       "description": "id of customer to update",
       "required": true,
-      "type": "string"
-    },
-    {
-      "name": "update_request",
-      "in": "body",
-      "description": "Information to update",
-      "required": true,
       "schema": {
-        "$ref": "#/definitions/customer_account_patch"
+        "type": "string"
       }
     }
   ],
+  "requestBody": {
+    "required": true,
+    "content": {
+      "application/json": {
+        "schema": {
+          "$ref": "#/components/schemas/customer_account_patch"
+        }
+      }
+    }
+  },
   "responses": {
     "400": {
       "description": "Bad Request",
-      "schema": {
-        "$ref": "#/definitions/error_list"
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "#/components/schemas/error_list"
+          }
+        }
       }
     },
     "200": {
       "description": "200 returns a customer account",
-      "schema": {
-        "$ref": "#/definitions/customer_account"
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "#/components/schemas/customer_account"
+          }
+        }
       }
     },
     "401": {

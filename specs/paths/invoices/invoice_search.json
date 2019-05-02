@@ -3,39 +3,45 @@
     "invoices"
   ],
   "summary": "Retrieves invoices by id or service acccount id",
-  "consumes": [
-    "application/json"
-  ],
-  "produces": [
-    "application/json"
-  ],
   "parameters": [
     {
       "name": "service_account_id",
       "in": "query",
       "description": "id of service account to fetch invoices for",
-      "type": "string"
+      "schema": {
+        "type": "string"
+      }
     },
     {
       "name": "invoice_id",
       "in": "query",
       "description": "id of invoice to fetch",
-      "type": "string"
+      "schema": {
+        "type": "string"
+      }
     }
   ],
   "responses": {
     "400": {
       "description": "Bad Request",
-      "schema": {
-        "$ref": "#/definitions/error_list"
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "#/components/schemas/error_list"
+          }
+        }
       }
     },
     "200": {
       "description": "200 returns a list of invoices",
-      "schema": {
-        "type": "array",
-        "items": {
-          "$ref": "#/definitions/invoice"
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/invoice"
+            }
+          }
         }
       }
     },

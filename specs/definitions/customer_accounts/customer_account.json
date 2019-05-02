@@ -44,7 +44,9 @@
     "AlternateID": {
       "type": "object",
       "properties": {
-        "Number": "string",
+        "Number": {
+          "type": "string"
+        },
         "Type": {
           "type": "string",
           "enum": [
