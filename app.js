@@ -1,5 +1,4 @@
 require('dotenv').config();
-const schemes = process.env.SCHEMES.split(',');
 
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -20,6 +19,10 @@ app.use(morgan('combined'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
+const get_base_url = function(req){
+    return process.env.SCHEME + '://' + req.get('host') + '/api';
+};
+
 app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "*");
@@ -28,8 +31,7 @@ app.use(function (req, res, next) {
 });
 
 app.use('/docs/swagger', function (req, res) {
-    swaggerDocument.host = req.get('host');
-    swaggerDocument.schemes = schemes;
+    swaggerDocument.servers[0].url = get_base_url(req);
     res.send(swaggerDocument)
 });
 
@@ -39,8 +41,7 @@ app.use('/api', api);
 app.use('/',
     swaggerUi.serve,
     function (req, res) {
-        swaggerDocument.host = req.get('host'); // Replace hardcoded host information in Swagger file
-        swaggerDocument.schemes = schemes;
+        swaggerDocument.servers[0].url = get_base_url(req);
         swaggerUi.setup(swaggerDocument)(req, res);
     },
     swaggerUi.setup(swaggerDocument)

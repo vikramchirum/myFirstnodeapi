@@ -113,7 +113,100 @@
         "ESIID": {
           "type": "string"
         }
-      }
+      },
+      "anyOf": [
+        {
+          "required": [
+            "CSPId"
+          ]
+        },
+        {
+          "required": [
+            "LastName"
+          ]
+        },
+        {
+          "required": [
+            "SSN"
+          ]
+        },
+        {
+          "required": [
+            "DL"
+          ]
+        },
+        {
+          "required": [
+            "PhoneNumber"
+          ]
+        },
+        {
+          "required": [
+            "Email"
+          ]
+        },
+        {
+          "required": [
+            "ESIID"
+          ]
+        }
+      ]
+    },
+    "customer_account_patch": {
+      "type": "object",
+      "properties": {
+        "Email": {
+          "type": "string",
+          "format": "email"
+        },
+        "Primary_Phone_Number": {
+          "type": "object",
+          "properties": {
+            "Type": {
+              "type": "string",
+              "enum": [
+                "Landline",
+                "Mobile"
+              ]
+            },
+            "Area_Code": {
+              "type": "string",
+              "minLength": 3,
+              "maxLength": 3,
+              "pattern": "^\\d{3}$"
+            },
+            "Number": {
+              "type": "string",
+              "minLength": 7,
+              "maxLength": 7,
+              "pattern": "^\\d{7}$"
+            },
+            "Extension": {
+              "type": "string"
+            },
+            "Agree_To_Marketing": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "Type",
+            "Area_Code",
+            "Number"
+          ]
+        }
+      },
+      "anyOf": [
+        {
+          "required": [
+            "Email"
+          ]
+        },
+        {
+          "required": [
+            "Primary_Phone_Number"
+          ]
+        }
+      ]
     }
   }
 }

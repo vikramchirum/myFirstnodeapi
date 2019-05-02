@@ -1,45 +1,47 @@
 {
-    "tags": [
-      "address"
-    ],
-    "summary": "Gets all addresses matching the given address information",
-    "consumes": [
-      "application/json"
-    ],
-    "produces": [
-      "application/json"
-    ],
-    "parameters": [
-      {
-        "name": "address",
-        "in": "body",
-        "required": true,
+  "tags": [
+    "address"
+  ],
+  "summary": "Gets all addresses matching the given address information",
+  "requestBody": {
+    "required": true,
+    "content": {
+      "application/json": {
         "schema": {
-          "$ref": "#/definitions/address"
+          "$ref": "../../definitions/address/address.json"
         }
-      }
-    ],
-    "responses": {
-      "400": {
-        "description": "Bad Request",
-        "schema": {
-          "$ref": "#/definitions/error_list"
-        }
-      },
-      "200": {
-        "description": "Returns a list of matching addresses",
-        "schema": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/service_location"
-          }
-        }
-      },
-      "401": {
-        "description": "Unauthorized"
-      },
-      "404": {
-        "description": "address not found"
       }
     }
+  },
+  "responses": {
+    "400": {
+      "description": "Bad Request",
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "#/components/schemas/error_list"
+          }
+        }
+      }
+    },
+    "200": {
+      "description": "Returns a list of matching addresses",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "array",
+            "items": {
+              "$ref": "../../definitions/address/service_location.json"
+            }
+          }
+        }
+      }
+    },
+    "401": {
+      "description": "Unauthorized"
+    },
+    "404": {
+      "description": "address not found"
+    }
   }
+}

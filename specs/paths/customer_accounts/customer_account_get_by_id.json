@@ -3,32 +3,36 @@
     "customer_accounts"
   ],
   "summary": "Retrieves customer information by id",
-  "consumes": [
-    "application/json"
-  ],
-  "produces": [
-    "application/json"
-  ],
   "parameters": [
     {
       "name": "id",
       "in": "path",
       "description": "id of customer to fetch",
       "required": true,
-      "type": "string"
+      "schema": {
+        "type": "string"
+      }
     }
   ],
   "responses": {
     "400": {
       "description": "Bad Request",
-      "schema": {
-        "$ref": "#/definitions/error_list"
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "#/components/schemas/error_list"
+          }
+        }
       }
     },
     "200": {
       "description": "200 returns a customer account",
-      "schema": {
-        "$ref": "#/definitions/customer_account"
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "#/components/schemas/customer_account"
+          }
+        }
       }
     },
     "401": {

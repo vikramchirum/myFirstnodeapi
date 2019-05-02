@@ -2,6 +2,9 @@
   "customer_account": {
     "$ref": "./customer_accounts/customer_account.json"
   },
+  "customer_account_patch": {
+    "$ref": "./customer_accounts/customer_account_patch.json"
+  },
   "service_account": {
     "$ref": "./service_accounts/service_account.json"
   },
