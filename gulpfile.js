@@ -20,7 +20,7 @@ const get_version = function () {
         min = now.getMinutes(),
         sec = now.getSeconds();
     const timestamp = '' + year + two_digit(month) + two_digit(day) + two_digit(hour) + two_digit(min) + two_digit(sec);
-    const parts = [timestamp, ver, branch_name, short];
+    const parts = [ver, branch_name, timestamp, short];
     return parts.join('-');
 };
 
