@@ -6,5 +6,10 @@
     "patch": {
       "$ref": "./customer_account_update.json"
     }
+  },
+  "/customer_accounts/{id}/pay_methods": {
+    "get": {
+      "$ref": "./customer_account_pay_methods.json"
+    }
   }
 }

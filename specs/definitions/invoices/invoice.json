@@ -15,9 +15,6 @@
     "Usage": {
       "type": "integer"
     },
-    "Total_Usage": {
-      "type": "integer"
-    },
     "Current_Charges": {
       "type": "number"
     },

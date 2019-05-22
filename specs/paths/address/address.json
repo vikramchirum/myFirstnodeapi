@@ -1,5 +1,0 @@
-{
-    "/address": {
-        "post": {"$ref": "address_search.json"}
-    }
-}

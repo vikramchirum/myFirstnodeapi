@@ -1,0 +1,46 @@
+{
+  "type": "object",
+  "properties": {
+    "Customer_Account_Id": {
+      "type": "string"
+    },
+    "Disconnect_Letter_Info": {
+      "type": "object",
+      "properties": {
+        "Id": {
+          "type": "integer"
+        },
+        "Request_Date": {
+          "type": "string",
+          "format": "date"
+        },
+        "Disconnect_Notice_Sent_Date": {
+          "type": "string",
+          "format": "date"
+        },
+        "Disconnect_Action_Date": {
+          "type": "string",
+          "format": "date"
+        }
+      }
+    },
+    "Past_Due": {
+      "type": "number"
+    },
+    "Deposit_Balance": {
+      "type": "number"
+    },
+    "Status": {
+      "$ref": "./payment_extension_status_code.json"
+    },
+    "Eligibility_Result": {
+      "type": "string",
+      "enum": [
+        "UNKNOWN",
+        "ELIGIBLE",
+        "SOFT_STOP",
+        "HARD_STOP"
+      ]
+    }
+  }
+}

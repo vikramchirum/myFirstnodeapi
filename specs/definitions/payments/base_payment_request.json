@@ -1,0 +1,13 @@
+{
+  "type": "object",
+  "properties": {
+    "Amount": {
+      "type": "number",
+      "min": 10,
+      "max": 3000
+    }
+  },
+  "required": [
+    "Amount"
+  ]
+}

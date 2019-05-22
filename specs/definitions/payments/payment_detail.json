@@ -1,0 +1,21 @@
+{
+  "type": "object",
+  "properties": {
+    "Date": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "Amount": {
+      "type": "number"
+    },
+    "Status": {
+      "type": "string"
+    },
+    "Method": {
+      "type": "string"
+    },
+    "Account": {
+      "type": "string"
+    }
+  }
+}

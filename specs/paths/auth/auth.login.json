@@ -1,0 +1,54 @@
+{
+  "post": {
+    "security": [],
+    "tags": [
+      "auth"
+    ],
+    "summary": "Authenticates user information and returns a JWT",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "../../definitions/auth/login_request.json"
+          }
+        }
+      }
+    },
+    "responses": {
+      "400": {
+        "description": "Authentication failed",
+        "content": {
+          "text/plain": {
+            "schema": {
+              "type":  "string"
+            },
+            "example": "Invalid password"
+          }
+        }
+      },
+      "200": {
+        "description": "Ok",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "access_token": {
+                  "type": "string"
+                },
+                "refresh_token": {
+                  "type": "string"
+                }
+              }
+            },
+            "example": {
+              "access_token": "xxxxxx.yyyyyyy.zzzzzz",
+              "refresh_token": "xxxxxx.yyyyyyy.zzzzzz"
+            }
+          }
+        }
+      }
+    }
+  }
+}

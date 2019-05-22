@@ -1,0 +1,16 @@
+{
+  "allOf": [
+    {"$ref":  "./base_payment_request.json"},
+    {
+      "type": "object",
+      "properties": {
+        "One_Time_Token": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "One_Time_Token"
+      ]
+    }
+  ]
+}

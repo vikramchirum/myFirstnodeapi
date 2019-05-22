@@ -1,0 +1,48 @@
+{
+  "post": {
+    "security": [],
+    "tags": [
+      "auth"
+    ],
+    "summary": "Gets new access token using a refresh token",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "refresh_token": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "responses": {
+      "400": {
+        "description": "Authentication failed",
+        "content": {
+          "text/plain": {
+            "schema": {
+              "type": "string"
+            },
+            "example": "Invalid refresh token"
+          }
+        }
+      },
+      "200": {
+        "description": "Ok",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "string"
+            },
+            "example": "xxxxxx.yyyyyyy.zzzzzz"
+          }
+        }
+      }
+    }
+  }
+}

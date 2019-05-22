@@ -1,0 +1,29 @@
+{
+  "type": "object",
+  "properties": {
+    "AccountNumber":{
+      "type": "string"
+    },
+    "RoutingNumber": {
+      "type": "string"
+    },
+    "AccountHolder": {
+      "type": "string"
+    },
+    "Type": {
+      "type": "string",
+      "enum": [
+        "Checking",
+        "Savings",
+        "MoneyMarket",
+        "Unknown"
+      ]
+    }
+  },
+  "required": [
+    "AccountNumber",
+    "RoutingNumber",
+    "AccountHolder",
+    "Type"
+  ]
+}

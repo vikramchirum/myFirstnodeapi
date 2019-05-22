@@ -5,8 +5,8 @@
   "customer_account_patch": {
     "$ref": "./customer_accounts/customer_account_patch.json"
   },
-  "service_account": {
-    "$ref": "./service_accounts/service_account.json"
+  "error_list": {
+    "$ref": "./error_list.json"
   },
   "invoice": {
     "$ref": "./invoices/invoice.json"
@@ -14,19 +14,31 @@
   "invoice_line_item": {
     "$ref": "./invoices/invoice_line_item.json"
   },
-  "error_list": {
-    "$ref": "./error_list.json"
+  "payment_confirmation": {
+    "$ref": "./payments/payment_confirmation.json"
   },
-  "address": {
-    "$ref": "./address/address.json"
+  "payment_detail": {
+    "$ref": "./payments/payment_detail.json"
   },
-  "service_location": {
-    "$ref": "./address/service_location.json"
+  "payment_extension_response": {
+    "$ref": "./payments/extensions/payment_extension_response.json"
   },
-  "customer": {
-    "$ref": "./customer/customer.json"
+  "payment_extension_request": {
+    "$ref": "./payments/extensions/payment_extension_request.json"
   },
-  "customer_search_result": {
-    "$ref": "./customer/customer_search_result.json"
+  "payment_extension_status": {
+    "$ref": "./payments/extensions/payment_extension_status.json"
+  },
+  "payment_extension_status_code": {
+    "$ref": "./payments/extensions/payment_extension_status_code.json"
+  },
+  "payment_request": {
+    "$ref": "./payments/payment_request.json"
+  },
+  "service_account": {
+    "$ref": "./service_accounts/service_account.json"
+  },
+  "service_account_auth_request": {
+    "$ref": "./auth/service_account_auth_request.json"
   }
 }
