@@ -21,12 +21,8 @@ router.post('/',
     validation_helper.validation_middleware('payment_extension_request'),
     async function (req, res, next) {
         try {
-            let override_date = null;
-            if (req.body && req.body.Override_Date){
-                override_date = req.body.Override_Date;
-            }
-            const response = await payment_extension_service.request_payment_extension_by_service_account_id(req.params.id, req.user.sub, override_date);
-            if (response.Status === 'SUCCESS'){
+            const response = await payment_extension_service.request_payment_extension_by_service_account_id(req.params.id, req.user.sub, req.body.Extend);
+            if (response.Status === 'SUCCESSFUL'){
                 res.send(response.ExtendedDate);
             }
             else{

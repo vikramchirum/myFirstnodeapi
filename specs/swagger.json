@@ -90,6 +90,73 @@
         }
       }
     },
+    "/auth/generate": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Generates a JWT for a user and allows setting the expiration time",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "Name": {
+                    "description": "Name of the user who the token will be issued for",
+                    "type": "string"
+                  },
+                  "Expires_In": {
+                    "description": "Number of seconds for the token to live for.  Defaults to 1 day or 86,400 seconds.  Max is one day.",
+                    "type": "integer",
+                    "max": 86400
+                  }
+                },
+                "required": [
+                  "Name"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "access_token": {
+                      "type": "string"
+                    },
+                    "refresh_token": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "example": {
+                  "access_token": "xxxxxx.yyyyyyy.zzzzzz",
+                  "refresh_token": "xxxxxx.yyyyyyy.zzzzzz"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Authentication failed",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "Invalid jwt token"
+              }
+            }
+          }
+        }
+      }
+    },
     "/auth/refresh": {
       "post": {
         "security": [],
@@ -1127,9 +1194,8 @@
       "payment_extension_request": {
         "type": "object",
         "properties": {
-          "Date_Override": {
-            "type": "string",
-            "format": "date"
+          "Extend": {
+            "type": "boolean"
           }
         }
       },

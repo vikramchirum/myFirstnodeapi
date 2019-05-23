@@ -1,9 +1,8 @@
 {
   "type": "object",
   "properties": {
-    "Date_Override": {
-      "type": "string",
-      "format": "date"
+    "Extend": {
+      "type": "boolean"
     }
   }
 }

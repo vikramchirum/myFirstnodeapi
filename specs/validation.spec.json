@@ -3,6 +3,9 @@
     "customer_account_patch": {
       "$ref": "./definitions/customer_accounts/customer_account_patch.spec.json"
     },
+    "generate_token_request": {
+      "$ref": "./definitions/auth/generate_token_request.json"
+    },
     "login_request": {
       "$ref": "./definitions/auth/login_request.json"
     },

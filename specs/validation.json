@@ -56,6 +56,21 @@
         }
       ]
     },
+    "generate_token_request": {
+      "type": "object",
+      "properties": {
+        "Name": {
+          "type": "string"
+        },
+        "Expires_In": {
+          "type": "integer",
+          "max": 86400
+        }
+      },
+      "required": [
+        "Name"
+      ]
+    },
     "login_request": {
       "type": "object",
       "properties": {
@@ -70,9 +85,8 @@
     "payment_extension_request": {
       "type": "object",
       "properties": {
-        "Date_Override": {
-          "type": "string",
-          "format": "date"
+        "Extend": {
+          "type": "boolean"
         }
       }
     },
