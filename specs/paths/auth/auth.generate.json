@@ -1,0 +1,53 @@
+{
+  "post": {
+    "tags": [
+      "auth"
+    ],
+    "summary": "Generates a JWT for a user and allows setting the expiration time",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "../../definitions/auth/generate_token_request.json"
+          }
+        }
+      }
+    },
+    "responses": {
+      "400": {
+        "description": "Authentication failed",
+        "content": {
+          "text/plain": {
+            "schema": {
+              "type":  "string"
+            },
+            "example": "Invalid jwt token"
+          }
+        }
+      },
+      "200": {
+        "description": "Ok",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "access_token": {
+                  "type": "string"
+                },
+                "refresh_token": {
+                  "type": "string"
+                }
+              }
+            },
+            "example": {
+              "access_token": "xxxxxx.yyyyyyy.zzzzzz",
+              "refresh_token": "xxxxxx.yyyyyyy.zzzzzz"
+            }
+          }
+        }
+      }
+    }
+  }
+}
