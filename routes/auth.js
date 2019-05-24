@@ -57,9 +57,12 @@ router.post('/generate',
             if (req.generate_token_request.Expires_In) {
                 options.expiresIn = req.generate_token_request.Expires_In;
             }
-            const access_token = jwt.sign({}, token_private_pem, options);
+            const payload = {
+                claims: {Is_Admin: true}
+            };
+            const access_token = jwt.sign(payload, token_private_pem, options);
             options.expiresIn = '1 week';
-            const refresh_token = jwt.sign({}, refresh_private_pem, options);
+            const refresh_token = jwt.sign(payload, refresh_private_pem, options);
             res.send({access_token: access_token, refresh_token: refresh_token});
         }
         catch (err) {
