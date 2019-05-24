@@ -205,6 +205,52 @@
         }
       }
     },
+    "/auth/preauth": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Return the authenticated service account id based on the input phone number",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "$ref": "#/components/schemas/pre_auth_request"
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Service_Account_Id": {
+                      "description": "service account id of the pre authorized phone number",
+                      "type": "string"
+                    }
+                  }
+                },
+                "example": "1234567"
+              }
+            }
+          },
+          "400": {
+            "description": "Authentication failed",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_list"
+                },
+                "example": "Invalid phone number"
+              }
+            }
+          }
+        }
+      }
+    },
     "/customer_accounts/{id}": {
       "get": {
         "tags": [
@@ -485,71 +531,6 @@
           },
           "404": {
             "description": "Service Account not found"
-          }
-        }
-      }
-    },
-    "/service_accounts/{id}/auth": {
-      "post": {
-        "security": [],
-        "tags": [
-          "service_accounts",
-          "auth"
-        ],
-        "summary": "Grants a jwt with authorization for a specified service account",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "id of service account to make a payment for",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/service_account_auth_request"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Ok",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "access_token": {
-                      "type": "string"
-                    },
-                    "refresh_token": {
-                      "type": "string"
-                    }
-                  }
-                },
-                "example": {
-                  "access_token": "xxxxxx.yyyyyyy.zzzzzz",
-                  "refresh_token": "xxxxxx.yyyyyyy.zzzzzz"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/error_list"
-                }
-              }
-            }
           }
         }
       }
@@ -1366,6 +1347,15 @@
             ]
           }
         ]
+      },
+      "pre_auth_request": {
+        "type": "object",
+        "properties": {
+          "Phone_Number": {
+            "type": "string",
+            "pattern": "^\\d{10}$"
+          }
+        }
       },
       "service_account": {
         "type": "object",

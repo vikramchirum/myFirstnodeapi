@@ -35,6 +35,9 @@
   "payment_request": {
     "$ref": "./payments/payment_request.json"
   },
+  "pre_auth_request": {
+    "$ref": "./auth/pre_auth_request.json"
+  },
   "service_account": {
     "$ref": "./service_accounts/service_account.json"
   },

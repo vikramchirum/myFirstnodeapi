@@ -20,6 +20,24 @@ const standard_options = function (subject, expires_in = '30 min') {
     };
 };
 
+router.post('/preauth',
+    jwt_authorization.middleware({
+        audience: process.env.AUDIENCE,
+        issuer: process.env.INTERNAL_ISSUER
+    }),
+    jwt_authorization.verify_claims('Can_Check_For_Pre_Auth', true),
+    validation_helper.validation_middleware('pre_auth_request'),
+    async function (req, res, next) {
+        if (Math.random() < 0.5) {
+            const acct_number = Math.random() * 100000000000;
+            const service_account_id = acct_number.toFixed(0);
+            res.send({Service_Account_Id: service_account_id});
+        }
+        else {
+            res.sendStatus(404);
+        }
+    });
+
 router.post('/generate',
     jwt_authorization.middleware({
         audience: process.env.AUDIENCE,

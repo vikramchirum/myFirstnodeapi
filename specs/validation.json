@@ -156,6 +156,15 @@
           ]
         }
       ]
+    },
+    "pre_auth_request": {
+      "type": "object",
+      "properties": {
+        "Phone_Number": {
+          "type": "string",
+          "pattern": "^\\d{10}$"
+        }
+      }
     }
   }
 }

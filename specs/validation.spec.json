@@ -14,6 +14,9 @@
     },
     "payment_request": {
       "$ref": "./definitions/payments/payment_request.json"
+    },
+    "pre_auth_request": {
+      "$ref": "./definitions/auth/pre_auth_request.json"
     }
   }
 }
