@@ -1,0 +1,36 @@
+{
+  "type": "object",
+  "properties": {
+    "AccountNumber": {
+      "type": "string"
+    },
+    "AccountHolder": {
+      "type": "string"
+    },
+    "ExpirationYear": {
+      "type": "integer"
+    },
+    "ExpirationMonth": {
+      "type": "integer",
+      "min": 1,
+      "max": 12
+    },
+    "Type": {
+      "type": "string",
+      "enum": [
+        "Visa",
+        "MasterCard",
+        "Discover",
+        "AmericanExpress",
+        "Unknown"
+      ]
+    }
+  },
+  "required": [
+    "AccountNumber",
+    "AccountHolder",
+    "Type",
+    "ExpirationMonth",
+    "ExpirationYear"
+  ]
+}

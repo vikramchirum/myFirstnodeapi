@@ -1,0 +1,20 @@
+{
+  "allOf": [
+    {"$ref":  "./base_payment_request.json"},
+    {
+      "type": "object",
+      "properties": {
+        "Pay_Method_Id": {
+          "type": "integer"
+        },
+        "Scheduled_Date": {
+          "type": "string",
+          "format": "date"
+        }
+      },
+      "required": [
+        "Pay_Method_Id"
+      ]
+    }
+  ]
+}

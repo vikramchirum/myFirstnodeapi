@@ -1,0 +1,17 @@
+{
+  "type": "object",
+  "properties": {
+    "Amount": {
+      "type": "number"
+    },
+    "Confirmation_Number": {
+      "type": "string"
+    },
+    "Approval_Status": {
+      "type": "string"
+    },
+    "Settlement_Status": {
+      "type": "string"
+    }
+  }
+}

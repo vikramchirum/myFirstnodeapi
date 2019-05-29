@@ -1,0 +1,30 @@
+{
+  "type": "object",
+  "properties": {
+    "Id": {
+      "type": "integer"
+    },
+    "Active": {
+      "type": "boolean"
+    },
+    "Type": {
+      "type": "string",
+      "enum": [
+        "CreditCard",
+        "eCheck",
+        "Unknown"
+      ]
+    },
+    "CreditCard": {
+      "$ref": "./credit_card.json"
+    },
+    "BankAccount": {
+      "$ref": "./e_check.json"
+    }
+  },
+  "required": [
+    "Id",
+    "Active",
+    "Type"
+  ]
+}

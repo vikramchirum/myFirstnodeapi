@@ -10,6 +10,23 @@
       "url": "host"
     }
   ],
+  "tags": [
+    {
+      "name": "auth"
+    },
+    {
+      "name": "customer_accounts"
+    },
+    {
+      "name": "invoices"
+    },
+    {
+      "name": "payments"
+    },
+    {
+      "name": "service_accounts"
+    }
+  ],
   "paths": {
     "$ref": "./paths/paths.json"
   },

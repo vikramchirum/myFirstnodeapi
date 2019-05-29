@@ -30,44 +30,6 @@
     "Language": {
       "type": "string"
     },
-    "Drivers_License": {
-      "type": "object",
-      "properties": {
-        "Number": {
-          "type": "string"
-        },
-        "State": {
-          "type": "string"
-        }
-      }
-    },
-    "AlternateID": {
-      "type": "object",
-      "properties": {
-        "Number": {
-          "type": "string"
-        },
-        "Type": {
-          "type": "string",
-          "enum": [
-            "None",
-            "StateId",
-            "Passport",
-            "Visa",
-            "ResidentCard",
-            "MilitaryId",
-            "BirthCertificate",
-            "MatriculaConsular"
-          ]
-        }
-      }
-    },
-    "Social_Security_Number": {
-      "type": "string"
-    },
-    "Masked_Social_Security_Number": {
-      "type": "string"
-    },
     "Past_Due": {
       "type": "number"
     },

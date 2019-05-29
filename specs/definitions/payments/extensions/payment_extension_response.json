@@ -1,0 +1,9 @@
+{
+  "type": "object",
+  "properties": {
+    "Extended_Date": {
+      "type": "string",
+      "format": "date"
+    }
+  }
+}

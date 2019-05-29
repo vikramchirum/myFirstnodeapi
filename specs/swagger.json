@@ -10,7 +10,247 @@
       "url": "host"
     }
   ],
+  "tags": [
+    {
+      "name": "auth"
+    },
+    {
+      "name": "customer_accounts"
+    },
+    {
+      "name": "invoices"
+    },
+    {
+      "name": "payments"
+    },
+    {
+      "name": "service_accounts"
+    }
+  ],
   "paths": {
+    "/auth": {
+      "post": {
+        "security": [],
+        "tags": [
+          "auth"
+        ],
+        "summary": "Authenticates user information and returns a JWT",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "Username": {
+                    "type": "string"
+                  },
+                  "Password": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "access_token": {
+                      "type": "string"
+                    },
+                    "refresh_token": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "example": {
+                  "access_token": "xxxxxx.yyyyyyy.zzzzzz",
+                  "refresh_token": "xxxxxx.yyyyyyy.zzzzzz"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Authentication failed",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "Invalid password"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/generate": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Generates a JWT for a user and allows setting the expiration time",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "Name": {
+                    "description": "Name of the user who the token will be issued for",
+                    "type": "string"
+                  },
+                  "Expires_In": {
+                    "description": "Number of seconds for the token to live for.  Defaults to 1 day or 86,400 seconds.  Max is one day.",
+                    "type": "integer",
+                    "max": 86400
+                  }
+                },
+                "required": [
+                  "Name"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "access_token": {
+                      "type": "string"
+                    },
+                    "refresh_token": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "example": {
+                  "access_token": "xxxxxx.yyyyyyy.zzzzzz",
+                  "refresh_token": "xxxxxx.yyyyyyy.zzzzzz"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Authentication failed",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "Invalid jwt token"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/preauth": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Return the authenticated service account id based on the input phone number",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "$ref": "#/components/schemas/pre_auth_request"
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Service_Account_Id": {
+                      "description": "service account id of the pre authorized phone number",
+                      "type": "string"
+                    }
+                  }
+                },
+                "example": "1234567"
+              }
+            }
+          },
+          "400": {
+            "description": "Authentication failed",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_list"
+                },
+                "example": "Invalid phone number"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/refresh": {
+      "post": {
+        "security": [],
+        "tags": [
+          "auth"
+        ],
+        "summary": "Gets new access token using a refresh token",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "refresh_token": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "xxxxxx.yyyyyyy.zzzzzz"
+              }
+            }
+          },
+          "400": {
+            "description": "Authentication failed",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "Invalid refresh token"
+              }
+            }
+          }
+        }
+      }
+    },
     "/customer_accounts/{id}": {
       "get": {
         "tags": [
@@ -109,6 +349,84 @@
           },
           "404": {
             "description": "Customer not found"
+          }
+        }
+      }
+    },
+    "/customer_accounts/{id}/pay_methods": {
+      "get": {
+        "tags": [
+          "customer_accounts",
+          "payments"
+        ],
+        "summary": "Retrieves payment methods for a customer by id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of customer to fetch payment methods for",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 returns a customer account",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "Id": {
+                        "type": "integer"
+                      },
+                      "Active": {
+                        "type": "boolean"
+                      },
+                      "Type": {
+                        "type": "string",
+                        "enum": [
+                          "CreditCard",
+                          "eCheck",
+                          "Unknown"
+                        ]
+                      },
+                      "CreditCard": {
+                        "$ref": "./credit_card.json"
+                      },
+                      "BankAccount": {
+                        "$ref": "./e_check.json"
+                      }
+                    },
+                    "required": [
+                      "Id",
+                      "Active",
+                      "Type"
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_list"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "No payment methods not found"
           }
         }
       }
@@ -217,25 +535,19 @@
         }
       }
     },
-    "/invoices": {
+    "/service_accounts/{id}/invoices": {
       "get": {
         "tags": [
+          "service_accounts",
           "invoices"
         ],
-        "summary": "Retrieves invoices by id or service acccount id",
+        "summary": "Retrieves invoices by service account id",
         "parameters": [
           {
-            "name": "service_account_id",
-            "in": "query",
+            "name": "id",
+            "in": "path",
             "description": "id of service account to fetch invoices for",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "invoice_id",
-            "in": "query",
-            "description": "id of invoice to fetch",
+            "required": true,
             "schema": {
               "type": "string"
             }
@@ -269,23 +581,24 @@
             "description": "Unauthorized"
           },
           "404": {
-            "description": "Invoice not found"
+            "description": "Service Account or Invoices Not Found"
           }
         }
       }
     },
-    "/invoices/{service_account_id}/{invoice_id}": {
+    "/service_accounts/{id}/invoices/{invoice_id}": {
       "get": {
         "tags": [
+          "service_accounts",
           "invoices"
         ],
-        "summary": "Retrieves invoice by id and service acccount id",
+        "summary": "Retrieve a single invoice by service account id and invoice id",
         "parameters": [
           {
-            "name": "service_account_id",
+            "name": "id",
             "in": "path",
+            "description": "id of service account to fetch invoice for",
             "required": true,
-            "description": "id of service account to fetch invoices for",
             "schema": {
               "type": "string"
             }
@@ -293,8 +606,8 @@
           {
             "name": "invoice_id",
             "in": "path",
-            "required": true,
             "description": "id of invoice to fetch",
+            "required": true,
             "schema": {
               "type": "string"
             }
@@ -306,10 +619,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/invoice"
-                  }
+                  "$ref": "#/components/schemas/invoice"
                 }
               }
             }
@@ -328,23 +638,24 @@
             "description": "Unauthorized"
           },
           "404": {
-            "description": "Invoice not found"
+            "description": "Service Account or Invoices Not Found"
           }
         }
       }
     },
-    "/invoices/{service_account_id}/{invoice_id}/details": {
+    "/service_accounts/{id}/invoices/{invoice_id}/details": {
       "get": {
         "tags": [
+          "service_accounts",
           "invoices"
         ],
-        "summary": "Retrieves invoice line items by id and service acccount id",
+        "summary": "Retrieve a single invoice by service account id and invoice id",
         "parameters": [
           {
-            "name": "service_account_id",
+            "name": "id",
             "in": "path",
+            "description": "id of service account to fetch invoice for",
             "required": true,
-            "description": "id of service account to fetch invoice line items for",
             "schema": {
               "type": "string"
             }
@@ -352,8 +663,8 @@
           {
             "name": "invoice_id",
             "in": "path",
+            "description": "id of invoice to fetch",
             "required": true,
-            "description": "id of invoice to fetch line items for",
             "schema": {
               "type": "string"
             }
@@ -361,16 +672,13 @@
         ],
         "responses": {
           "200": {
-            "description": "200 returns an array of invoice line items",
+            "description": "200 returns a list of invoice line items",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "array",
                   "items": {
-                    "type": "array",
-                    "items": {
-                      "$ref": "#/components/schemas/invoice_line_item"
-                    }
+                    "$ref": "#/components/schemas/invoice_line_item"
                   }
                 }
               }
@@ -390,216 +698,139 @@
             "description": "Unauthorized"
           },
           "404": {
-            "description": "Invoice not found"
+            "description": "Service Account or Invoice Not Found"
           }
         }
       }
     },
-    "/address": {
+    "/service_accounts/{id}/payment_extension": {
+      "get": {
+        "tags": [
+          "service_accounts",
+          "payments"
+        ],
+        "summary": "Retrieves payment extension status by service account id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of service account to fetch payment extension status for",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 returns a service account",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/payment_extension_status"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_list"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
       "post": {
         "tags": [
-          "address"
+          "service_accounts",
+          "payments"
         ],
-        "summary": "Gets all addresses matching the given address information",
+        "summary": "Requests for a payment extension towards the service account specified.  Will be set to 7 days past the action date unless extend is set to true in the request",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of service account to request a payment extension for",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "requestBody": {
-          "required": true,
+          "required": false,
           "content": {
             "application/json": {
               "schema": {
-                "title": "address",
-                "description": "Model for searching by address in AST",
-                "type": "object",
-                "properties": {
-                  "Line_1": {
-                    "type": "string"
-                  },
-                  "Line_2": {
-                    "type": "string"
-                  },
-                  "City": {
-                    "type": "string",
-                    "pattern": "^[A-Za-z\\s\\-\\.]*$"
-                  },
-                  "State": {
-                    "type": "string",
-                    "enum": [
-                      "AL",
-                      "AK",
-                      "AR",
-                      "AZ",
-                      "CA",
-                      "CO",
-                      "CT",
-                      "DC",
-                      "DE",
-                      "FL",
-                      "GA",
-                      "HI",
-                      "IA",
-                      "ID",
-                      "IL",
-                      "IN",
-                      "KS",
-                      "KY",
-                      "LA",
-                      "MA",
-                      "MD",
-                      "ME",
-                      "MI",
-                      "MN",
-                      "MO",
-                      "MS",
-                      "MT",
-                      "NC",
-                      "NE",
-                      "NH",
-                      "NJ",
-                      "NM",
-                      "NV",
-                      "NY",
-                      "ND",
-                      "OH",
-                      "OK",
-                      "OR",
-                      "PA",
-                      "RI",
-                      "SC",
-                      "SD",
-                      "TN",
-                      "TX",
-                      "UT",
-                      "VT",
-                      "VA",
-                      "WA",
-                      "WI",
-                      "WV",
-                      "WY"
-                    ]
-                  },
-                  "Zip": {
-                    "type": "string",
-                    "pattern": "^\\d{5}$"
-                  },
-                  "Zip_4": {
-                    "type": "string",
-                    "pattern": "^\\d{4}$"
-                  }
-                },
-                "required": [
-                  "Line_1",
-                  "City",
-                  "State",
-                  "Zip"
-                ]
+                "$ref": "#/components/schemas/payment_extension_request"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "Returns a list of matching addresses",
+            "description": "200 returns a service account",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/payment_extension_response"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/payment_extension_status_code"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/service_accounts/{id}/payments": {
+      "get": {
+        "tags": [
+          "service_accounts",
+          "payments"
+        ],
+        "summary": "Retrieves payments by service account id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of service account to fetch payments for",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 returns a service account",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "array",
                   "items": {
-                    "title": "service_location",
-                    "description": "Model for returing address search results in AST",
-                    "type": "object",
-                    "properties": {
-                      "Line_1": {
-                        "type": "string"
-                      },
-                      "Line_2": {
-                        "type": "string"
-                      },
-                      "City": {
-                        "type": "string",
-                        "pattern": "^[A-Za-z\\s\\-\\.]*$"
-                      },
-                      "State": {
-                        "type": "string",
-                        "enum": [
-                          "AL",
-                          "AK",
-                          "AR",
-                          "AZ",
-                          "CA",
-                          "CO",
-                          "CT",
-                          "DC",
-                          "DE",
-                          "FL",
-                          "GA",
-                          "HI",
-                          "IA",
-                          "ID",
-                          "IL",
-                          "IN",
-                          "KS",
-                          "KY",
-                          "LA",
-                          "MA",
-                          "MD",
-                          "ME",
-                          "MI",
-                          "MN",
-                          "MO",
-                          "MS",
-                          "MT",
-                          "NC",
-                          "NE",
-                          "NH",
-                          "NJ",
-                          "NM",
-                          "NV",
-                          "NY",
-                          "ND",
-                          "OH",
-                          "OK",
-                          "OR",
-                          "PA",
-                          "RI",
-                          "SC",
-                          "SD",
-                          "TN",
-                          "TX",
-                          "UT",
-                          "VT",
-                          "VA",
-                          "WA",
-                          "WI",
-                          "WV",
-                          "WY"
-                        ]
-                      },
-                      "Zip": {
-                        "type": "string",
-                        "pattern": "^\\d{5}$"
-                      },
-                      "Zip_4": {
-                        "type": "string",
-                        "pattern": "^\\d{4}$"
-                      },
-                      "Esiid": {
-                        "type": "string"
-                      },
-                      "Premise_Type": {
-                        "type": "string"
-                      },
-                      "Status": {
-                        "type": "string"
-                      },
-                      "Meter_Type": {
-                        "type": "string"
-                      },
-                      "Switch_Hold": {
-                        "type": "boolean"
-                      },
-                      "Debt_Hold": {
-                        "type": "boolean"
-                      }
-                    }
+                    "$ref": "#/components/schemas/payment_detail"
                   }
                 }
               }
@@ -619,37 +850,44 @@
             "description": "Unauthorized"
           },
           "404": {
-            "description": "address not found"
+            "description": "Service Account not found"
           }
         }
-      }
-    },
-    "/customer": {
+      },
       "post": {
         "tags": [
-          "customer"
+          "service_accounts",
+          "payments"
         ],
-        "summary": "Call GEXA External API to get all the customers matching the given customer information",
+        "summary": "Makes a payment towards the service account specified",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of service account to make a payment for",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/customer"
+                "$ref": "#/components/schemas/payment_request"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "Returns a list of matching customer",
+            "description": "200 returns a service account",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/customer_search_result"
-                  }
+                  "$ref": "#/components/schemas/payment_confirmation"
                 }
               }
             }
@@ -668,56 +906,7 @@
             "description": "Unauthorized"
           },
           "404": {
-            "description": "customer not found"
-          }
-        }
-      }
-    },
-    "/customer/fromMongoDB": {
-      "post": {
-        "tags": [
-          "customer"
-        ],
-        "summary": "Retrieves all customers from the MongoDB",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/customer"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Returns a list of matching customer",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/customer_search_result"
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/error_list"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "404": {
-            "description": "customer not found"
+            "description": "Service Account not found"
           }
         }
       }
@@ -762,44 +951,6 @@
             "type": "string"
           },
           "Language": {
-            "type": "string"
-          },
-          "Drivers_License": {
-            "type": "object",
-            "properties": {
-              "Number": {
-                "type": "string"
-              },
-              "State": {
-                "type": "string"
-              }
-            }
-          },
-          "AlternateID": {
-            "type": "object",
-            "properties": {
-              "Number": {
-                "type": "string"
-              },
-              "Type": {
-                "type": "string",
-                "enum": [
-                  "None",
-                  "StateId",
-                  "Passport",
-                  "Visa",
-                  "ResidentCard",
-                  "MilitaryId",
-                  "BirthCertificate",
-                  "MatriculaConsular"
-                ]
-              }
-            }
-          },
-          "Social_Security_Number": {
-            "type": "string"
-          },
-          "Masked_Social_Security_Number": {
             "type": "string"
           },
           "Past_Due": {
@@ -892,6 +1043,317 @@
               "Area_Code",
               "Number"
             ]
+          }
+        }
+      },
+      "error_list": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "invoice": {
+        "type": "object",
+        "properties": {
+          "Id": {
+            "type": "string"
+          },
+          "Invoice_Date": {
+            "type": "string",
+            "format": "date"
+          },
+          "Due_Date": {
+            "type": "string",
+            "format": "date"
+          },
+          "Usage": {
+            "type": "integer"
+          },
+          "Current_Charges": {
+            "type": "number"
+          },
+          "Amount_Due": {
+            "type": "number"
+          },
+          "Credit": {
+            "type": "number"
+          },
+          "Balance_Forward": {
+            "type": "number"
+          }
+        }
+      },
+      "invoice_line_item": {
+        "type": "object",
+        "properties": {
+          "Description": {
+            "type": "string"
+          },
+          "Amount": {
+            "type": "number"
+          },
+          "UOM": {
+            "type": "string"
+          },
+          "Quantity": {
+            "type": "string"
+          },
+          "Multiplier": {
+            "type": "number"
+          },
+          "Min": {
+            "type": "integer"
+          },
+          "Max": {
+            "type": "integer"
+          },
+          "Bill_Line_Item_Type": {
+            "type": "string",
+            "enum": [
+              "GEXA",
+              "TDSP",
+              "DEPOSITS",
+              "TAX"
+            ]
+          },
+          "Bill_Line_Item_Sub_Type": {
+            "type": "string",
+            "enum": [
+              "None",
+              "Energy"
+            ]
+          }
+        }
+      },
+      "payment_confirmation": {
+        "type": "object",
+        "properties": {
+          "Amount": {
+            "type": "number"
+          },
+          "Confirmation_Number": {
+            "type": "string"
+          },
+          "Approval_Status": {
+            "type": "string"
+          },
+          "Settlement_Status": {
+            "type": "string"
+          }
+        }
+      },
+      "payment_detail": {
+        "type": "object",
+        "properties": {
+          "Date": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "Amount": {
+            "type": "number"
+          },
+          "Status": {
+            "type": "string"
+          },
+          "Method": {
+            "type": "string"
+          },
+          "Account": {
+            "type": "string"
+          }
+        }
+      },
+      "payment_extension_response": {
+        "type": "object",
+        "properties": {
+          "Extended_Date": {
+            "type": "string",
+            "format": "date"
+          }
+        }
+      },
+      "payment_extension_request": {
+        "type": "object",
+        "properties": {
+          "Extend": {
+            "description": "Flag that indicates that the payment extension will be extended an extra 3 days past the normal 7",
+            "type": "boolean"
+          }
+        }
+      },
+      "payment_extension_status": {
+        "type": "object",
+        "properties": {
+          "Customer_Account_Id": {
+            "type": "string"
+          },
+          "Disconnect_Letter_Info": {
+            "type": "object",
+            "properties": {
+              "Id": {
+                "type": "integer"
+              },
+              "Request_Date": {
+                "type": "string",
+                "format": "date"
+              },
+              "Disconnect_Notice_Sent_Date": {
+                "type": "string",
+                "format": "date"
+              },
+              "Disconnect_Action_Date": {
+                "type": "string",
+                "format": "date"
+              }
+            }
+          },
+          "Past_Due": {
+            "type": "number"
+          },
+          "Deposit_Balance": {
+            "type": "number"
+          },
+          "Status": {
+            "type": "string",
+            "enum": [
+              "UNKNOWN",
+              "UNSUCCESSFUL",
+              "NO_PAST_DUE_FOUND",
+              "ALREADY_APPROVED",
+              "DEPOSIT_CHARGE_FOUND",
+              "FEWER_BILL_COUNT_FOUND",
+              "NO_DISCONNECT_LETTER",
+              "BALANCE_TRANSFER_FOUND",
+              "NFS_FOUND",
+              "DISCONNECT_ORDER_FOUND",
+              "BROKEN_ARRANGEMENT_FOUND",
+              "UNPAID_PAST_DUE",
+              "UNPAID_ARRANGEMENT_DUE",
+              "NONE_PAID_UNTIL_FOLLOW_UP_DATE",
+              "EXCESSIVE_BROKEN_ARRANGEMENT_FOUND",
+              "NON_PAYMENT_ORDER_FOUND",
+              "EXPIRED_DISCONNECT_DATE",
+              "NO_ACTION_DATE_FOUND",
+              "DISCONNECT_NOTICE_NOT_ISSUED",
+              "INSERT_EXTENSION_NOTES_FAILED",
+              "CSP_NOT_ACTIVE",
+              "CSP_STOP_REQUEST_FOUND",
+              "NO_SUSPENSION_LETTER_ISSUED",
+              "SUSPENSION_ORDER_ISSUED",
+              "NON_PAYMENT_ORDER_FOUND_IN_LAST_SIX_MONTHS"
+            ]
+          },
+          "Eligibility_Result": {
+            "type": "string",
+            "enum": [
+              "UNKNOWN",
+              "ELIGIBLE",
+              "SOFT_STOP",
+              "HARD_STOP"
+            ]
+          }
+        }
+      },
+      "payment_extension_status_code": {
+        "type": "string",
+        "enum": [
+          "UNKNOWN",
+          "UNSUCCESSFUL",
+          "NO_PAST_DUE_FOUND",
+          "ALREADY_APPROVED",
+          "DEPOSIT_CHARGE_FOUND",
+          "FEWER_BILL_COUNT_FOUND",
+          "NO_DISCONNECT_LETTER",
+          "BALANCE_TRANSFER_FOUND",
+          "NFS_FOUND",
+          "DISCONNECT_ORDER_FOUND",
+          "BROKEN_ARRANGEMENT_FOUND",
+          "UNPAID_PAST_DUE",
+          "UNPAID_ARRANGEMENT_DUE",
+          "NONE_PAID_UNTIL_FOLLOW_UP_DATE",
+          "EXCESSIVE_BROKEN_ARRANGEMENT_FOUND",
+          "NON_PAYMENT_ORDER_FOUND",
+          "EXPIRED_DISCONNECT_DATE",
+          "NO_ACTION_DATE_FOUND",
+          "DISCONNECT_NOTICE_NOT_ISSUED",
+          "INSERT_EXTENSION_NOTES_FAILED",
+          "CSP_NOT_ACTIVE",
+          "CSP_STOP_REQUEST_FOUND",
+          "NO_SUSPENSION_LETTER_ISSUED",
+          "SUSPENSION_ORDER_ISSUED",
+          "NON_PAYMENT_ORDER_FOUND_IN_LAST_SIX_MONTHS"
+        ]
+      },
+      "payment_request": {
+        "oneOf": [
+          {
+            "allOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "Amount": {
+                    "type": "number",
+                    "min": 10,
+                    "max": 3000
+                  }
+                },
+                "required": [
+                  "Amount"
+                ]
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "One_Time_Token": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "One_Time_Token"
+                ]
+              }
+            ]
+          },
+          {
+            "allOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "Amount": {
+                    "type": "number",
+                    "min": 10,
+                    "max": 3000
+                  }
+                },
+                "required": [
+                  "Amount"
+                ]
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "Pay_Method_Id": {
+                    "type": "integer"
+                  },
+                  "Scheduled_Date": {
+                    "type": "string",
+                    "format": "date"
+                  }
+                },
+                "required": [
+                  "Pay_Method_Id"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "pre_auth_request": {
+        "type": "object",
+        "properties": {
+          "Phone_Number": {
+            "type": "string",
+            "pattern": "^\\d{10}$"
           }
         }
       },
@@ -1403,371 +1865,10 @@
           }
         }
       },
-      "invoice": {
+      "service_account_auth_request": {
         "type": "object",
         "properties": {
-          "Id": {
-            "type": "string"
-          },
-          "Invoice_Date": {
-            "type": "string",
-            "format": "date"
-          },
-          "Due_Date": {
-            "type": "string",
-            "format": "date"
-          },
-          "Usage": {
-            "type": "integer"
-          },
-          "Total_Usage": {
-            "type": "integer"
-          },
-          "Current_Charges": {
-            "type": "number"
-          },
-          "Amount_Due": {
-            "type": "number"
-          },
-          "Credit": {
-            "type": "number"
-          },
-          "Balance_Forward": {
-            "type": "number"
-          }
-        }
-      },
-      "invoice_line_item": {
-        "type": "object",
-        "properties": {
-          "Description": {
-            "type": "string"
-          },
-          "Amount": {
-            "type": "number"
-          },
-          "UOM": {
-            "type": "string"
-          },
-          "Quantity": {
-            "type": "string"
-          },
-          "Multiplier": {
-            "type": "number"
-          },
-          "Min": {
-            "type": "integer"
-          },
-          "Max": {
-            "type": "integer"
-          },
-          "Bill_Line_Item_Type": {
-            "type": "string",
-            "enum": [
-              "GEXA",
-              "TDSP",
-              "DEPOSITS",
-              "TAX"
-            ]
-          },
-          "Bill_Line_Item_Sub_Type": {
-            "type": "string",
-            "enum": [
-              "None",
-              "Energy"
-            ]
-          }
-        }
-      },
-      "error_list": {
-        "type": "array",
-        "items": {
-          "type": "string"
-        }
-      },
-      "address": {
-        "title": "address",
-        "description": "Model for searching by address in AST",
-        "type": "object",
-        "properties": {
-          "Line_1": {
-            "type": "string"
-          },
-          "Line_2": {
-            "type": "string"
-          },
-          "City": {
-            "type": "string",
-            "pattern": "^[A-Za-z\\s\\-\\.]*$"
-          },
-          "State": {
-            "type": "string",
-            "enum": [
-              "AL",
-              "AK",
-              "AR",
-              "AZ",
-              "CA",
-              "CO",
-              "CT",
-              "DC",
-              "DE",
-              "FL",
-              "GA",
-              "HI",
-              "IA",
-              "ID",
-              "IL",
-              "IN",
-              "KS",
-              "KY",
-              "LA",
-              "MA",
-              "MD",
-              "ME",
-              "MI",
-              "MN",
-              "MO",
-              "MS",
-              "MT",
-              "NC",
-              "NE",
-              "NH",
-              "NJ",
-              "NM",
-              "NV",
-              "NY",
-              "ND",
-              "OH",
-              "OK",
-              "OR",
-              "PA",
-              "RI",
-              "SC",
-              "SD",
-              "TN",
-              "TX",
-              "UT",
-              "VT",
-              "VA",
-              "WA",
-              "WI",
-              "WV",
-              "WY"
-            ]
-          },
-          "Zip": {
-            "type": "string",
-            "pattern": "^\\d{5}$"
-          },
-          "Zip_4": {
-            "type": "string",
-            "pattern": "^\\d{4}$"
-          }
-        },
-        "required": [
-          "Line_1",
-          "City",
-          "State",
-          "Zip"
-        ]
-      },
-      "service_location": {
-        "title": "service_location",
-        "description": "Model for returing address search results in AST",
-        "type": "object",
-        "properties": {
-          "Line_1": {
-            "type": "string"
-          },
-          "Line_2": {
-            "type": "string"
-          },
-          "City": {
-            "type": "string",
-            "pattern": "^[A-Za-z\\s\\-\\.]*$"
-          },
-          "State": {
-            "type": "string",
-            "enum": [
-              "AL",
-              "AK",
-              "AR",
-              "AZ",
-              "CA",
-              "CO",
-              "CT",
-              "DC",
-              "DE",
-              "FL",
-              "GA",
-              "HI",
-              "IA",
-              "ID",
-              "IL",
-              "IN",
-              "KS",
-              "KY",
-              "LA",
-              "MA",
-              "MD",
-              "ME",
-              "MI",
-              "MN",
-              "MO",
-              "MS",
-              "MT",
-              "NC",
-              "NE",
-              "NH",
-              "NJ",
-              "NM",
-              "NV",
-              "NY",
-              "ND",
-              "OH",
-              "OK",
-              "OR",
-              "PA",
-              "RI",
-              "SC",
-              "SD",
-              "TN",
-              "TX",
-              "UT",
-              "VT",
-              "VA",
-              "WA",
-              "WI",
-              "WV",
-              "WY"
-            ]
-          },
-          "Zip": {
-            "type": "string",
-            "pattern": "^\\d{5}$"
-          },
-          "Zip_4": {
-            "type": "string",
-            "pattern": "^\\d{4}$"
-          },
-          "Esiid": {
-            "type": "string"
-          },
-          "Premise_Type": {
-            "type": "string"
-          },
-          "Status": {
-            "type": "string"
-          },
-          "Meter_Type": {
-            "type": "string"
-          },
-          "Switch_Hold": {
-            "type": "boolean"
-          },
-          "Debt_Hold": {
-            "type": "boolean"
-          }
-        }
-      },
-      "customer": {
-        "title": "customer",
-        "description": "Model for searching customer info in AST",
-        "type": "object",
-        "properties": {
-          "CSPId": {
-            "type": "string"
-          },
-          "LastName": {
-            "type": "string"
-          },
-          "SSN": {
-            "type": "string"
-          },
-          "DL": {
-            "type": "string"
-          },
-          "PhoneNumber": {
-            "type": "string"
-          },
-          "Email": {
-            "type": "string"
-          },
-          "ESIID": {
-            "type": "string"
-          }
-        }
-      },
-      "customer_search_result": {
-        "title": "customer_fuzzysearch_response",
-        "description": "Model for returing customer search results in AST Model",
-        "type": "object",
-        "properties": {
-          "FirstName": {
-            "type": "string"
-          },
-          "LastName": {
-            "type": "string"
-          },
-          "EntityID": {
-            "type": "string"
-          },
-          "PrimaryPhoneNumber": {
-            "type": "string"
-          },
-          "SecondaryPhoneNumber": {
-            "type": "string"
-          },
-          "SSN": {
-            "type": "string"
-          },
-          "DL": {
-            "type": "string"
-          },
-          "DateOfBirth": {
-            "type": "string"
-          },
-          "PrimaryEmail": {
-            "type": "string"
-          },
-          "SecondaryEmail": {
-            "type": "string"
-          },
-          "CSPId": {
-            "type": "string"
-          },
-          "CSPStatus": {
-            "type": "string"
-          },
-          "CSPStartDate": {
-            "type": "string"
-          },
-          "ESIID": {
-            "type": "string"
-          },
-          "ZipCode": {
-            "type": "string"
-          },
-          "AddressLine1": {
-            "type": "string"
-          },
-          "AddressLine2": {
-            "type": "string"
-          },
-          "AddressLine3": {
-            "type": "string"
-          },
-          "AddressLine4": {
-            "type": "string"
-          },
-          "AsOfDateDueAmount": {
-            "type": "number"
-          },
-          "BadDebtAmount": {
-            "type": "number"
-          },
-          "SearchResultBasedOn": {
+          "Last_Four": {
             "type": "string"
           }
         }

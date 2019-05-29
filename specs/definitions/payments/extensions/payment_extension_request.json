@@ -1,0 +1,9 @@
+{
+  "type": "object",
+  "properties": {
+    "Extend": {
+      "description": "Flag that indicates that the payment extension will be extended an extra 3 days past the normal 7",
+      "type": "boolean"
+    }
+  }
+}

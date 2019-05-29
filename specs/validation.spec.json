@@ -1,13 +1,22 @@
 {
   "definitions": {
-    "address": {
-      "$ref": "./definitions/address/address.json"
-    },
-    "customer": {
-      "$ref": "./definitions/customer/customer.spec.json"
-    },
     "customer_account_patch": {
       "$ref": "./definitions/customer_accounts/customer_account_patch.spec.json"
+    },
+    "generate_token_request": {
+      "$ref": "./definitions/auth/generate_token_request.json"
+    },
+    "login_request": {
+      "$ref": "./definitions/auth/login_request.json"
+    },
+    "payment_extension_request": {
+      "$ref": "./definitions/payments/extensions/payment_extension_request.json"
+    },
+    "payment_request": {
+      "$ref": "./definitions/payments/payment_request.json"
+    },
+    "pre_auth_request": {
+      "$ref": "./definitions/auth/pre_auth_request.json"
     }
   }
 }

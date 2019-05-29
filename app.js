@@ -61,7 +61,7 @@ app.use(function (err, req, res, next) {
     if (err.name === 'UnauthorizedError') {
         res.status(err.status).send(err.message);
     }
-    else if (err.status && err.message) {
+    else if (err.status && err.status < 500 && err.message) {
         res.status(err.status).send(err.message);
     }
     else {
@@ -84,7 +84,7 @@ app.use(function (err, req, res, next) {
         }
         else {
             res.status(err.status || 500);
-            res.send({Message: 'Uh Oh... an error occured.<br>We are already working on it.'});
+            res.send({Message: 'Uh Oh... an error occured. We are already working on it.'});
         }
     }
 });
