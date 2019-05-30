@@ -33,7 +33,7 @@
           "schema": {
             "type": "array",
             "items": {
-              "$ref": "../../definitions/payments/pay_methods/pay_method.json"
+              "$ref": "#/components/schemas/pay_method"
             }
           }
         }

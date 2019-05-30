@@ -43,5 +43,14 @@
   },
   "service_account_auth_request": {
     "$ref": "./auth/service_account_auth_request.json"
+  },
+  "generate_token_request": {
+    "$ref": "./auth/generate_token_request.json"
+  },
+  "login_request" : {
+    "$ref": "./auth/login_request.json"
+  },
+  "pay_method": {
+    "$ref": "./payments/pay_methods/pay_method.json"
   }
 }

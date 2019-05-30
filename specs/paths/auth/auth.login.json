@@ -10,7 +10,7 @@
       "content": {
         "application/json": {
           "schema": {
-            "$ref": "../../definitions/auth/login_request.json"
+            "$ref": "#/components/schemas/login_request"
           }
         }
       }

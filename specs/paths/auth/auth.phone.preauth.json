@@ -8,7 +8,9 @@
       "required": true,
       "content": {
         "application/json": {
-          "$ref": "#/components/schemas/pre_auth_request"
+          "schema": {
+            "$ref": "#/components/schemas/pre_auth_request"
+          }
         }
       }
     },
