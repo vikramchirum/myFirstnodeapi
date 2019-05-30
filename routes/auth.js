@@ -9,6 +9,7 @@ const audience_list = process.env.CUSTOMER_AUDIENCE_LIST.split(',');
 const _ = require('lodash');
 const jwt_authorization = require('../lib/jwt_authorization');
 const validation_helper = require('../lib/helpers/validation.helper');
+const cache_service = require('../lib/services/cache_service');
 
 const standard_options = function (subject, expires_in = '30 min') {
     return {
@@ -28,14 +29,12 @@ router.post('/preauth',
     jwt_authorization.verify_claims('Can_Check_For_Pre_Auth', true),
     validation_helper.validation_middleware('pre_auth_request'),
     async function (req, res, next) {
-        if (Math.random() < 0.5) {
-            const acct_number = Math.random() * 100000000000;
-            const service_account_id = acct_number.toFixed(0);
-            res.send({Service_Account_Id: service_account_id});
-        }
-        else {
-            res.sendStatus(404);
-        }
+
+        let phone_number = req.pre_auth_request.Phone_Number;
+        let csp_ids = await cache_service.get_by_phone(phone_number);
+        if (csp_ids && csp_ids.length > 0)
+            res.send({Service_Account_Id: csp_ids[0]});
+        res.send(csp_ids);
     });
 
 router.post('/generate',
