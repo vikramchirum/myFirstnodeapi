@@ -1,0 +1,25 @@
+{
+  "type": "object",
+  "properties": {
+    "Note": {
+      "type": "string"
+    },
+    "Note_Type": {
+      "type": "string"
+    },
+    "Generated_By": {
+      "type": "string"
+    },
+    "Generated_Date": {
+      "type": "string",
+      "format": "date"
+    },
+    "Followup_Required": {
+      "type": "string"
+    },
+    "Followup_Required_Date": {
+      "type": "string",
+      "format": "date"
+    }
+  }
+}

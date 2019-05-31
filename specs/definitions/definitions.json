@@ -43,5 +43,8 @@
   },
   "service_account_auth_request": {
     "$ref": "./auth/service_account_auth_request.json"
+  },
+  "csp_notes_response":{
+    "$ref": "./service_accounts/csp_notes_response.json"
   }
 }
