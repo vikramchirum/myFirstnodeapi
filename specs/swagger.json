@@ -969,6 +969,63 @@
           }
         }
       }
+    },
+    "/service_accounts/{id}/notes": {
+      "post": {
+        "tags": [
+          "service_accounts"
+        ],
+        "summary": "save service account notes",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of service account to add note to",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/csp_notes"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "200 returns a service account notes response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_list"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Service Account not found"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -1954,6 +2011,17 @@
           "Followup_Required_Date": {
             "type": "string",
             "format": "date"
+          }
+        }
+      },
+      "csp_notes": {
+        "type": "object",
+        "properties": {
+          "Note": {
+            "type": "string"
+          },
+          "Followup_Ind": {
+            "type": "number"
           }
         }
       }

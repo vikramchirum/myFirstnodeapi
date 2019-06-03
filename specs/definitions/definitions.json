@@ -46,5 +46,8 @@
   },
   "csp_notes_response":{
     "$ref": "./service_accounts/csp_notes_response.json"
+  },
+  "csp_notes":{
+    "$ref": "./service_accounts/csp_notes.json" 
   }
 }
