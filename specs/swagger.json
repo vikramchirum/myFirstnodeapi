@@ -911,7 +911,7 @@
         }
       }
     },
-    "/service_accounts/{id}/notes/{maxRetRec}": {
+    "/service_accounts/{id}/notes/{count}": {
       "get": {
         "tags": [
           "service_accounts"
@@ -928,9 +928,9 @@
             }
           },
           {
-            "name": "maxRetRec",
+            "name": "count",
             "in": "path",
-            "description": "maximum expected return record",
+            "description": "number of notes to be retrieved",
             "required": true,
             "schema": {
               "type": "string"
