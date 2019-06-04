@@ -103,4 +103,16 @@ router.patch('/:id',
         }
     });
 
+router.post('/fuzzy_search',
+    validation_helper.validation_middleware('fuzzy_search_request'),
+    async function (req, res, next) {
+        try {
+            let result = await customer_account_service.post_fuzzy_search(req.body);
+            res.send(result);
+        }
+        catch (err) {
+            next(err);
+        }
+    });
+
 module.exports = router;

@@ -49,5 +49,11 @@
   },
   "csp_notes":{
     "$ref": "./service_accounts/csp_notes.json" 
+  },
+  "fuzzy_search_request": {
+    "$ref":"./customer_accounts/fuzzy_search_request.json"
+  },
+  "fuzzy_search_response": {
+    "$ref":"./customer_accounts/fuzzy_search_response.json"
   }
 }

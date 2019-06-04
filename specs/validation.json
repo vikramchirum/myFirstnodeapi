@@ -165,6 +165,33 @@
           "pattern": "^\\d{10}$"
         }
       }
+    },
+    "fuzzy_search_request": {
+      "type": "object",
+      "properties": {
+        "CSPId": {
+          "type": "string"
+        },
+        "LastName": {
+          "type": "string"
+        },
+        "SSN": {
+          "type": "string"
+        },
+        "DL": {
+          "type": "string"
+        },
+        "PhoneNumber": {
+          "type": "string"
+        },
+        "Email": {
+          "type": "string",
+          "format": "email"
+        },
+        "ESIID": {
+          "type": "string"
+        }
+      }
     }
   }
 }

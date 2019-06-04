@@ -431,6 +431,76 @@
         }
       }
     },
+    "/customer_accounts/fuzzy_search": {
+      "post": {
+        "tags": [
+          "customer_accounts"
+        ],
+        "summary": "Retrieves customer information by fuzzy search",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "CSPId": {
+                    "type": "string"
+                  },
+                  "LastName": {
+                    "type": "string"
+                  },
+                  "SSN": {
+                    "type": "string"
+                  },
+                  "DL": {
+                    "type": "string"
+                  },
+                  "PhoneNumber": {
+                    "type": "string"
+                  },
+                  "Email": {
+                    "type": "string",
+                    "format": "email"
+                  },
+                  "ESIID": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "200 returns a customer account",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/fuzzy_search_response"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_list"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Customer not found"
+          }
+        }
+      }
+    },
     "/service_accounts": {
       "get": {
         "tags": [
@@ -2022,6 +2092,108 @@
           },
           "Followup_Ind": {
             "type": "number"
+          }
+        }
+      },
+      "fuzzy_search_request": {
+        "type": "object",
+        "properties": {
+          "CSPId": {
+            "type": "string"
+          },
+          "LastName": {
+            "type": "string"
+          },
+          "SSN": {
+            "type": "string"
+          },
+          "DL": {
+            "type": "string"
+          },
+          "PhoneNumber": {
+            "type": "string"
+          },
+          "Email": {
+            "type": "string",
+            "format": "email"
+          },
+          "ESIID": {
+            "type": "string"
+          }
+        }
+      },
+      "fuzzy_search_response": {
+        "type": "object",
+        "properties": {
+          "FirstName": {
+            "type": "string"
+          },
+          "LastName": {
+            "type": "string"
+          },
+          "EntityID": {
+            "type": "number"
+          },
+          "PrimaryPhoneNumber": {
+            "type": "string"
+          },
+          "SecondaryPhoneNumber": {
+            "type": "string"
+          },
+          "SSN": {
+            "type": "number"
+          },
+          "DL": {
+            "type": "string"
+          },
+          "DateOfBirth": {
+            "type": "string",
+            "format": "date"
+          },
+          "PrimaryEmail": {
+            "type": "string",
+            "format": "email"
+          },
+          "SecondaryEmail": {
+            "type": "string",
+            "format": "email"
+          },
+          "CSPId": {
+            "type": "string"
+          },
+          "CSPStatus": {
+            "type": "string"
+          },
+          "CSPStartDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "ESIID": {
+            "type": "string"
+          },
+          "ZipCode": {
+            "type": "string"
+          },
+          "AddressLine1": {
+            "type": "string"
+          },
+          "AddressLine2": {
+            "type": "string"
+          },
+          "AddressLine3": {
+            "type": "string"
+          },
+          "AddressLine4": {
+            "type": "string"
+          },
+          "AsOfDateDueAmount": {
+            "type": "number"
+          },
+          "BadDebtAmount": {
+            "type": "number"
+          },
+          "SearchResultBasedOn": {
+            "type": "string"
           }
         }
       }

@@ -1,0 +1,75 @@
+{
+    "type": "object",
+    "properties": {          
+        "FirstName": {
+            "type": "string"
+        },
+        "LastName": {
+            "type": "string"
+        },
+        "EntityID": {
+            "type": "number"
+        },
+        "PrimaryPhoneNumber": {
+            "type": "string"
+        },
+        "SecondaryPhoneNumber": {
+            "type":"string"
+        },
+        "SSN": {
+            "type":"number"
+        },
+        "DL": {
+            "type": "string"
+        },
+        "DateOfBirth": {
+            "type":"string",
+            "format": "date"
+        },
+        "PrimaryEmail": {
+            "type":"string",
+            "format": "email"
+        },
+        "SecondaryEmail": {
+            "type": "string",
+            "format": "email"
+        },
+        "CSPId": {
+            "type":"string"
+        },
+        "CSPStatus": {
+            "type":"string"
+        },
+        "CSPStartDate": {
+            "type":"string",
+            "format": "date"
+        },
+        "ESIID": {
+            "type":"string"
+        },
+        "ZipCode": {
+            "type": "string"
+        },
+        "AddressLine1": {
+            "type":"string"
+        },
+        "AddressLine2": {
+            "type":"string"
+        },
+        "AddressLine3": {
+            "type":"string"
+        },
+        "AddressLine4": {
+            "type":"string"
+        },
+        "AsOfDateDueAmount": {
+            "type": "number"
+        },
+        "BadDebtAmount": {
+            "type":"number"
+        },
+        "SearchResultBasedOn": {
+            "type":"string"
+        }
+    }
+  }
