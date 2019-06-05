@@ -1,0 +1,45 @@
+{
+    "tags": [
+      "customer_accounts"
+    ],
+    "summary": "Retrieves customer information by fuzzy search",
+    "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "../../definitions/customer_accounts/fuzzy_search_request.json"
+            }
+          }
+        }
+      },
+    "responses": {
+      "400": {
+        "description": "Bad Request",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/error_list"
+            }
+          }
+        }
+      },
+      "200": {
+        "description": "200 returns a customer account",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/fuzzy_search_response"
+            }
+          }
+        }
+      },
+      "401": {
+        "description": "Unauthorized"
+      },
+      "404": {
+        "description": "Customer not found"
+      }
+    }
+  }
+  

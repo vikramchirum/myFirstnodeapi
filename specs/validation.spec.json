@@ -20,6 +20,9 @@
     },
     "save_auth_request": {
       "$ref": "./definitions/auth/save_auth_request.json"
+    },
+    "fuzzy_search_request": {
+      "$ref": "./definitions/customer_accounts/fuzzy_search_request.json"
     }
   }
 }

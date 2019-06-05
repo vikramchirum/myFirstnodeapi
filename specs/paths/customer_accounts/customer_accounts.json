@@ -11,5 +11,10 @@
     "get": {
       "$ref": "./customer_account_pay_methods.json"
     }
+  },
+  "/customer_accounts/fuzzy_search": {
+    "post": {
+      "$ref": "./customer_account_fuzzy_search.json"
+    }
   }
 }

@@ -16,6 +16,8 @@ router.use('/:id/payment_extension', require('./service_accounts.payment_extensi
 
 router.use('/:id/payments', require('./service_accounts.payments'));
 
+router.use('/:id/notes', require('./service_account.notes'));
+
 router.get('/:id',
     jwt_authorization.verify_claims_from_request_property('Service_Account_Ids', 'params.id'),
     async function (req, res, next) {
