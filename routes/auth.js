@@ -37,6 +37,18 @@ router.post('/preauth',
         res.send(csp_ids);
     });
 
+router.post('/saveauth',
+    jwt_authorization.middleware({
+        audience: process.env.AUDIENCE,
+        issuer: process.env.INTERNAL_ISSUER
+    }),
+    jwt_authorization.verify_claims('Can_Save_Auth', true),
+    validation_helper.validation_middleware('save_auth_request'),
+    async function (req, res, next) {
+        let cache_info = await cache_service.save_auth(req.save_auth_request);
+        res.send(cache_info);
+    });
+
 router.post('/generate',
     jwt_authorization.middleware({
         audience: process.env.AUDIENCE,
@@ -50,12 +62,8 @@ router.post('/generate',
                 algorithm: 'RS256',
                 audience: audience_list,
                 issuer: process.env.INTERNAL_ISSUER,
-                expiresIn: '1 day',
                 subject: req.generate_token_request.Name
             };
-            if (req.generate_token_request.Expires_In) {
-                options.expiresIn = req.generate_token_request.Expires_In;
-            }
             const payload = {
                 claims: {Is_Admin: true}
             };

@@ -3,13 +3,13 @@
     "tags": [
       "auth"
     ],
-    "summary": "Return the authenticated service account id based on the input phone number",
+    "summary": "Save the authenticated customer/service account based on the input phone number after verifying the customer.",
     "requestBody": {
       "required": true,
       "content": {
         "application/json": {
           "schema": {
-            "$ref": "#/components/schemas/pre_auth_request"
+            "$ref": "#/components/schemas/save_auth_request"
           }
         }
       }
@@ -44,15 +44,12 @@
                     "properties": {
                       "Service_Account_Id": {
                         "description": "Service Account Id of the pre authorized phone number",
-                        "type": "string"
+                        "type" : "string"
                       },
                       "Language": {
                         "description": "The language the customer choose either EN Or ES",
                         "type": "string",
-                        "enum": [
-                          "EN",
-                          "ES"
-                        ]
+                        "enum": ["EN", "ES"]
                       }
                     }
                   }

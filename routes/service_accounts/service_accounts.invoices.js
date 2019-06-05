@@ -39,4 +39,18 @@ router.get('/:invoice_id/details',
         }
     });
 
+router.get('/:invoice_id/download', jwt_authorization.verify_claims_from_request_property('Service_Account_Ids', 'params.id'),
+    async function (req, res, next) {
+        try {
+            let response = await invoice_service.download_invoice(req.params.invoice_id);
+            res.setHeader('Content-Type', 'application/pdf');
+            res.setHeader('Content-Length', response.bytes.length);
+            res.setHeader('Content-Disposition', 'attachment; filename=' + response.id + '.pdf');
+            res.send(response.bytes);
+        }
+        catch (err) {
+            next(err);
+        }
+    });
+
 module.exports = router;

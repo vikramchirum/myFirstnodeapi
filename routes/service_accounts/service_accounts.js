@@ -48,4 +48,30 @@ router.get('/',
     }
 );
 
+router.get('/:id/Suspension_Info',
+    jwt_authorization.verify_claims_from_request_property('Service_Account_Ids', 'params.id'),
+    async function (req, res, next) {
+        try {
+            let result = await service_account_service.get_suspension_info(params.id);
+            res.send(result);
+        }
+        catch (err) {
+            next(err);
+        }
+    }
+);
+
+router.get('/:id/Voided_Rejected_Info',
+    jwt_authorization.verify_claims_from_request_property('Service_Account_Ids', 'params.id'),
+    async function (req, res, next) {
+        try {
+            let result = await service_account_service.get_voided_rejected_info(params.id);
+            res.send(result);
+        }
+        catch (err) {
+            next(err);
+        }
+    }
+);
+
 module.exports = router;

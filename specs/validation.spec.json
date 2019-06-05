@@ -17,6 +17,9 @@
     },
     "pre_auth_request": {
       "$ref": "./definitions/auth/pre_auth_request.json"
+    },
+    "save_auth_request": {
+      "$ref": "./definitions/auth/save_auth_request.json"
     }
   }
 }

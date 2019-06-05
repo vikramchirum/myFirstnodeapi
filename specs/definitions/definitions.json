@@ -38,6 +38,9 @@
   "pre_auth_request": {
     "$ref": "./auth/pre_auth_request.json"
   },
+  "save_auth_request": {
+    "$ref": "./auth/save_auth_request.json"
+  },
   "service_account": {
     "$ref": "./service_accounts/service_account.json"
   },
