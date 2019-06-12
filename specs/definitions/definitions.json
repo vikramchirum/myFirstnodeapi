@@ -73,5 +73,8 @@
   },
   "pay_method": {
     "$ref": "./payments/pay_methods/pay_method.json"
-  }
+  },
+  "disconnect_letter_info_response": {
+    "$ref": "./customer_correspondence/disconnect_letter_info_response.json"    
+  } 
 }

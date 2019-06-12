@@ -1470,6 +1470,53 @@
           }
         }
       }
+    },
+    "/customer_correspondence/disconnect_letter_info/{id}": {
+      "get": {
+        "tags": [
+          "customer_correspondence"
+        ],
+        "summary": "Retrieves disconnect letter info by id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of customer to fetch",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 returns a disconnect letter info",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/disconnect_letter_info_response"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_list"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Customer not found"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -2788,6 +2835,31 @@
           "Active",
           "Type"
         ]
+      },
+      "disconnect_letter_info_response": {
+        "type": "object",
+        "properties": {
+          "Letter_Info_Id": {
+            "type": "string"
+          },
+          "Letter_Name": {
+            "type": "string"
+          },
+          "Requested_Date": {
+            "type": "string",
+            "format": "date"
+          },
+          "XML_Data": {
+            "type": "string"
+          },
+          "XSLT_Data": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "byte"
+            }
+          }
+        }
       }
     }
   },
