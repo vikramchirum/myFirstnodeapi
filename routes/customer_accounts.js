@@ -4,6 +4,7 @@ const jwt_authorization = require("../lib/jwt_authorization");
 const validation_helper = require('../lib/helpers/validation.helper');
 const customer_account_service = require('../lib/services/customer_account_service');
 const payment_service = require('../lib/services/payment_service');
+const notes_service = require('../lib/services/notes_service');
 
 router.use(jwt_authorization.middleware({
     audience: process.env.AUDIENCE,
@@ -97,6 +98,35 @@ router.patch('/:id',
             else{
                 res.sendStatus(404);
             }
+        }
+        catch (err) {
+            next(err);
+        }
+    });
+
+router.post('/:id/notes',
+    jwt_authorization.verify_claims_from_request_property('Customer_Account_Id', 'params.id'),
+    validation_helper.validation_middleware('customer_account_add_note_request'),
+    async function (req, res, next) {
+        try {
+
+            var note_request = req.customer_account_add_note_request;
+            note_request.User = req.user.sub;
+
+            var response = await notes_service.post_customer_account_notes(req.params.id, note_request);
+            res.send(response);
+        }
+        catch (err) {
+            next(err);
+        }
+    });
+
+router.get('/:id/notes/:count?',
+    jwt_authorization.verify_claims_from_request_property('Customer_Account_Id', 'params.id'),
+    async function (req, res, next) {
+        try {
+            var response = await notes_service.get_customer_account_notes(req.params.id, req.params.count);
+            res.send(response);
         }
         catch (err) {
             next(err);

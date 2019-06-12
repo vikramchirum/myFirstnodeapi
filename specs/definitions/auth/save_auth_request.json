@@ -14,6 +14,13 @@
     "Language": {
       "type": "string",
       "enum": ["EN", "ES"]
+    },
+    "Verification_Type": {
+      "type": "string",
+      "enum": [
+        "Social_Security_Number",
+        "Drivers_License"
+      ]
     }
   },
   "required": [

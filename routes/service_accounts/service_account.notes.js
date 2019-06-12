@@ -21,7 +21,9 @@ router.post('/',
     async function (req, res, next) {
         try {
 
-            let result = await service_account_service.post_notes(req.params.id, req.body);
+            var note_req = req.body;
+            note_req.User =  req.user.sub;
+            let result = await service_account_service.post_notes(req.params.id, note_req);
             res.send(result);
         }
         catch (err) {

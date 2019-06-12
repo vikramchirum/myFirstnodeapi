@@ -23,6 +23,9 @@
     },
     "fuzzy_search_request": {
       "$ref": "./definitions/customer_accounts/fuzzy_search_request.json"
+    },
+    "customer_account_add_note_request" : {
+      "$ref": "./definitions/customer_accounts/add_note_request.json"
     }
   }
 }

@@ -445,6 +445,130 @@
         }
       }
     },
+    "/customer_accounts/{id}/notes": {
+      "post": {
+        "tags": [
+          "customer_accounts"
+        ],
+        "summary": "Adds a note to the customer account.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of customer account to which note is added.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/customer_account_add_note_request"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "200 returns a success flag",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Is_Success": {
+                      "type": "boolean"
+                    }
+                  }
+                },
+                "example": {
+                  "Is_Success": true
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_list"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Customer not found"
+          }
+        }
+      }
+    },
+    "/customer_accounts/{id}/notes/{count}": {
+      "get": {
+        "tags": [
+          "customer_accounts"
+        ],
+        "summary": "Retrieves the notes for the customer account.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of customer account to retrieve the notes",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "count",
+            "in": "path",
+            "description": "count of the notes to be retrieved",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 returns a list of customer account notes",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/customer_account_note"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_list"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Customer Account not found"
+          }
+        }
+      }
+    },
     "/customer_accounts/{id}/pay_methods": {
       "get": {
         "tags": [
@@ -1482,6 +1606,72 @@
           }
         }
       },
+      "customer_account_add_note_request": {
+        "type": "object",
+        "properties": {
+          "Note": {
+            "type": "string"
+          },
+          "Note_Type": {
+            "type": "string",
+            "enum": [
+              "CC: ACCT NUMBER INQ",
+              "CC: BALANCE INQUIRY",
+              "CC: CUSTOMER COMPLAINT",
+              "CC: EXTENSION GRANTED",
+              "CC: INELIGIBLE FOR PYMT ARRG",
+              "CC: NO BILL/DISC NOTICE RECVD",
+              "CC: OTHER",
+              "CC: PAYMENT CONFIRMATION",
+              "CC: RECONNECT INQUIRY"
+            ]
+          },
+          "Followup_Required": {
+            "type": "boolean"
+          },
+          "Followup_Required_Date": {
+            "type": "string",
+            "format": "date"
+          }
+        },
+        "required": [
+          "Note",
+          "Note_Type"
+        ]
+      },
+      "customer_account_note": {
+        "type": "object",
+        "properties": {
+          "Note": {
+            "type": "string"
+          },
+          "Note_Type": {
+            "type": "string",
+            "enum": [
+              "CC: ACCT NUMBER INQ",
+              "CC: BALANCE INQUIRY",
+              "CC: CUSTOMER COMPLAINT",
+              "CC: EXTENSION GRANTED",
+              "CC: INELIGIBLE FOR PYMT ARRG",
+              "CC: NO BILL/DISC NOTICE RECVD",
+              "CC: OTHER",
+              "CC: PAYMENT CONFIRMATION",
+              "CC: RECONNECT INQUIRY"
+            ]
+          },
+          "Followup_Required": {
+            "type": "boolean"
+          },
+          "Followup_Date": {
+            "type": "string",
+            "format": "date"
+          },
+          "Added_By": {
+            "type": "string",
+            "format": "date"
+          }
+        }
+      },
       "error_list": {
         "type": "array",
         "items": {
@@ -1811,6 +2001,13 @@
             "enum": [
               "EN",
               "ES"
+            ]
+          },
+          "Verification_Type": {
+            "type": "string",
+            "enum": [
+              "Social_Security_Number",
+              "Drivers_License"
             ]
           }
         },

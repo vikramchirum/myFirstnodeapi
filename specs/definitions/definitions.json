@@ -5,6 +5,12 @@
   "customer_account_patch": {
     "$ref": "./customer_accounts/customer_account_patch.json"
   },
+  "customer_account_add_note_request" : {
+    "$ref": "./customer_accounts/add_note_request.json"
+  },
+  "customer_account_note" : {
+    "$ref": "./customer_accounts/note.json"
+  },
   "error_list": {
     "$ref": "./error_list.json"
   },
