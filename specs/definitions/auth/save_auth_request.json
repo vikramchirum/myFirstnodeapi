@@ -19,7 +19,8 @@
       "type": "string",
       "enum": [
         "Social_Security_Number",
-        "Drivers_License"
+        "Drivers_License",
+        "Date_Of_Birth"
       ]
     }
   },
