@@ -63,4 +63,21 @@ router.get('/:id/Usage_History',
     }
 );
 
+router.get('/:id/Meter_Read_Details/:count',
+    jwt_authorization.verify_claims_from_request_property('Service_Account_Ids', 'params.id'),
+    async function (req, res, next) {
+        try {
+            if(!req.params.count || req.params.count === "0") {
+               req.params.count = 20;
+            }
+
+            let result = await service_account_service.get_meter_read_details(req.params.id, req.params.count);
+            res.send(result);
+        }
+        catch (err) {
+            next(err);
+        }
+    }
+);
+
 module.exports = router;

@@ -16,12 +16,10 @@
       "type": "string"
     },
     "From_Read": {
-      "type": "string",
-      "format": "date"
+      "type": "string"
     },
     "To_Read": {
-      "type": "string",
-      "format": "date"
+      "type": "string"
     },
     "Usage": {
       "type": "string"
