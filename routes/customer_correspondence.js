@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const jwt_authorization = require("../lib/jwt_authorization");
-const customer_correspondence_service = require('../lib/services/customer_correspondence_service');
+const customer_correspondence_service = require('../lib/services/correspondence_service');
 
 router.use(jwt_authorization.middleware({
     audience: process.env.AUDIENCE,
