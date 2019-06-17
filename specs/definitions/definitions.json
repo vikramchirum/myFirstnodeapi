@@ -20,6 +20,9 @@
   "invoice_line_item": {
     "$ref": "./invoices/invoice_line_item.json"
   },
+  "invoice_meter_read_detail": {
+    "$ref": "./invoices/invoice_meter_read_detail.json"
+  },
   "payment_confirmation": {
     "$ref": "./payments/payment_confirmation.json"
   },

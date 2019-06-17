@@ -50,24 +50,11 @@ router.get('/',
     }
 );
 
-router.get('/:id/Suspension_Info',
+router.get('/:id/Usage_History',
     jwt_authorization.verify_claims_from_request_property('Service_Account_Ids', 'params.id'),
     async function (req, res, next) {
         try {
-            let result = await service_account_service.get_suspension_info(params.id);
-            res.send(result);
-        }
-        catch (err) {
-            next(err);
-        }
-    }
-);
-
-router.get('/:id/Voided_Rejected_Info',
-    jwt_authorization.verify_claims_from_request_property('Service_Account_Ids', 'params.id'),
-    async function (req, res, next) {
-        try {
-            let result = await service_account_service.get_voided_rejected_info(params.id);
+            let result = await service_account_service.get_usage_history(req.params.id);
             res.send(result);
         }
         catch (err) {
