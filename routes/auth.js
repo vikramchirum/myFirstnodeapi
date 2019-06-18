@@ -29,12 +29,13 @@ router.post('/preauth',
     jwt_authorization.verify_claims('Can_Check_For_Pre_Auth', true),
     validation_helper.validation_middleware('pre_auth_request'),
     async function (req, res, next) {
-
-        let phone_number = req.pre_auth_request.Phone_Number;
-        let csp_ids = await cache_service.get_by_phone(phone_number);
-        if (csp_ids && csp_ids.length > 0)
-            res.send({Service_Account_Id: csp_ids[0]});
-        res.send(csp_ids);
+        try {
+            let phone_number = req.pre_auth_request.Phone_Number;
+            let cache_info = await cache_service.get_by_phone(phone_number);
+            res.send(cache_info);
+        } catch (err) {
+            next(err);
+        }
     });
 
 router.post('/saveauth',
@@ -45,8 +46,12 @@ router.post('/saveauth',
     jwt_authorization.verify_claims('Can_Save_Auth', true),
     validation_helper.validation_middleware('save_auth_request'),
     async function (req, res, next) {
-        let cache_info = await cache_service.save_auth(req.save_auth_request);
-        res.send(cache_info);
+        try {
+            let cache_info = await cache_service.save_auth(req.save_auth_request);
+            res.send(cache_info);
+        } catch (err) {
+            next(err);
+        }
     });
 
 router.post('/generate',
