@@ -22,8 +22,8 @@ router.post('/',
     async function (req, res, next) {
         try {
             const response = await payment_extension_service.request_payment_extension_by_service_account_id(req.params.id, req.user.sub, req.body.Extend);
-            if (response.Status === 'SUCCESSFUL'){
-                res.send(response.ExtendedDate);
+            if (response.Status === 'SUCCESSFUL') {
+                res.send({"Extended_Date": response.ExtendedDate});
             }
             else{
                 res.status(400).send(response.Status);
