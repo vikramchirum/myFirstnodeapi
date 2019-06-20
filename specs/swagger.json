@@ -2995,12 +2995,18 @@
             "type": "string",
             "enum": [
               "Late_Fee",
-              "NSF Fees",
-              "Disconnect & Reconnect Fees",
-              "Disconnect letter Fees"
+              "NSF_Fees",
+              "Disconnect_Fees",
+              "Reconnect_Fees",
+              "Disconnect_Letter_Fees"
             ]
           }
-        }
+        },
+        "required": [
+          "Notes",
+          "FeeCreationDate",
+          "FeeWaiverType"
+        ]
       },
       "fuzzy_search_request": {
         "type": "object",
