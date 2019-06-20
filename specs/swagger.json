@@ -1540,13 +1540,13 @@
                       "type": "boolean"
                     },
                     "Description": {
-                      "type": "boolean"
+                      "type": "string"
                     }
                   }
                 },
                 "example": {
                   "Is_Success": true,
-                  "Description": ""
+                  "Description": "test"
                 }
               }
             }
