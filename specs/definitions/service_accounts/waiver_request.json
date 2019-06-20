@@ -1,0 +1,21 @@
+{
+  "type": "object",
+  "properties": {
+    "Notes": {
+      "type": "string"
+    },
+    "FeeCreationDate": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "FeeWaiverType" : {
+      "type": "string",
+      "enum": [
+        "Late_Fee",
+        "NSF Fees",
+        "Disconnect & Reconnect Fees",
+        "Disconnect letter Fees"
+      ]
+    }
+  }
+}

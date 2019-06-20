@@ -62,6 +62,9 @@
   "csp_notes":{
     "$ref": "./service_accounts/csp_notes.json"
   },
+  "waiver_request": {
+    "$ref": "./service_accounts/waiver_request.json"
+  },
   "fuzzy_search_request": {
     "$ref":"./customer_accounts/fuzzy_search_request.json"
   },

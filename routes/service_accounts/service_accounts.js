@@ -18,6 +18,8 @@ router.use('/:id/payments', require('./service_accounts.payments'));
 
 router.use('/:id/notes', require('./service_account.notes'));
 
+router.use('/:id/standard_waivers', require('./service_account.waivers'));
+
 router.get('/:id',
     jwt_authorization.verify_claims_from_request_property('Service_Account_Ids', 'params.id'),
     async function (req, res, next) {
@@ -55,6 +57,19 @@ router.get('/:id/Usage_History',
     async function (req, res, next) {
         try {
             let result = await service_account_service.get_usage_history(req.params.id);
+            res.send(result);
+        }
+        catch (err) {
+            next(err);
+        }
+    }
+);
+
+router.get('/:id/Service_Orders',
+    jwt_authorization.verify_claims_from_request_property('Service_Account_Ids', 'params.id'),
+    async function (req, res, next) {
+        try {
+            let result = await service_account_service.get_service_orders(req.params.id);
             res.send(result);
         }
         catch (err) {

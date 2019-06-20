@@ -12,6 +12,9 @@
     "payment_extension_request": {
       "$ref": "./definitions/payments/extensions/payment_extension_request.json"
     },
+    "waiver_request": {
+      "$ref": "./definitions/service_accounts/waiver_request.json"
+    },
     "payment_request": {
       "$ref": "./definitions/payments/payment_request.json"
     },
