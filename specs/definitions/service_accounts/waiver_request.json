@@ -6,7 +6,7 @@
     },
     "FeeCreationDate": {
       "type": "string",
-      "format": "date-time"
+      "format": "date"
     },
     "FeeWaiverType" : {
       "type": "string",

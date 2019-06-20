@@ -1435,7 +1435,12 @@
                         "format": "date-time"
                       },
                       "FeeType": {
-                        "type": "string"
+                        "type": "string",
+                        "enum": [
+                          "Billed",
+                          "ManualPending",
+                          "ServicePending"
+                        ]
                       },
                       "Fee": {
                         "type": "string"
@@ -1444,7 +1449,14 @@
                         "type": "string"
                       },
                       "WaiveStatus": {
-                        "type": "string"
+                        "type": "string",
+                        "enum": [
+                          "Billed",
+                          "Approved",
+                          "Rejected",
+                          "Pending",
+                          "None"
+                        ]
                       },
                       "Description": {
                         "type": "string"
@@ -1453,9 +1465,10 @@
                         "type": "string",
                         "enum": [
                           "Late_Fee",
-                          "NSF Fees",
-                          "Disconnect & Reconnect Fees",
-                          "Disconnect letter Fees"
+                          "NSF_Fees",
+                          "Disconnect_Fees",
+                          "Reconnect_Fees",
+                          "Disconnect_Letter_Fees"
                         ]
                       }
                     }
@@ -2976,7 +2989,7 @@
           },
           "FeeCreationDate": {
             "type": "string",
-            "format": "date-time"
+            "format": "date"
           },
           "FeeWaiverType": {
             "type": "string",
