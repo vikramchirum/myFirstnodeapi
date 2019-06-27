@@ -53,4 +53,15 @@ router.get('/:invoice_id/download', jwt_authorization.verify_claims_from_request
         }
     });
 
+router.get('/:invoice_id/meter_read_details', jwt_authorization.verify_claims_from_request_property('Service_Account_Ids', 'params.id'),
+    async function (req, res, next) {
+        try {
+            let result = await invoice_service.get_meter_read_details(req.params.id, req.params.invoice_id);
+            res.send(result);
+        }
+        catch (err) {
+            next(err);
+        }
+    });
+
 module.exports = router;

@@ -104,6 +104,33 @@
         }
       }
     },
+    "waiver_request": {
+      "type": "object",
+      "properties": {
+        "Notes": {
+          "type": "string"
+        },
+        "FeeCreationDate": {
+          "type": "string",
+          "format": "date"
+        },
+        "FeeWaiverType": {
+          "type": "string",
+          "enum": [
+            "Late_Fee",
+            "NSF_Fees",
+            "Disconnect_Fees",
+            "Reconnect_Fees",
+            "Disconnect_Letter_Fees"
+          ]
+        }
+      },
+      "required": [
+        "Notes",
+        "FeeCreationDate",
+        "FeeWaiverType"
+      ]
+    },
     "payment_request": {
       "oneOf": [
         {
@@ -201,7 +228,9 @@
           "type": "string",
           "enum": [
             "Social_Security_Number",
-            "Drivers_License"
+            "Drivers_License",
+            "Date_Of_Birth",
+            "Account_Password"
           ]
         }
       },

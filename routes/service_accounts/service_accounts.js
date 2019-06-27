@@ -20,6 +20,8 @@ router.use('/:id/payments', require('./service_accounts.payments'));
 
 router.use('/:id/notes', require('./service_account.notes'));
 
+router.use('/:id/standard_waivers', require('./service_account.waivers'));
+
 router.get('/:id',
     jwt_authorization.verify_claims_from_request_property('Service_Account_Ids', 'params.id'),
     async function (req, res, next) {
@@ -52,11 +54,11 @@ router.get('/',
     }
 );
 
-router.get('/:id/Suspension_Info',
+router.get('/:id/Usage_History',
     jwt_authorization.verify_claims_from_request_property('Service_Account_Ids', 'params.id'),
     async function (req, res, next) {
         try {
-            let result = await service_account_service.get_suspension_info(params.id);
+            let result = await service_account_service.get_usage_history(req.params.id);
             res.send(result);
         }
         catch (err) {
@@ -65,11 +67,28 @@ router.get('/:id/Suspension_Info',
     }
 );
 
-router.get('/:id/Voided_Rejected_Info',
+router.get('/:id/Service_Orders',
     jwt_authorization.verify_claims_from_request_property('Service_Account_Ids', 'params.id'),
     async function (req, res, next) {
         try {
-            let result = await service_account_service.get_voided_rejected_info(params.id);
+            let result = await service_account_service.get_service_orders(req.params.id);
+            res.send(result);
+        }
+        catch (err) {
+            next(err);
+        }
+    }
+);
+
+router.get('/:id/Meter_Read_Details/:count',
+    jwt_authorization.verify_claims_from_request_property('Service_Account_Ids', 'params.id'),
+    async function (req, res, next) {
+        try {
+            if(!req.params.count || req.params.count === "0") {
+               req.params.count = 20;
+            }
+
+            let result = await service_account_service.get_meter_read_details(req.params.id, req.params.count);
             res.send(result);
         }
         catch (err) {

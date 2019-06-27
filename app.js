@@ -3,9 +3,10 @@ require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
-const logger = require('log-driver')({level: 'info'});
+//const logger = require('log-driver')({level: 'info'});
+const logger = require('./lib/logger');
 
-logger.info({
+logger.log({
     message: 'Server Started',
     level: 'info'
 });
@@ -15,7 +16,7 @@ let swaggerUi = require('swagger-ui-express'),
 
 let app = express();
 
-app.use(morgan('combined'));
+app.use(morgan(logger.format, {stream: logger.loggerstream}));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
