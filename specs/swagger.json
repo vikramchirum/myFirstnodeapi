@@ -1403,7 +1403,7 @@
         }
       }
     },
-    "/service_accounts/{id}/standard_waivers": {
+    "/service_accounts/{id}/waivers": {
       "get": {
         "tags": [
           "service_accounts"

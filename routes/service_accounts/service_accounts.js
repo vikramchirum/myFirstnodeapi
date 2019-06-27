@@ -18,7 +18,7 @@ router.use('/:id/payments', require('./service_accounts.payments'));
 
 router.use('/:id/notes', require('./service_account.notes'));
 
-router.use('/:id/standard_waivers', require('./service_account.waivers'));
+router.use('/:id/waivers', require('./service_account.waivers'));
 
 router.get('/:id',
     jwt_authorization.verify_claims_from_request_property('Service_Account_Ids', 'params.id'),
