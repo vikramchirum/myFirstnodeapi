@@ -1,0 +1,21 @@
+{
+    "type": "object",
+    "properties": {
+        "Indicator": {
+            "type": "boolean"
+        },
+        "Amount": {
+            "type": "number"
+        },
+        "Create_Date": {
+            "type": "string",
+            "format": "date-time"
+        },
+        "Variance": {
+            "type": "number"
+        },
+        "Pending_Cancel_Count": {
+            "type": "number"
+        }
+    }
+}

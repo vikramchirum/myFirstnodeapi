@@ -1,5 +1,16 @@
 {
   "definitions": {
+    "budget_billing_sign_up_request": {
+      "type": "object",
+      "properties": {
+        "Amount": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "Amount"
+      ]
+    },
     "customer_account_patch": {
       "type": "object",
       "properties": {

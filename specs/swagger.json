@@ -15,6 +15,9 @@
       "name": "auth"
     },
     {
+      "name": "budget_billing"
+    },
+    {
       "name": "customer_accounts"
     },
     {
@@ -794,6 +797,257 @@
         }
       }
     },
+    "/service_accounts/{id}/budget_billing": {
+      "get": {
+        "tags": [
+          "service_accounts",
+          "budget_billing"
+        ],
+        "summary": "Retrieves budget billing information by service account id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of service account to fetch budget billing info for",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 returns budget billing information",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "Indicator": {
+                        "type": "boolean"
+                      },
+                      "Amount": {
+                        "type": "number"
+                      },
+                      "Create_Date": {
+                        "type": "string",
+                        "format": "date-time"
+                      },
+                      "Variance": {
+                        "type": "number"
+                      },
+                      "Pending_Cancel_Count": {
+                        "type": "number"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_list"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Service Account not found"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "service_accounts",
+          "budget_billing"
+        ],
+        "summary": "Signs up for budget billing for service account specified",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of service account to sign up on budget billing for",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/budget_billing_sign_up_request"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "200 returns a budget billing confirmation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_list"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Service Account not found"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "service_accounts",
+          "budget_billing"
+        ],
+        "summary": "Cancels budget billing for a service account id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of service account to cancel budget billing for",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 returns budget billing cancellation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_list"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Service Account not found"
+          }
+        }
+      }
+    },
+    "/service_accounts/{id}/budget_billing/details": {
+      "get": {
+        "tags": [
+          "service_accounts",
+          "budget_billing"
+        ],
+        "summary": "Retrieves budget billing details by service account id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of service account to fetch budget billing details for",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 returns budget billing details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "TotalKWH": {
+                        "type": "number"
+                      },
+                      "TotalMonths": {
+                        "type": "number"
+                      },
+                      "Amount": {
+                        "type": "number"
+                      },
+                      "AverageKWH": {
+                        "type": "number"
+                      },
+                      "IsBudgetBillingDefaultAmount": {
+                        "type": "boolean"
+                      },
+                      "Variance": {
+                        "type": "number"
+                      },
+                      "Past_Due": {
+                        "type": "number"
+                      },
+                      "Check_Past_Due": {
+                        "type": "number"
+                      },
+                      "IsVarianceBillGenerated": {
+                        "type": "boolean"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_list"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Service Account not found"
+          }
+        }
+      }
+    },
     "/service_accounts/{id}/Suspension_Info": {
       "get": {
         "tags": [
@@ -1528,6 +1782,14 @@
       }
     },
     "schemas": {
+      "budget_billing_sign_up_request": {
+        "type": "object",
+        "properties": {
+          "Amount": {
+            "type": "number"
+          }
+        }
+      },
       "customer_account": {
         "type": "object",
         "properties": {

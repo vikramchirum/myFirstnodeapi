@@ -1,0 +1,56 @@
+{
+  "tags": [
+    "service_accounts",
+    "payments"
+  ],
+  "summary": "Sign up for autopay",
+  "parameters": [
+    {
+      "name": "id",
+      "in": "path",
+      "description": "id of service account to sign up in autopay",
+      "required": true,
+      "schema": {
+        "type": "string"
+      }
+    }
+  ],
+  "requestBody": {
+    "required": true,
+    "content": {
+      "application/json": {
+        "schema": {
+          "$ref": "#/components/schemas/autopay_request"
+        }
+      }
+    }
+  },
+  "responses": {
+    "400": {
+      "description": "Bad Request",
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "#/components/schemas/error_list"
+          }
+        }
+      }
+    },
+    "200": {
+      "description": "200 returns a service account",
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "#/components/schemas/autopay_confirmation"
+          }
+        }
+      }
+    },
+    "401": {
+      "description": "Unauthorized"
+    },
+    "404": {
+      "description": "Service Account not found"
+    }
+  }
+}

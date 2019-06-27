@@ -1,5 +1,8 @@
 {
   "definitions": {
+    "budget_billing_sign_up_request": {
+      "$ref": "./definitions/budget_billing/budget_billing_sign_up_request.json"
+    },
     "customer_account_patch": {
       "$ref": "./definitions/customer_accounts/customer_account_patch.spec.json"
     },
@@ -24,7 +27,7 @@
     "fuzzy_search_request": {
       "$ref": "./definitions/customer_accounts/fuzzy_search_request.json"
     },
-    "customer_account_add_note_request" : {
+    "customer_account_add_note_request": {
       "$ref": "./definitions/customer_accounts/add_note_request.json"
     }
   }

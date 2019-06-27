@@ -5,10 +5,10 @@
   "customer_account_patch": {
     "$ref": "./customer_accounts/customer_account_patch.json"
   },
-  "customer_account_add_note_request" : {
+  "customer_account_add_note_request": {
     "$ref": "./customer_accounts/add_note_request.json"
   },
-  "customer_account_note" : {
+  "customer_account_note": {
     "$ref": "./customer_accounts/note.json"
   },
   "error_list": {
@@ -53,28 +53,28 @@
   "service_account_auth_request": {
     "$ref": "./auth/service_account_auth_request.json"
   },
-  "csp_notes_response":{
+  "csp_notes_response": {
     "$ref": "./service_accounts/csp_notes_response.json"
   },
-  "csp_notes":{
+  "csp_notes": {
     "$ref": "./service_accounts/csp_notes.json"
   },
   "fuzzy_search_request": {
-    "$ref":"./customer_accounts/fuzzy_search_request.json"
+    "$ref": "./customer_accounts/fuzzy_search_request.json"
   },
   "fuzzy_search_response": {
-    "$ref":"./customer_accounts/fuzzy_search_response.json"
+    "$ref": "./customer_accounts/fuzzy_search_response.json"
   },
   "generate_token_request": {
     "$ref": "./auth/generate_token_request.json"
   },
-  "login_request" : {
+  "login_request": {
     "$ref": "./auth/login_request.json"
   },
   "pay_method": {
     "$ref": "./payments/pay_methods/pay_method.json"
   },
   "disconnect_letter_info_response": {
-    "$ref": "./customer_correspondence/disconnect_letter_info_response.json"    
-  } 
+    "$ref": "./customer_correspondence/disconnect_letter_info_response.json"
+  }
 }

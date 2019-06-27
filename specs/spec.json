@@ -15,6 +15,9 @@
       "name": "auth"
     },
     {
+      "name": "budget_billing"
+    },
+    {
       "name": "customer_accounts"
     },
     {
