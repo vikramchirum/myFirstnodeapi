@@ -794,12 +794,12 @@
         }
       }
     },
-    "/service_accounts/{id}/Suspension_Info": {
+    "/service_accounts/{id}/usage_history": {
       "get": {
         "tags": [
           "service_accounts"
         ],
-        "summary": "Retrieves suspension information of a service account.",
+        "summary": "Retrieves usage history for a service account.",
         "parameters": [
           {
             "name": "id",
@@ -813,31 +813,49 @@
         ],
         "responses": {
           "200": {
-            "description": "200 returns a service account",
+            "description": "200 returns usage history for a service account",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "User_Description": {
-                      "description": "The user description of the suspended transaction.",
-                      "type": "string"
-                    },
-                    "Reason": {
-                      "description": "The reason for the suspension.",
-                      "type": "string"
-                    },
-                    "Date_Processed": {
-                      "description": "The date it was processed.",
-                      "type": "string"
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "Service_Account_Id": {
+                        "type": "string"
+                      },
+                      "Usage_Type": {
+                        "type": "string"
+                      },
+                      "Usage_Month": {
+                        "type": "string"
+                      },
+                      "Usage_Start_Date": {
+                        "type": "string"
+                      },
+                      "Usage_End_Date": {
+                        "type": "string"
+                      },
+                      "Usage": {
+                        "type": "string"
+                      },
+                      "Usage_Uom": {
+                        "type": "string"
+                      }
                     }
                   }
                 },
-                "example": {
-                  "User_Description": "Termination Accepted",
-                  "Reason": "MOVE OUT CANCELLED DUE TO AN INCOMING MOVE IN",
-                  "Date_Processed": "5/5/2017"
-                }
+                "example": [
+                  {
+                    "Service_Account_Id": 2204002,
+                    "Usage_Month": "2016-04-01T00:00:00",
+                    "Usage_Start_Date": "2016-04-30T00:00:00",
+                    "Usage_End_Date": "2016-05-04T00:00:00",
+                    "Usage_Type": "Actual",
+                    "Usage": 137,
+                    "Usage_Uom": "kWh"
+                  }
+                ]
               }
             }
           },
@@ -860,12 +878,12 @@
         }
       }
     },
-    "/service_accounts/{id}/Voided_Rejected_Info": {
+    "/service_accounts/{id}/service_orders": {
       "get": {
         "tags": [
           "service_accounts"
         ],
-        "summary": "Retrieves suspension information of a service account.",
+        "summary": "Gets the list of service orders for a service account.",
         "parameters": [
           {
             "name": "id",
@@ -879,25 +897,102 @@
         ],
         "responses": {
           "200": {
-            "description": "200 returns a service account",
+            "description": "200 returns service orders for a service account",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "Reason": {
-                      "description": "The reason for the void/rejection.",
-                      "type": "string"
-                    },
-                    "Date_Processed": {
-                      "description": "The date it was processed.",
-                      "type": "string"
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "Service_Order_Description": {
+                        "type": "string"
+                      },
+                      "Date_Processed": {
+                        "type": "string",
+                        "format": "date-time"
+                      },
+                      "Distributor_Name": {
+                        "type": "string"
+                      },
+                      "Priority_Code": {
+                        "type": "string"
+                      }
                     }
                   }
                 },
-                "example": {
-                  "Reason": "Does not have 12 in. clearance from SWBT, cable TV, etc. cables",
-                  "Date_Processed": "5/5/2017"
+                "example": [
+                  {
+                    "Service_Order_Description": "Reconnect Complete",
+                    "Date_Processed": "05/02/2019",
+                    "Distributor_Name": "AEP - Texas Central",
+                    "priority_code": ""
+                  },
+                  {
+                    "Service_Order_Description": "Initiate Reconnect",
+                    "Date_Processed": "05/02/2019",
+                    "Distributor_Name": "AEP - Texas Central",
+                    "priority_code": "01"
+                  }
+                ]
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_list"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Service Account not found"
+          }
+        }
+      }
+    },
+    "/service_accounts/{id}/Meter_Read_Details/{count}": {
+      "get": {
+        "tags": [
+          "service_accounts"
+        ],
+        "summary": "Retrieves meter read details for a service account",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of service account to search by",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "count",
+            "in": "path",
+            "description": "count of meter read details to be retrieved",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 returns a service account meter read details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/invoice_meter_read_detail"
+                  }
                 }
               }
             }
@@ -1089,6 +1184,66 @@
         }
       }
     },
+    "/service_accounts/{id}/invoices/{invoice_id}/meter_read_details": {
+      "get": {
+        "tags": [
+          "service_accounts",
+          "invoices"
+        ],
+        "summary": "Retrieves meter read details for an invoice by service account id and invoice id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of service account to fetch read details for",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "invoice_id",
+            "in": "path",
+            "description": "id of invoice to fetch read details",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 returns a list of invoice meter read details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/invoice_meter_read_detail"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_list"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Service Account or Invoice Not Found"
+          }
+        }
+      }
+    },
     "/service_accounts/{id}/invoices/{invoice_id}/download": {
       "get": {
         "tags": [
@@ -1244,6 +1399,186 @@
           },
           "401": {
             "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/service_accounts/{id}/standard_waivers": {
+      "get": {
+        "tags": [
+          "service_accounts"
+        ],
+        "summary": "Retrieves standard waivers for a service account",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of service account to get waivers",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 returns service account waivers",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "FeeCreationDate": {
+                        "type": "string",
+                        "format": "date-time"
+                      },
+                      "FeeType": {
+                        "type": "string",
+                        "enum": [
+                          "Billed",
+                          "ManualPending",
+                          "ServicePending"
+                        ]
+                      },
+                      "Fee": {
+                        "type": "string"
+                      },
+                      "Tax": {
+                        "type": "string"
+                      },
+                      "WaiveStatus": {
+                        "type": "string",
+                        "enum": [
+                          "Billed",
+                          "Approved",
+                          "Rejected",
+                          "Pending",
+                          "None"
+                        ]
+                      },
+                      "Description": {
+                        "type": "string"
+                      },
+                      "FeeWaiverType": {
+                        "type": "string",
+                        "enum": [
+                          "Late_Fee",
+                          "NSF_Fees",
+                          "Disconnect_Fees",
+                          "Reconnect_Fees",
+                          "Disconnect_Letter_Fees"
+                        ]
+                      }
+                    }
+                  }
+                },
+                "example": [
+                  {
+                    "FeeCreationDate": "06/14/2019",
+                    "FeeType": "ServicePending",
+                    "Fee": 6.82,
+                    "Tax": 0.14756434,
+                    "WaiveStatus": "None",
+                    "Description": "",
+                    "FeeWaiverType": "Late_Fee"
+                  },
+                  {
+                    "FeeCreationDate": "03/31/2019",
+                    "FeeType": "ServicePending",
+                    "Fee": 7.29,
+                    "Tax": 0.15773373,
+                    "WaiveStatus": "None",
+                    "Description": "",
+                    "FeeWaiverType": "Late_Fee"
+                  }
+                ]
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_list"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Service Account not found"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "service_accounts"
+        ],
+        "summary": "Requests a waiver for the service account.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of the service account for which the waiver is requested.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/waiver_request"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "200 returns a success flag",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Is_Success": {
+                      "type": "boolean"
+                    },
+                    "Description": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "example": {
+                  "Is_Success": true,
+                  "Description": "test"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_list"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Service Account not found"
           }
         }
       }
@@ -1798,6 +2133,34 @@
           }
         }
       },
+      "invoice_meter_read_detail": {
+        "type": "object",
+        "properties": {
+          "Invoice_Id": {
+            "type": "string"
+          },
+          "From_Date": {
+            "type": "string",
+            "format": "date"
+          },
+          "To_Date": {
+            "type": "string",
+            "format": "date"
+          },
+          "Read_Type": {
+            "type": "string"
+          },
+          "From_Read": {
+            "type": "string"
+          },
+          "To_Read": {
+            "type": "string"
+          },
+          "Usage": {
+            "type": "string"
+          }
+        }
+      },
       "payment_confirmation": {
         "type": "object",
         "properties": {
@@ -2054,7 +2417,9 @@
             "type": "string",
             "enum": [
               "Social_Security_Number",
-              "Drivers_License"
+              "Drivers_License",
+              "Date_Of_Birth",
+              "Account_Password"
             ]
           }
         },
@@ -2616,6 +2981,33 @@
             "type": "number"
           }
         }
+      },
+      "waiver_request": {
+        "type": "object",
+        "properties": {
+          "Notes": {
+            "type": "string"
+          },
+          "FeeCreationDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "FeeWaiverType": {
+            "type": "string",
+            "enum": [
+              "Late_Fee",
+              "NSF_Fees",
+              "Disconnect_Fees",
+              "Reconnect_Fees",
+              "Disconnect_Letter_Fees"
+            ]
+          }
+        },
+        "required": [
+          "Notes",
+          "FeeCreationDate",
+          "FeeWaiverType"
+        ]
       },
       "fuzzy_search_request": {
         "type": "object",

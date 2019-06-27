@@ -31,7 +31,7 @@ tasks.clean = function () {
 };
 
 tasks.pack = function () {
-    return gulp.src(['**/*', '!coverage{,/**}', '!pkg{,/**}', '!node_modules{,/**}'])
+    return gulp.src(['**/*', '!coverage{,/**}', '!pkg{,/**}'])
         .pipe(gulp_octo.pack('.zip', {version: get_version()}))
         .pipe(gulp.dest('./pkg'));
 };

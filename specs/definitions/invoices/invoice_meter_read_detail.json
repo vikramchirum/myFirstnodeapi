@@ -1,0 +1,28 @@
+{
+  "type": "object",
+  "properties": {
+    "Invoice_Id": {
+      "type": "string"
+    },
+    "From_Date": {
+      "type": "string",
+      "format": "date"
+    },
+    "To_Date": {
+      "type": "string",
+      "format": "date"
+    },
+    "Read_Type": {
+      "type": "string"
+    },
+    "From_Read": {
+      "type": "string"
+    },
+    "To_Read": {
+      "type": "string"
+    },
+    "Usage": {
+      "type": "string"
+    }
+  }
+}

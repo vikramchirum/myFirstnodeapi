@@ -20,6 +20,9 @@
   "invoice_line_item": {
     "$ref": "./invoices/invoice_line_item.json"
   },
+  "invoice_meter_read_detail": {
+    "$ref": "./invoices/invoice_meter_read_detail.json"
+  },
   "payment_confirmation": {
     "$ref": "./payments/payment_confirmation.json"
   },
@@ -58,6 +61,9 @@
   },
   "csp_notes":{
     "$ref": "./service_accounts/csp_notes.json"
+  },
+  "waiver_request": {
+    "$ref": "./service_accounts/waiver_request.json"
   },
   "fuzzy_search_request": {
     "$ref":"./customer_accounts/fuzzy_search_request.json"

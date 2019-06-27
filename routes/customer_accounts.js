@@ -125,6 +125,11 @@ router.get('/:id/notes/:count?',
     jwt_authorization.verify_claims_from_request_property('Customer_Account_Id', 'params.id'),
     async function (req, res, next) {
         try {
+
+            if(!req.params.count || req.params.count === '0') {
+                req.params.count = 20;
+            }
+
             var response = await notes_service.get_customer_account_notes(req.params.id, req.params.count);
             res.send(response);
         }
