@@ -10,6 +10,8 @@ router.use(jwt_authorization.middleware({
     issuer: [process.env.CUSTOMER_ISSUER, process.env.INTERNAL_ISSUER]
 }));
 
+router.use('/:id/autopay', require('./service_accounts.autopay'));
+
 router.use('/:id/suspension_letters', require('./service_account.suspension_letters'));
 
 router.use('/:id/budget_billing', require('./service_accounts.budget_billing'));

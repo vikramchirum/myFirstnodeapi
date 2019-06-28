@@ -1,5 +1,8 @@
 {
   "definitions": {
+    "autopay_request": {
+      "$ref": "./definitions/payments/autopay/autopay_request.json"
+    },
     "budget_billing_sign_up_request": {
       "$ref": "./definitions/budget_billing/budget_billing_sign_up_request.json"
     },

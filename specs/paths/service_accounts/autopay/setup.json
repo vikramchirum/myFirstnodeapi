@@ -41,7 +41,7 @@
       "content": {
         "application/json": {
           "schema": {
-            "$ref": "#/components/schemas/autopay_confirmation"
+            "$ref": "../../../definitions/payments/autopay/autopay_detail.json"
           }
         }
       }

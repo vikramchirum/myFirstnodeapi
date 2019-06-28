@@ -802,6 +802,181 @@
         }
       }
     },
+    "/service_accounts/{id}/autopay": {
+      "get": {
+        "tags": [
+          "service_accounts",
+          "payments"
+        ],
+        "summary": "Retrieves autopay details service account id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of service account to fetch autopay details",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 returns a service account",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Id": {
+                      "type": "string"
+                    },
+                    "StartDate": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "StopDate": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "PayMethodId": {
+                      "type": "number"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_list"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Service Account not found"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "service_accounts",
+          "payments"
+        ],
+        "summary": "Sign up for autopay",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of service account to sign up in autopay",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/autopay_request"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "200 returns a service account",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Id": {
+                      "type": "string"
+                    },
+                    "StartDate": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "StopDate": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "PayMethodId": {
+                      "type": "number"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_list"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Service Account not found"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "service_accounts",
+          "payments"
+        ],
+        "summary": "Cancels autopay for service account id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of service account to cancel autopay for",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Autopay canceled"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_list"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Service Account or autopay not found"
+          }
+        }
+      }
+    },
     "/service_accounts/{id}/budget_billing": {
       "get": {
         "tags": [
@@ -2146,6 +2321,14 @@
       }
     },
     "schemas": {
+      "autopay_request": {
+        "type": "object",
+        "properties": {
+          "pay_method_id": {
+            "type": "string"
+          }
+        }
+      },
       "customer_account": {
         "type": "object",
         "properties": {

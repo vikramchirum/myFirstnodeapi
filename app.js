@@ -67,7 +67,7 @@ app.use(function (err, req, res, next) {
     }
     else {
 
-        logger.error({
+        logger.log({
             message: err.message,
             stack: err.stack,
             error: err,

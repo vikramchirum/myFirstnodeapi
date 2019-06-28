@@ -1,4 +1,7 @@
 {
+  "autopay_request": {
+    "$ref": "./payments/autopay/autopay_request.json"
+  },
   "customer_account": {
     "$ref": "./customer_accounts/customer_account.json"
   },

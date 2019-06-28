@@ -1,5 +1,13 @@
 {
   "definitions": {
+    "autopay_request": {
+      "type": "object",
+      "properties": {
+        "pay_method_id": {
+          "type": "string"
+        }
+      }
+    },
     "budget_billing_sign_up_request": {
       "type": "object",
       "properties": {
