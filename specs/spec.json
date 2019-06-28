@@ -24,6 +24,9 @@
       "name": "invoices"
     },
     {
+      "name": "notes"
+    },
+    {
       "name": "payments"
     },
     {

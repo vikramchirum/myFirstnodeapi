@@ -1,6 +1,7 @@
 {
   "tags": [
-    "customer_accounts"
+    "customer_accounts",
+    "notes"
   ],
   "summary": "Retrieves the notes for the customer account.",
   "parameters": [

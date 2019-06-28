@@ -24,6 +24,9 @@
       "name": "invoices"
     },
     {
+      "name": "notes"
+    },
+    {
       "name": "payments"
     },
     {
@@ -451,7 +454,8 @@
     "/customer_accounts/{id}/notes": {
       "post": {
         "tags": [
-          "customer_accounts"
+          "customer_accounts",
+          "notes"
         ],
         "summary": "Adds a note to the customer account.",
         "parameters": [
@@ -516,7 +520,8 @@
     "/customer_accounts/{id}/notes/{count}": {
       "get": {
         "tags": [
-          "customer_accounts"
+          "customer_accounts",
+          "notes"
         ],
         "summary": "Retrieves the notes for the customer account.",
         "parameters": [
@@ -1396,7 +1401,8 @@
     "/service_accounts/{id}/notes/{count}": {
       "get": {
         "tags": [
-          "service_accounts"
+          "service_accounts",
+          "notes"
         ],
         "summary": "Retrieves service account notes",
         "parameters": [
@@ -1455,7 +1461,8 @@
     "/service_accounts/{id}/notes": {
       "post": {
         "tags": [
-          "service_accounts"
+          "service_accounts",
+          "notes"
         ],
         "summary": "save service account notes",
         "parameters": [
