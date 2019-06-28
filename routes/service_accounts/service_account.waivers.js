@@ -5,10 +5,9 @@ const service_account_service = require('../../lib/services/service_account_serv
 const validation_helper = require('../../lib/helpers/validation.helper');
 
 router.get('/',
-    jwt_authorization.verify_admin()
+    jwt_authorization.verify_admin,
     async function (req, res, next) {
         try {
-
             let result = await service_account_service.get_waivers(req.params.id);
             res.send(result);
         }
@@ -18,7 +17,7 @@ router.get('/',
     });
 
 router.post('/',
-    jwt_authorization.verify_admin()
+    jwt_authorization.verify_admin,
     validation_helper.validation_middleware('waiver_request'),
     async function (req, res, next) {
         try {

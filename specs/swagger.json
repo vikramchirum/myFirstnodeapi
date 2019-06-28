@@ -448,7 +448,8 @@
     "/customer_accounts/{id}/notes": {
       "post": {
         "tags": [
-          "customer_accounts"
+          "customer_accounts",
+          "notes"
         ],
         "summary": "Adds a note to the customer account.",
         "parameters": [
@@ -513,7 +514,8 @@
     "/customer_accounts/{id}/notes/{count}": {
       "get": {
         "tags": [
-          "customer_accounts"
+          "customer_accounts",
+          "notes"
         ],
         "summary": "Retrieves the notes for the customer account.",
         "parameters": [
@@ -772,169 +774,6 @@
                 "schema": {
                   "$ref": "#/components/schemas/service_account"
                 }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/error_list"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "404": {
-            "description": "Service Account not found"
-          }
-        }
-      }
-    },
-    "/service_accounts/{id}/usage_history": {
-      "get": {
-        "tags": [
-          "service_accounts"
-        ],
-        "summary": "Retrieves usage history for a service account.",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "id of service account to fetch",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "200 returns usage history for a service account",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "Service_Account_Id": {
-                        "type": "string"
-                      },
-                      "Usage_Type": {
-                        "type": "string"
-                      },
-                      "Usage_Month": {
-                        "type": "string"
-                      },
-                      "Usage_Start_Date": {
-                        "type": "string"
-                      },
-                      "Usage_End_Date": {
-                        "type": "string"
-                      },
-                      "Usage": {
-                        "type": "string"
-                      },
-                      "Usage_Uom": {
-                        "type": "string"
-                      }
-                    }
-                  }
-                },
-                "example": [
-                  {
-                    "Service_Account_Id": 2204002,
-                    "Usage_Month": "2016-04-01T00:00:00",
-                    "Usage_Start_Date": "2016-04-30T00:00:00",
-                    "Usage_End_Date": "2016-05-04T00:00:00",
-                    "Usage_Type": "Actual",
-                    "Usage": 137,
-                    "Usage_Uom": "kWh"
-                  }
-                ]
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/error_list"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "404": {
-            "description": "Service Account not found"
-          }
-        }
-      }
-    },
-    "/service_accounts/{id}/service_orders": {
-      "get": {
-        "tags": [
-          "service_accounts"
-        ],
-        "summary": "Gets the list of service orders for a service account.",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "id of service account to fetch",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "200 returns service orders for a service account",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "Service_Order_Description": {
-                        "type": "string"
-                      },
-                      "Date_Processed": {
-                        "type": "string",
-                        "format": "date-time"
-                      },
-                      "Distributor_Name": {
-                        "type": "string"
-                      },
-                      "Priority_Code": {
-                        "type": "string"
-                      }
-                    }
-                  }
-                },
-                "example": [
-                  {
-                    "Service_Order_Description": "Reconnect Complete",
-                    "Date_Processed": "05/02/2019",
-                    "Distributor_Name": "AEP - Texas Central",
-                    "priority_code": ""
-                  },
-                  {
-                    "Service_Order_Description": "Initiate Reconnect",
-                    "Date_Processed": "05/02/2019",
-                    "Distributor_Name": "AEP - Texas Central",
-                    "priority_code": "01"
-                  }
-                ]
               }
             }
           },
@@ -1693,7 +1532,8 @@
     "/service_accounts/{id}/notes/{count}": {
       "get": {
         "tags": [
-          "service_accounts"
+          "service_accounts",
+          "notes"
         ],
         "summary": "Retrieves service account notes",
         "parameters": [
@@ -1752,7 +1592,8 @@
     "/service_accounts/{id}/notes": {
       "post": {
         "tags": [
-          "service_accounts"
+          "service_accounts",
+          "notes"
         ],
         "summary": "save service account notes",
         "parameters": [
@@ -1806,17 +1647,17 @@
         }
       }
     },
-    "/customer_correspondence/disconnect_letter_info/{id}": {
+    "/service_accounts/{id}/suspension_letters": {
       "get": {
         "tags": [
-          "customer_correspondence"
+          "service_accounts"
         ],
-        "summary": "Retrieves disconnect letter info by id",
+        "summary": "Retrieves suspension letters by service account id",
         "parameters": [
           {
             "name": "id",
             "in": "path",
-            "description": "id of customer to fetch",
+            "description": "id of service account to get suspension letters for",
             "required": true,
             "schema": {
               "type": "string"
@@ -1829,7 +1670,29 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/disconnect_letter_info_response"
+                  "type": "object",
+                  "properties": {
+                    "Letter_Info_Id": {
+                      "type": "string"
+                    },
+                    "Letter_Name": {
+                      "type": "string"
+                    },
+                    "Requested_Date": {
+                      "type": "string",
+                      "format": "date"
+                    },
+                    "XML_Data": {
+                      "type": "string"
+                    },
+                    "XSLT_Data": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "format": "byte"
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -1848,7 +1711,170 @@
             "description": "Unauthorized"
           },
           "404": {
-            "description": "Customer not found"
+            "description": "Service Account not found"
+          }
+        }
+      }
+    },
+    "/service_accounts/{id}/usage_history": {
+      "get": {
+        "tags": [
+          "service_accounts"
+        ],
+        "summary": "Retrieves usage history for a service account.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of service account to fetch",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 returns usage history for a service account",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "Service_Account_Id": {
+                        "type": "string"
+                      },
+                      "Usage_Type": {
+                        "type": "string"
+                      },
+                      "Usage_Month": {
+                        "type": "string"
+                      },
+                      "Usage_Start_Date": {
+                        "type": "string"
+                      },
+                      "Usage_End_Date": {
+                        "type": "string"
+                      },
+                      "Usage": {
+                        "type": "string"
+                      },
+                      "Usage_Uom": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "example": [
+                  {
+                    "Service_Account_Id": 2204002,
+                    "Usage_Month": "2016-04-01T00:00:00",
+                    "Usage_Start_Date": "2016-04-30T00:00:00",
+                    "Usage_End_Date": "2016-05-04T00:00:00",
+                    "Usage_Type": "Actual",
+                    "Usage": 137,
+                    "Usage_Uom": "kWh"
+                  }
+                ]
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_list"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Service Account not found"
+          }
+        }
+      }
+    },
+    "/service_accounts/{id}/service_orders": {
+      "get": {
+        "tags": [
+          "service_accounts"
+        ],
+        "summary": "Gets the list of service orders for a service account.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of service account to fetch",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 returns service orders for a service account",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "Service_Order_Description": {
+                        "type": "string"
+                      },
+                      "Date_Processed": {
+                        "type": "string",
+                        "format": "date-time"
+                      },
+                      "Distributor_Name": {
+                        "type": "string"
+                      },
+                      "Priority_Code": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "example": [
+                  {
+                    "Service_Order_Description": "Reconnect Complete",
+                    "Date_Processed": "05/02/2019",
+                    "Distributor_Name": "AEP - Texas Central",
+                    "priority_code": ""
+                  },
+                  {
+                    "Service_Order_Description": "Initiate Reconnect",
+                    "Date_Processed": "05/02/2019",
+                    "Distributor_Name": "AEP - Texas Central",
+                    "priority_code": "01"
+                  }
+                ]
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_list"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Service Account not found"
           }
         }
       }
@@ -3227,31 +3253,6 @@
           "Active",
           "Type"
         ]
-      },
-      "disconnect_letter_info_response": {
-        "type": "object",
-        "properties": {
-          "Letter_Info_Id": {
-            "type": "string"
-          },
-          "Letter_Name": {
-            "type": "string"
-          },
-          "Requested_Date": {
-            "type": "string",
-            "format": "date"
-          },
-          "XML_Data": {
-            "type": "string"
-          },
-          "XSLT_Data": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "format": "byte"
-            }
-          }
-        }
       }
     }
   },

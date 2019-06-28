@@ -10,6 +10,8 @@ router.use(jwt_authorization.middleware({
     issuer: [process.env.CUSTOMER_ISSUER, process.env.INTERNAL_ISSUER]
 }));
 
+router.use('/:id/suspension_letters', require('./service_account.suspension_letters'));
+
 router.use('/:id/invoices', require('./service_accounts.invoices'));
 
 router.use('/:id/payment_extension', require('./service_accounts.payment_extensions'));
