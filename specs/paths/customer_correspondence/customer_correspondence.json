@@ -1,8 +1,0 @@
-{
-    "/customer_correspondence/disconnect_letter_info/{id}": {
-      "get": {
-        "$ref": "./disconnect_letter_info.json"
-      }
-    }
-  }
-  
