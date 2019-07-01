@@ -18,6 +18,9 @@
     "payment_extension_request": {
       "$ref": "./definitions/payments/extensions/payment_extension_request.json"
     },
+    "notification_option_create_request": {
+      "$ref": "./definitions/notification_options/notification_option_create_request.json"
+    },
     "waiver_request": {
       "$ref": "./definitions/service_accounts/waiver_request.json"
     },

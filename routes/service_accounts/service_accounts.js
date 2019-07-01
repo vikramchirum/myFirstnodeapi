@@ -24,6 +24,8 @@ router.use('/:id/payments', require('./service_accounts.payments'));
 
 router.use('/:id/notes', require('./service_account.notes'));
 
+router.use('/:id/notification_options', require('../customer_accounts/customer_accounts.notification_options'));
+
 router.use('/:id/standard_waivers', require('./service_account.waivers'));
 
 router.get('/:id',

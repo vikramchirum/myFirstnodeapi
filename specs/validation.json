@@ -112,6 +112,74 @@
         }
       }
     },
+    "notification_option_create_request": {
+      "type": "object",
+      "properties": {
+        "Type": {
+          "type": "string",
+          "enum": [
+            "Bill",
+            "Contract_Expiration",
+            "Payment_Due",
+            "Payment_Received"
+          ]
+        },
+        "Paperless": {
+          "type": "boolean"
+        },
+        "Preferred_Contact_Method": {
+          "type": "string",
+          "enum": [
+            "Email",
+            "Phone"
+          ]
+        },
+        "Email": {
+          "type": "string",
+          "format": "email"
+        },
+        "Phone_Number": {
+          "type": "object",
+          "properties": {
+            "Type": {
+              "type": "string",
+              "enum": [
+                "Landline",
+                "Mobile"
+              ]
+            },
+            "Area_Code": {
+              "type": "string",
+              "minLength": 3,
+              "maxLength": 3,
+              "pattern": "^\\d{3}$"
+            },
+            "Number": {
+              "type": "string",
+              "minLength": 7,
+              "maxLength": 7,
+              "pattern": "^\\d{7}$"
+            },
+            "Extension": {
+              "type": "string"
+            },
+            "Agree_To_Marketing": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "Type",
+            "Area_Code",
+            "Number"
+          ]
+        }
+      },
+      "required": [
+        "Type",
+        "Paperless",
+        "Preferred_Contact_Method"
+      ]
+    },
     "waiver_request": {
       "type": "object",
       "properties": {

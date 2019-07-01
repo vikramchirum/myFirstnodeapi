@@ -17,6 +17,22 @@
       "$ref": "./get_notes.json"
     }
   },
+  "/customer_accounts/{id}/notification_options": {
+    "get": {
+      "$ref": "./notification_options/get.json"
+    },
+    "post": {
+      "$ref": "./notification_options/setup.json"
+    }
+  },
+  "/customer_accounts/{id}/notification_options/{type}": {
+    "get": {
+      "$ref": "./notification_options/get_by_type.json"
+    },
+    "delete": {
+      "$ref": "./notification_options/cancel.json"
+    }
+  },
   "/customer_accounts/{id}/pay_methods": {
     "get": {
       "$ref": "./customer_account_pay_methods.json"

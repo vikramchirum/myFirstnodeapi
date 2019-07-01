@@ -1,10 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const jwt_authorization = require("../lib/jwt_authorization");
-const validation_helper = require('../lib/helpers/validation.helper');
-const customer_account_service = require('../lib/services/customer_account_service');
-const payment_service = require('../lib/services/payment_service');
-const notes_service = require('../lib/services/notes_service');
+const validation_helper = require('../../lib/helpers/validation.helper');
+const customer_account_service = require('../../lib/services/customer_account_service');
+const jwt_authorization = require("../../lib/jwt_authorization");
+const notes_service = require('../../lib/services/notes_service');
 
 router.use(jwt_authorization.middleware({
     audience: process.env.AUDIENCE,
@@ -25,7 +24,7 @@ const format_customer_response = function (user, customer_account) {
             delete customer_account.Drivers_License;
             return customer_account;
         }
-        else{
+        else {
             throw new Error('Issuer for token is not recognized');
         }
     }
@@ -33,41 +32,6 @@ const format_customer_response = function (user, customer_account) {
         throw new Error('User token not found')
     }
 };
-
-const format_pay_method = function (pay_method) {
-    let result = {
-        Id: pay_method.PayMethodId,
-        Active: pay_method.IsActive,
-        Type: pay_method.CreditCard ? 'CreditCard' : pay_method.BankAccount ? 'eCheck' : 'Unknown'
-    };
-
-    if (result.Type === 'CreditCard') {
-        result.CreditCard = pay_method.CreditCard;
-        delete result.CreditCard.CardVerificationValue;
-    }
-    else if (result.Type === 'eCheck') {
-        result.BankAccount = pay_method.BankAccount;
-    }
-
-    return result;
-};
-
-const format_pay_methods = function (pay_method_list) {
-    const formatted_pay_methods = pay_method_list.map(format_pay_method);
-    return formatted_pay_methods;
-};
-
-router.get('/:id/pay_methods',
-    jwt_authorization.verify_claims_from_request_property('Customer_Account_Id', 'params.id'),
-    async function (req, res, next) {
-        try {
-            let result = await payment_service.get_by_customer_account_id(req.params.id);
-            res.send(format_pay_methods(result));
-        }
-        catch (err) {
-            next(err);
-        }
-    });
 
 router.get('/:id',
     jwt_authorization.verify_claims_from_request_property('Customer_Account_Id', 'params.id'),
@@ -77,7 +41,7 @@ router.get('/:id',
             if (customer_account) {
                 res.send(format_customer_response(req.user, customer_account));
             }
-            else{
+            else {
                 res.sendStatus(404);
             }
         }
@@ -95,7 +59,7 @@ router.patch('/:id',
             if (updated_customer_account) {
                 res.send(format_customer_response(req.user, updated_customer_account));
             }
-            else{
+            else {
                 res.sendStatus(404);
             }
         }
@@ -126,7 +90,7 @@ router.get('/:id/notes/:count?',
     async function (req, res, next) {
         try {
 
-            if(!req.params.count || req.params.count === '0') {
+            if (!req.params.count || req.params.count === '0') {
                 req.params.count = 20;
             }
 
@@ -137,6 +101,10 @@ router.get('/:id/notes/:count?',
             next(err);
         }
     });
+
+router.use('/:id/notification_options', require('./customer_accounts.notification_options'));
+
+router.use('/:id/pay_methods', require('./customer_accounts.pay_methods'));
 
 router.post('/fuzzy_search',
     jwt_authorization.middleware({
