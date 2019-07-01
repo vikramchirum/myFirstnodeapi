@@ -12,7 +12,7 @@ router.use(jwt_authorization.middleware({
 
 router.use('/:id/autopay', require('./service_accounts.autopay'));
 
-router.use('/:id/suspension_letters', require('./service_account.suspension_letters'));
+router.use('/:id/suspension_letters', require('./service_accounts.suspension_letters'));
 
 router.use('/:id/budget_billing', require('./service_accounts.budget_billing'));
 
@@ -22,11 +22,9 @@ router.use('/:id/payment_extension', require('./service_accounts.payment_extensi
 
 router.use('/:id/payments', require('./service_accounts.payments'));
 
-router.use('/:id/notes', require('./service_account.notes'));
+router.use('/:id/notes', require('./service_accounts.notes'));
 
-router.use('/:id/notification_options', require('../customer_accounts/customer_accounts.notification_options'));
-
-router.use('/:id/standard_waivers', require('./service_account.waivers'));
+router.use('/:id/standard_waivers', require('./service_accounts.waivers'));
 
 router.get('/:id',
     jwt_authorization.verify_claims_from_request_property('Service_Account_Ids', 'params.id'),
