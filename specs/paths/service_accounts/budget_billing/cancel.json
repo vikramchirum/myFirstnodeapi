@@ -27,14 +27,7 @@
       }
     },
     "200": {
-      "description": "200 returns budget billing cancellation",
-      "content": {
-        "application/json": {
-          "schema": {
-            "type": "boolean"
-          }
-        }
-      }
+      "description": "200 returns OK"
     },
     "401": {
       "description": "Unauthorized"

@@ -1,14 +1,14 @@
 {
   "tags": [
-    "service_accounts",
-    "budget_billing"
+    "customer_accounts",
+    "payments"
   ],
-  "summary": "Signs up for budget billing for service account specified",
+  "summary": "Add payment account for the customer account specified",
   "parameters": [
     {
       "name": "id",
       "in": "path",
-      "description": "id of service account to sign up on budget billing for",
+      "description": "id of customer account to add paymethod for",
       "required": true,
       "schema": {
         "type": "string"
@@ -20,7 +20,7 @@
     "content": {
       "application/json": {
         "schema": {
-          "$ref": "../../../definitions/budget_billing/budget_billing_sign_up_request"
+          "$ref": "../../../definitions/payments/pay_methods/pay_method_create_request.json"
         }
       }
     }
@@ -37,11 +37,11 @@
       }
     },
     "200": {
-      "description": "200 returns a budget billing confirmation",
+      "description": "200 returns a pay method",
       "content": {
         "application/json": {
           "schema": {
-            "type": "boolean"
+            "$ref": "../../../definitions/payments/pay_methods/pay_method.json"
           }
         }
       }
@@ -50,7 +50,7 @@
       "description": "Unauthorized"
     },
     "404": {
-      "description": "Service Account not found"
+      "description": "Customer Account not found"
     }
   }
 }

@@ -3,10 +3,10 @@ require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
-//const logger = require('log-driver')({level: 'info'});
-const logger = require('./lib/logger');
+const logger = require('log-driver')({level: 'info'});
+//const logger = require('./lib/logger');
 
-logger.log({
+logger.info({
     message: 'Server Started',
     level: 'info'
 });
@@ -62,12 +62,15 @@ app.use(function (err, req, res, next) {
     if (err.name === 'UnauthorizedError') {
         res.status(err.status).send(err.message);
     }
+    else if (err.type && err.type === 'custom') {
+        res.status(400).send(err.errors);
+    }
     else if (err.status && err.status < 500 && err.message) {
         res.status(err.status).send(err.message);
     }
     else {
 
-        logger.log({
+        logger.error({
             message: err.message,
             stack: err.stack,
             error: err,

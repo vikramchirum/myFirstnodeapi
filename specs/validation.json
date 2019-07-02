@@ -207,6 +207,34 @@
         "FeeWaiverType"
       ]
     },
+    "pay_method_create_request": {
+      "type": "object",
+      "properties": {
+        "Token": {
+          "description": "temporary use token issued from the payment vendor",
+          "type": "string",
+          "pattern": "^ott_"
+        }
+      }
+    },
+    "pay_method_update_request": {
+      "type": "object",
+      "properties": {
+        "CVVNumber": {
+          "description": "new cvv of the credit card",
+          "type": "string",
+          "pattern": "^\\d{3}$"
+        },
+        "ExpirationMonth": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 12
+        },
+        "ExpirationYear": {
+          "type": "integer"
+        }
+      }
+    },
     "payment_request": {
       "oneOf": [
         {

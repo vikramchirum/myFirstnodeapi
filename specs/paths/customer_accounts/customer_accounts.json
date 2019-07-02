@@ -35,7 +35,18 @@
   },
   "/customer_accounts/{id}/pay_methods": {
     "get": {
-      "$ref": "./customer_account_pay_methods.json"
+      "$ref": "./pay_methods/get.json"
+    },
+    "post": {
+      "$ref": "./pay_methods/add.json"
+    }
+  },
+  "/customer_accounts/{id}/pay_methods/{pay_method_id}": {
+    "patch": {
+      "$ref": "./pay_methods/patch.json"
+    },
+    "delete": {
+      "$ref": "./pay_methods/delete.json"
     }
   },
   "/customer_accounts/fuzzy_search": {

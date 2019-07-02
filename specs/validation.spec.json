@@ -24,6 +24,12 @@
     "waiver_request": {
       "$ref": "./definitions/service_accounts/waiver_request.json"
     },
+    "pay_method_create_request": {
+      "$ref": "./definitions/payments/pay_methods/pay_method_create_request.json"
+    },
+    "pay_method_update_request": {
+      "$ref": "./definitions/payments/pay_methods/pay_method_update_request.json"
+    },
     "payment_request": {
       "$ref": "./definitions/payments/payment_request.json"
     },

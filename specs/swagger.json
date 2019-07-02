@@ -1250,11 +1250,20 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "active",
+            "in": "query",
+            "description": "active status of pay method",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "200 returns a customer account",
+            "description": "200 returns a list of pay methods",
             "content": {
               "application/json": {
                 "schema": {
@@ -1281,6 +1290,464 @@
           },
           "404": {
             "description": "No payment methods not found"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "customer_accounts",
+          "payments"
+        ],
+        "summary": "Add payment account for the customer account specified",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of customer account to add paymethod for",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "Token": {
+                    "description": "temporary use token issued from the payment vendor",
+                    "type": "string",
+                    "pattern": "^ott_"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "200 returns a pay method",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Id": {
+                      "type": "integer"
+                    },
+                    "Active": {
+                      "type": "boolean"
+                    },
+                    "Type": {
+                      "type": "string",
+                      "enum": [
+                        "CreditCard",
+                        "eCheck",
+                        "Unknown"
+                      ]
+                    },
+                    "CreditCard": {
+                      "type": "object",
+                      "properties": {
+                        "AccountNumber": {
+                          "type": "string"
+                        },
+                        "AccountHolder": {
+                          "type": "string"
+                        },
+                        "ExpirationYear": {
+                          "type": "integer"
+                        },
+                        "ExpirationMonth": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 12
+                        },
+                        "Type": {
+                          "type": "string",
+                          "enum": [
+                            "Visa",
+                            "MasterCard",
+                            "Discover",
+                            "AmericanExpress",
+                            "Unknown"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "AccountNumber",
+                        "AccountHolder",
+                        "Type",
+                        "ExpirationMonth",
+                        "ExpirationYear"
+                      ]
+                    },
+                    "BankAccount": {
+                      "type": "object",
+                      "properties": {
+                        "AccountNumber": {
+                          "type": "string"
+                        },
+                        "RoutingNumber": {
+                          "type": "string"
+                        },
+                        "AccountHolder": {
+                          "type": "string"
+                        },
+                        "Type": {
+                          "type": "string",
+                          "enum": [
+                            "Checking",
+                            "Savings",
+                            "MoneyMarket",
+                            "Unknown"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "AccountNumber",
+                        "RoutingNumber",
+                        "AccountHolder",
+                        "Type"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "Id",
+                    "Active",
+                    "Type"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_list"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Customer Account not found"
+          }
+        }
+      }
+    },
+    "/customer_accounts/{id}/pay_methods/{pay_method_id}": {
+      "patch": {
+        "tags": [
+          "customer_accounts",
+          "payments"
+        ],
+        "summary": "Allows updating cvv and expiration date of a pay method",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of customer account the pay method belongs to",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pay_method_id",
+            "in": "path",
+            "description": "Id of the pay method to modify",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "CVVNumber": {
+                    "description": "new cvv of the credit card",
+                    "type": "string",
+                    "pattern": "^\\d{3}$"
+                  },
+                  "ExpirationMonth": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 12
+                  },
+                  "ExpirationYear": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "200 returns a pay method",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Id": {
+                      "type": "integer"
+                    },
+                    "Active": {
+                      "type": "boolean"
+                    },
+                    "Type": {
+                      "type": "string",
+                      "enum": [
+                        "CreditCard",
+                        "eCheck",
+                        "Unknown"
+                      ]
+                    },
+                    "CreditCard": {
+                      "type": "object",
+                      "properties": {
+                        "AccountNumber": {
+                          "type": "string"
+                        },
+                        "AccountHolder": {
+                          "type": "string"
+                        },
+                        "ExpirationYear": {
+                          "type": "integer"
+                        },
+                        "ExpirationMonth": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 12
+                        },
+                        "Type": {
+                          "type": "string",
+                          "enum": [
+                            "Visa",
+                            "MasterCard",
+                            "Discover",
+                            "AmericanExpress",
+                            "Unknown"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "AccountNumber",
+                        "AccountHolder",
+                        "Type",
+                        "ExpirationMonth",
+                        "ExpirationYear"
+                      ]
+                    },
+                    "BankAccount": {
+                      "type": "object",
+                      "properties": {
+                        "AccountNumber": {
+                          "type": "string"
+                        },
+                        "RoutingNumber": {
+                          "type": "string"
+                        },
+                        "AccountHolder": {
+                          "type": "string"
+                        },
+                        "Type": {
+                          "type": "string",
+                          "enum": [
+                            "Checking",
+                            "Savings",
+                            "MoneyMarket",
+                            "Unknown"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "AccountNumber",
+                        "RoutingNumber",
+                        "AccountHolder",
+                        "Type"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "Id",
+                    "Active",
+                    "Type"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_list"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Customer Account not found"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "customer_accounts",
+          "payments"
+        ],
+        "summary": "Deletes a payment method for a customer by id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of customer the pay method belongs to",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pay_method_id",
+            "in": "path",
+            "description": "id of the pay method to delete",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 returns OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Id": {
+                      "type": "integer"
+                    },
+                    "Active": {
+                      "type": "boolean"
+                    },
+                    "Type": {
+                      "type": "string",
+                      "enum": [
+                        "CreditCard",
+                        "eCheck",
+                        "Unknown"
+                      ]
+                    },
+                    "CreditCard": {
+                      "type": "object",
+                      "properties": {
+                        "AccountNumber": {
+                          "type": "string"
+                        },
+                        "AccountHolder": {
+                          "type": "string"
+                        },
+                        "ExpirationYear": {
+                          "type": "integer"
+                        },
+                        "ExpirationMonth": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 12
+                        },
+                        "Type": {
+                          "type": "string",
+                          "enum": [
+                            "Visa",
+                            "MasterCard",
+                            "Discover",
+                            "AmericanExpress",
+                            "Unknown"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "AccountNumber",
+                        "AccountHolder",
+                        "Type",
+                        "ExpirationMonth",
+                        "ExpirationYear"
+                      ]
+                    },
+                    "BankAccount": {
+                      "type": "object",
+                      "properties": {
+                        "AccountNumber": {
+                          "type": "string"
+                        },
+                        "RoutingNumber": {
+                          "type": "string"
+                        },
+                        "AccountHolder": {
+                          "type": "string"
+                        },
+                        "Type": {
+                          "type": "string",
+                          "enum": [
+                            "Checking",
+                            "Savings",
+                            "MoneyMarket",
+                            "Unknown"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "AccountNumber",
+                        "RoutingNumber",
+                        "AccountHolder",
+                        "Type"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "Id",
+                    "Active",
+                    "Type"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_list"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Payment method not found"
           }
         }
       }
@@ -1724,7 +2191,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/budget_billing_sign_up_request"
+                "$ref": "../../../definitions/budget_billing/budget_billing_sign_up_request"
               }
             }
           }
@@ -1777,14 +2244,7 @@
         ],
         "responses": {
           "200": {
-            "description": "200 returns budget billing cancellation",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "boolean"
-                }
-              }
-            }
+            "description": "200 returns OK"
           },
           "400": {
             "description": "Bad Request",
