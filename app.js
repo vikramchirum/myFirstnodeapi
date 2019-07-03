@@ -4,6 +4,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const logger = require('log-driver')({ level: 'info' });
+const custom_error = require('./lib/custom_error');
 //const logger = require('./lib/logger');
 
 logger.info({
@@ -61,6 +62,9 @@ app.use(function (err, req, res, next) {
 
     if (err.name === 'UnauthorizedError') {
         res.status(err.status).send(err.message);
+    }
+    else if (err instanceof custom_error){
+        res.status(err.status).send(err.errors);
     }
     else if (err.type && err.type === 'custom') {
         if (err.status) {
