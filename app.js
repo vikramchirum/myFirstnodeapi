@@ -3,7 +3,7 @@ require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
-const logger = require('log-driver')({level: 'info'});
+const logger = require('log-driver')({ level: 'info' });
 //const logger = require('./lib/logger');
 
 logger.info({
@@ -16,11 +16,11 @@ let swaggerUi = require('swagger-ui-express'),
 
 let app = express();
 
-app.use(morgan(logger.format, {stream: logger.loggerstream}));
+app.use(morgan(logger.format, { stream: logger.loggerstream }));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.urlencoded({ extended: false }));
 
-const get_base_url = function(req){
+const get_base_url = function (req) {
     return process.env.SCHEME + '://' + req.get('host') + '/api';
 };
 
@@ -63,7 +63,12 @@ app.use(function (err, req, res, next) {
         res.status(err.status).send(err.message);
     }
     else if (err.type && err.type === 'custom') {
-        res.status(400).send(err.errors);
+        if (err.status) {
+            res.status(err.status).send(err.errors);
+        }
+        else {
+            res.status(400).send(err.errors);
+        }
     }
     else if (err.status && err.status < 500 && err.message) {
         res.status(err.status).send(err.message);
@@ -84,11 +89,11 @@ app.use(function (err, req, res, next) {
 
         if (err.name === 'MongoError' && err.message.includes('duplicate')) {
             res.status(409);
-            res.send({Messsage: err.message});
+            res.send({ Messsage: err.message });
         }
         else {
             res.status(err.status || 500);
-            res.send({Message: 'Uh Oh... an error occured. We are already working on it.'});
+            res.send({ Message: 'Uh Oh... an error occured. We are already working on it.' });
         }
     }
 });
