@@ -1,21 +1,14 @@
 {
   "tags": [
+    "customer_accounts",
     "service_accounts"
   ],
-  "summary": "Retrieves service account information by id",
+  "summary": "Retrieves service accounts for a customer id",
   "parameters": [
     {
-      "name": "service_account_id",
-      "in": "query",
-      "description": "id of service account to search by",
-      "schema": {
-        "type": "string"
-      }
-    },
-    {
-      "name": "customer_account_id",
-      "in": "query",
-      "description": "id of customer account to search by",
+      "name": "id",
+      "in": "path",
+      "description": "id of customer account to get service accounts for",
       "schema": {
         "type": "string"
       }
@@ -49,7 +42,7 @@
       "description": "Unauthorized"
     },
     "404": {
-      "description": "Service Account not found"
+      "description": "No Service Accounts not found"
     }
   }
 }

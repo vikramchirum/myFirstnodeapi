@@ -1,11 +1,9 @@
 const express = require('express');
 const router = express.Router({ mergeParams: true });
 const pay_method_service = require('../../lib/services/pay_method_service');
-const jwt_authorization = require("../../lib/jwt_authorization");
 const validation_helper = require('../../lib/helpers/validation.helper');
 
 router.get('/',
-    jwt_authorization.verify_claims_from_request_property('Customer_Account_Id', 'params.id'),
     async function (req, res, next) {
         try {
             let result = await pay_method_service.get_by_customer_account_id(req.params.id, req.query.active);
@@ -17,7 +15,6 @@ router.get('/',
     });
 
 router.post('/',
-    jwt_authorization.verify_claims_from_request_property('Customer_Account_Id', 'params.id'),
     validation_helper.validation_middleware('pay_method_create_request'),
     async function (req, res, next) {
         try {
@@ -30,7 +27,6 @@ router.post('/',
     });
 
 router.delete('/:pay_method_id',
-    jwt_authorization.verify_claims_from_request_property('Customer_Account_Id', 'params.id'),
     async function (req, res, next) {
         try {
             let result = await pay_method_service.delete(req.params.id, req.params.pay_method_id, req.user.sub);
@@ -47,7 +43,6 @@ router.delete('/:pay_method_id',
     });
 
 router.patch('/:pay_method_id',
-    jwt_authorization.verify_claims_from_request_property('Customer_Account_Id', 'params.id'),
     validation_helper.validation_middleware('pay_method_update_request'),
     async function (req, res, next) {
         try {

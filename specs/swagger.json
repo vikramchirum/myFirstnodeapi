@@ -1752,6 +1752,56 @@
         }
       }
     },
+    "/customer_accounts/{id}/service_accounts": {
+      "get": {
+        "tags": [
+          "customer_accounts",
+          "service_accounts"
+        ],
+        "summary": "Retrieves service accounts for a customer id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of customer account to get service accounts for",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 returns a service account",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/service_account"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_list"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "No Service Accounts not found"
+          }
+        }
+      }
+    },
     "/customer_accounts/fuzzy_search": {
       "post": {
         "tags": [
@@ -1818,63 +1868,6 @@
           },
           "404": {
             "description": "Customer not found"
-          }
-        }
-      }
-    },
-    "/service_accounts": {
-      "get": {
-        "tags": [
-          "service_accounts"
-        ],
-        "summary": "Retrieves service account information by id",
-        "parameters": [
-          {
-            "name": "service_account_id",
-            "in": "query",
-            "description": "id of service account to search by",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "customer_account_id",
-            "in": "query",
-            "description": "id of customer account to search by",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "200 returns a service account",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/service_account"
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/error_list"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "404": {
-            "description": "Service Account not found"
           }
         }
       }
@@ -2191,7 +2184,15 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "../../../definitions/budget_billing/budget_billing_sign_up_request"
+                "type": "object",
+                "properties": {
+                  "Amount": {
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "Amount"
+                ]
               }
             }
           }

@@ -1,11 +1,9 @@
 const express = require('express');
 const router = express.Router({ mergeParams: true });
-const jwt_authorization = require("../../lib/jwt_authorization");
 const notification_option_service = require('../../lib/services/notification_option_service');
 const validation_helper = require('../../lib/helpers/validation.helper');
 
 router.get('/',
-    jwt_authorization.verify_claims_from_request_property('Customer_Account_Id', 'params.id'),
     async function (req, res, next) {
         try {
             let query = {
@@ -27,7 +25,6 @@ router.get('/',
     });
 
 router.post('/',
-    jwt_authorization.verify_claims_from_request_property('Customer_Account_Id', 'params.id'),
     validation_helper.validation_middleware('notification_option_create_request'),
     async function (req, res, next) {
         try {
@@ -45,7 +42,6 @@ router.post('/',
     });
 
 router.get('/:type',
-    jwt_authorization.verify_claims_from_request_property('Customer_Account_Id', 'params.id'),
     async function (req, res, next) {
         let query = {
             'Account_Info.Account_Type': "GEMS_Residential_Customer_Account",
@@ -62,7 +58,6 @@ router.get('/:type',
     });
 
 router.delete('/:type',
-    jwt_authorization.verify_claims_from_request_property('Customer_Account_Id', 'params.id'),
     async function (req, res, next) {
         const response = await notification_option_service.cancel(req.params.id, req.params.type);
         if (response) {

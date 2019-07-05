@@ -20,7 +20,7 @@
     "content": {
       "application/json": {
         "schema": {
-          "$ref": "../../../definitions/budget_billing/budget_billing_sign_up_request"
+          "$ref": "../../../definitions/budget_billing/budget_billing_sign_up_request.json"
         }
       }
     }

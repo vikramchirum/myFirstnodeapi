@@ -1,10 +1,8 @@
 const express = require('express');
 const router = express.Router({mergeParams: true});
-const jwt_authorization = require("../../lib/jwt_authorization");
 const service_account_service = require('../../lib/services/service_account_service');
 
 router.get('/:count',
-    jwt_authorization.verify_claims_from_request_property('Service_Account_Ids', 'params.id'),
     async function (req, res, next) {
         try {
 
@@ -17,7 +15,6 @@ router.get('/:count',
     });
 
 router.post('/',
-    jwt_authorization.verify_claims_from_request_property('Service_Account_Ids', 'params.id'),
     async function (req, res, next) {
         try {
 
