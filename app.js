@@ -63,16 +63,8 @@ app.use(function (err, req, res, next) {
     if (err.name === 'UnauthorizedError') {
         res.status(err.status).send(err.message);
     }
-    else if (err instanceof custom_error){
+    else if (err instanceof custom_error) {
         res.status(err.status).send(err.errors);
-    }
-    else if (err.type && err.type === 'custom') {
-        if (err.status) {
-            res.status(err.status).send(err.errors);
-        }
-        else {
-            res.status(400).send(err.errors);
-        }
     }
     else if (err.status && err.status < 500 && err.message) {
         res.status(err.status).send(err.message);
