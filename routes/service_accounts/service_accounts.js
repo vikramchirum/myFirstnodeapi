@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const jwt_authorization = require("../../lib/jwt_authorization");
 const service_account_service = require('../../lib/services/service_account_service');
+const validation_helper = require('../../lib/helpers/validation.helper');
 
 router.use('/:id/auth', require('./service_accounts.auth'));
 
@@ -93,6 +94,26 @@ router.get('/:id/Meter_Read_Details/:count',
             next(err);
         }
     }
+);
+
+router.put('/:id/Disconnect',
+           jwt_authorization.verify_admin,
+           validation_helper.validation_middleware('disconnect_request'),
+           async function (req, res, next) {
+               try {
+                   let disconnect_request =
+                       {
+                           User_Name: req.user.sub,
+                           Service_Stop_Date: req.disconnect_request.Service_Stop_Date,
+                           Final_Bill_To_Old_Billing_Address: req.disconnect_request.Is_Final_Bill_To_Old_Billing_Address,
+                           Final_Bill_Address: req.disconnect_request.Final_Bill_Address
+                       };
+                   let result = await service_account_service.disconnect(req.params.id, disconnect_request)
+                   res.send(result);
+               } catch (err) {
+                   next(err);
+               }
+           }
 );
 
 module.exports = router;

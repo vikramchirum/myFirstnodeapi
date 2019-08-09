@@ -65,6 +65,9 @@
   "waiver_request": {
     "$ref": "./service_accounts/waiver_request.json"
   },
+  "service_account_disconnect_request": {
+    "$ref": "./service_accounts/disconnect_request.json"
+  },
   "fuzzy_search_request": {
     "$ref":"./customer_accounts/fuzzy_search_request.json"
   },

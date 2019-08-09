@@ -29,6 +29,9 @@
     },
     "customer_account_add_note_request" : {
       "$ref": "./definitions/customer_accounts/add_note_request.json"
+    },
+    "disconnect_request" : {
+      "$ref": "./definitions/service_accounts/disconnect_request.schema.json"
     }
   }
 }
