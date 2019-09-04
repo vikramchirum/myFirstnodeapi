@@ -8,13 +8,11 @@ router.use('/budget_billing', require('./service_accounts.budget_billing'));
 
 router.use('/invoices', require('./service_accounts.invoices'));
 
-router.use('/notes', require('./service_accounts.notes'));
-
 router.get('/Meter_Read_Details/:count',
     async function (req, res, next) {
         try {
             if(!req.params.count || req.params.count === "0") {
-               req.params.count = 20;
+                req.params.count = 20;
             }
 
             let result = await service_account_service.get_meter_read_details(req.params.id, req.params.count);
@@ -25,6 +23,8 @@ router.get('/Meter_Read_Details/:count',
         }
     }
 );
+
+router.use('/notes', require('./service_accounts.notes'));
 
 router.use('/payment_extension', require('./service_accounts.payment_extensions'));
 
@@ -44,7 +44,7 @@ router.get('/Service_Orders',
     }
 );
 
-router.use('/standard_waivers', require('./service_accounts.waivers'));
+router.use('/waivers', require('./service_accounts.waivers'));
 
 router.use('/contact_us', require('./service_accounts.support'));
 
