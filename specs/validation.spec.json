@@ -44,6 +44,9 @@
     },
     "customer_account_add_note_request": {
       "$ref": "./definitions/customer_accounts/add_note_request.json"
+    },
+    "contact_us_request": {
+      "$ref": "./definitions/support/contact_us_request.json"
     }
   }
 }

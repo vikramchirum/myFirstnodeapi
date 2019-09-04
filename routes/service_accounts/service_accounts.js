@@ -30,6 +30,8 @@ router.use('/payment_extension', require('./service_accounts.payment_extensions'
 
 router.use('/payments', require('./service_accounts.payments'));
 
+router.use('/rate_change', require('./service_accounts.rate_changes'));
+
 router.get('/Service_Orders',
     async function (req, res, next) {
         try {
@@ -43,6 +45,8 @@ router.get('/Service_Orders',
 );
 
 router.use('/standard_waivers', require('./service_accounts.waivers'));
+
+router.use('/contact_us', require('./service_accounts.support'));
 
 router.use('/suspension_letters', require('./service_accounts.suspension_letters'));
 

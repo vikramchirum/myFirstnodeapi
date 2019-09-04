@@ -7,6 +7,11 @@
       "$ref": "./update.json"
     }
   },
+  "/customer_accounts/{id}/past_due": {
+    "get": {
+      "$ref": "./past_due.json"
+    }
+  },
   "/customer_accounts/{id}/notes": {
     "post": {
       "$ref": "./notes/add.json"
@@ -49,7 +54,7 @@
       "$ref": "./pay_methods/delete.json"
     }
   },
-  "/customer_accounts/{id}/service_accounts":{
+  "/customer_accounts/{id}/service_accounts": {
     "get": {
       "$ref": "./service_accounts/get.json"
     }

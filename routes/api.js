@@ -10,6 +10,8 @@ if (process.env.CA_CERT) {
 
 router.use('/auth', require('./auth'));
 
+router.use('/announcements', require('./announcements'));
+
 //Require jwt token for all account resources
 router.use(jwt_authorization.middleware({
     audience: process.env.AUDIENCE,

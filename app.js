@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const logger = require('log-driver')({ level: 'info' });
 const custom_error = require('./lib/custom_error');
+const http_status_error = require('gexa.http_client.basic_auth').http_status_error;
 //const logger = require('./lib/logger');
 
 logger.info({
@@ -17,7 +18,7 @@ let swaggerUi = require('swagger-ui-express'),
 
 let app = express();
 
-app.use(morgan(logger.format, { stream: logger.loggerstream }));
+//app.use(morgan(logger.format, { stream: logger.loggerstream }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -62,6 +63,9 @@ app.use(function (err, req, res, next) {
 
     if (err.name === 'UnauthorizedError') {
         res.status(err.status).send(err.message);
+    }
+    else if (err instanceof http_status_error) {
+        res.status(err.status).send(err.errors);
     }
     else if (err instanceof custom_error) {
         res.status(err.status).send(err.errors);

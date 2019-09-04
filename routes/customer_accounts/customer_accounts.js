@@ -1,5 +1,5 @@
 const express = require('express');
-const router = express.Router({ mergeParams: true });
+const router = express.Router({mergeParams: true});
 const validation_helper = require('../../lib/helpers/validation.helper');
 const customer_account_service = require('../../lib/services/customer_account_service');
 const service_account_service = require('../../lib/services/service_account_service');
@@ -59,6 +59,16 @@ router.patch('/',
             next(err);
         }
     });
+
+router.get('/past_due', async function (req, res, next) {
+    try {
+        const result = await customer_account_service.get_past_due_by_id(req.params.id);
+        res.send(result.toString());
+    }
+    catch (err) {
+        next(err);
+    }
+});
 
 router.use('/notes', require('./customer_accounts.notes'));
 

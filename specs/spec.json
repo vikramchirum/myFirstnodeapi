@@ -12,6 +12,9 @@
   ],
   "tags": [
     {
+      "name": "announcements"
+    },
+    {
       "name": "auth"
     },
     {
@@ -27,10 +30,19 @@
       "name": "notes"
     },
     {
+      "name": "notifications"
+    },
+    {
       "name": "payments"
     },
     {
+      "name": "rate_changes"
+    },
+    {
       "name": "service_accounts"
+    },
+    {
+      "name": "support"
     }
   ],
   "paths": {
