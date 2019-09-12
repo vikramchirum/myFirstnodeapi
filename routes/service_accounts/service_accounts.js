@@ -3,8 +3,6 @@ const router = express.Router();
 const jwt_authorization = require("../../lib/jwt_authorization");
 const service_account_service = require('../../lib/services/service_account_service');
 
-router.use('/:id/auth', require('./service_accounts.auth'));
-
 router.use(jwt_authorization.middleware({
     audience: process.env.AUDIENCE,
     issuer: [process.env.CUSTOMER_ISSUER, process.env.INTERNAL_ISSUER]

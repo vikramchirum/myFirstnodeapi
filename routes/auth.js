@@ -1,25 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const external_api = require('../lib/external_api');
-const jwt = require('jsonwebtoken');
-const token_private_pem = new Buffer(process.env.JWT_PRIVATE_ACCESS_KEY);
-const refresh_private_pem = new Buffer(process.env.JWT_PRIVATE_REFRESH_KEY);
-const refresh_public_pem = new Buffer(process.env.JWT_PUBLIC_REFRESH_KEY);
-const audience_list = process.env.CUSTOMER_AUDIENCE_LIST.split(',');
 const _ = require('lodash');
 const jwt_authorization = require('../lib/jwt_authorization');
 const validation_helper = require('../lib/helpers/validation.helper');
 const cache_service = require('../lib/services/cache_service');
-
-const standard_options = function (subject, expires_in = '30 min') {
-    return {
-        algorithm: 'RS256',
-        audience: audience_list,
-        issuer: process.env.CUSTOMER_ISSUER,
-        expiresIn: expires_in,
-        subject: subject
-    };
-};
 
 router.post('/preauth',
     jwt_authorization.middleware({
@@ -59,9 +44,9 @@ router.post('/generate',
             const payload = {
                 claims: {Is_Admin: true}
             };
-            const access_token = jwt.sign(payload, token_private_pem, options);
+            const access_token = jwt_authorization.get_access_token(payload, options);
             options.expiresIn = '1 week';
-            const refresh_token = jwt.sign(payload, refresh_private_pem, options);
+            const refresh_token = jwt_authorization.get_refresh_token(payload, options);
             res.send({access_token: access_token, refresh_token: refresh_token});
         }
         catch (err) {
@@ -69,22 +54,23 @@ router.post('/generate',
         }
     });
 
-router.post('/refresh', function (req, res, next) {
-    try {
-        jwt.verify(req.body.refresh_token, refresh_public_pem, {algorithms: ['RS256']}, function (err, decoded) {
-            if (err) return next(err);
-
-            let access_token = jwt.sign({
-                Email: decoded.Email,
-                claims: decoded.claims
-            }, token_private_pem, standard_options(decoded.sub));
+router.get('/refresh',
+    jwt_authorization.refresh_middleware({
+        audience: process.env.AUDIENCE,
+        issuer: process.env.CUSTOMER_ISSUER
+    }),
+    function (req, res, next) {
+        try {
+            let access_token = jwt_authorization.get_access_token({
+                Email: req.user.Email,
+                claims: req.user.claims
+            }, jwt_authorization.get_standard_options(req.user.sub));
             res.send(access_token);
-        })
-    }
-    catch (err) {
-        next(err);
-    }
-});
+        }
+        catch (err) {
+            next(err);
+        }
+    });
 
 router.post('/',
     validation_helper.validation_middleware('login_request'),
@@ -114,8 +100,8 @@ router.post('/',
                 }
             }
 
-            let token = jwt.sign(payload, token_private_pem, standard_options(user_creds.Profile.Username));
-            let refresh_token = jwt.sign(payload, refresh_private_pem, standard_options(user_creds.Profile.Username, '1 week'));
+            let token = jwt_authorization.get_access_token(payload, jwt_authorization.get_standard_options(user_creds.Profile.Username));
+            let refresh_token = jwt_authorization.get_refresh_token(payload, jwt_authorization.get_standard_options(user_creds.Profile.Username, '1 week'));
             res.send({access_token: token, refresh_token: refresh_token});
         }
         catch (err) {
