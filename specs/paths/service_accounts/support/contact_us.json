@@ -1,0 +1,64 @@
+{
+  "tags": [
+    "service_accounts",
+    "support"
+  ],
+  "summary": "Sends a message to support for the customer account.",
+  "parameters": [
+    {
+      "name": "id",
+      "in": "path",
+      "description": "id of service account to message support for.",
+      "required": true,
+      "schema": {
+        "type": "string"
+      }
+    }
+  ],
+  "requestBody": {
+    "required": true,
+    "content": {
+      "application/json": {
+        "schema": {
+          "$ref": "../../../definitions/support/contact_us_request.json"
+        }
+      }
+    }
+  },
+  "responses": {
+    "400": {
+      "description": "Bad Request",
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "#/components/schemas/error_list"
+          }
+        }
+      }
+    },
+    "200": {
+      "description": "200 returns a success flag",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "Is_Success": {
+                "type": "boolean"
+              }
+            }
+          },
+          "example": {
+            "Is_Success": true
+          }
+        }
+      }
+    },
+    "401": {
+      "description": "Unauthorized"
+    },
+    "404": {
+      "description": "Service Account not found"
+    }
+  }
+}

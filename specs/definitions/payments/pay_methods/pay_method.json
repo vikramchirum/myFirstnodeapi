@@ -16,10 +16,10 @@
       ]
     },
     "CreditCard": {
-      "$ref": "./credit_card.json"
+      "$ref": "../credit_card.json"
     },
     "BankAccount": {
-      "$ref": "./e_check.json"
+      "$ref": "../e_check.json"
     }
   },
   "required": [

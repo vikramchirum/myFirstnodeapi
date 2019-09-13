@@ -1,0 +1,7 @@
+{
+  "/announcements": {
+    "get": {
+      "$ref": "./search.json"
+    }
+  }
+}

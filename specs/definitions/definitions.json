@@ -1,9 +1,18 @@
 {
+  "autopay_request": {
+    "$ref": "./payments/autopay/autopay_request.json"
+  },
   "customer_account": {
     "$ref": "./customer_accounts/customer_account.json"
   },
   "customer_account_patch": {
     "$ref": "./customer_accounts/customer_account_patch.json"
+  },
+  "customer_account_add_note_request": {
+    "$ref": "./customer_accounts/add_note_request.json"
+  },
+  "customer_account_note": {
+    "$ref": "./customer_accounts/note.json"
   },
   "error_list": {
     "$ref": "./error_list.json"
@@ -13,6 +22,9 @@
   },
   "invoice_line_item": {
     "$ref": "./invoices/invoice_line_item.json"
+  },
+  "invoice_meter_read_detail": {
+    "$ref": "./invoices/invoice_meter_read_detail.json"
   },
   "payment_confirmation": {
     "$ref": "./payments/payment_confirmation.json"
@@ -38,10 +50,40 @@
   "pre_auth_request": {
     "$ref": "./auth/pre_auth_request.json"
   },
+  "save_auth_request": {
+    "$ref": "./auth/save_auth_request.json"
+  },
   "service_account": {
     "$ref": "./service_accounts/service_account.json"
   },
   "service_account_auth_request": {
     "$ref": "./auth/service_account_auth_request.json"
+  },
+  "csp_notes_response": {
+    "$ref": "./service_accounts/csp_notes_response.json"
+  },
+  "csp_notes": {
+    "$ref": "./service_accounts/csp_notes.json"
+  },
+  "waiver_request": {
+    "$ref": "./service_accounts/waiver_request.json"
+  },
+  "fuzzy_search_request": {
+    "$ref": "./customer_accounts/fuzzy_search_request.json"
+  },
+  "fuzzy_search_response": {
+    "$ref": "./customer_accounts/fuzzy_search_response.json"
+  },
+  "generate_token_request": {
+    "$ref": "./auth/generate_token_request.json"
+  },
+  "login_request": {
+    "$ref": "./auth/login_request.json"
+  },
+  "pay_method": {
+    "$ref": "./payments/pay_methods/pay_method.json"
+  },
+  "disconnect_letter_info_response": {
+    "$ref": "./customer_correspondence/disconnect_letter_info_response.json"
   }
 }

@@ -11,7 +11,7 @@ const two_digit = function (number) {
 
 const get_version = function () {
     const now = new Date();
-    const branch_name = git.branch(),
+    const branch_name = git.branch().replace('/', '-'),
         short = git.short(),
         year = now.getFullYear(),
         month = now.getMonth() + 1,
@@ -31,7 +31,7 @@ tasks.clean = function () {
 };
 
 tasks.pack = function () {
-    return gulp.src(['**/*', '!coverage{,/**}', '!pkg{,/**}', '!node_modules{,/**}'])
+    return gulp.src(['**/*', '!coverage{,/**}', '!pkg{,/**}'])
         .pipe(gulp_octo.pack('.zip', {version: get_version()}))
         .pipe(gulp.dest('./pkg'));
 };

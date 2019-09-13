@@ -1,0 +1,15 @@
+{
+  "type": "object",
+  "properties": {
+    "DaytimePhone": {
+      "$ref": "../phone_number.json"
+    },
+    "Question": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "Question",
+    "DaytimePhone"
+  ]
+}

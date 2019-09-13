@@ -1,0 +1,77 @@
+{
+  "post": {
+    "tags": [
+      "auth"
+    ],
+    "summary": "Save the authenticated customer/service account based on the input phone number after verifying the customer.",
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "#/components/schemas/save_auth_request"
+          }
+        }
+      }
+    },
+    "responses": {
+      "400": {
+        "description": "Authentication failed",
+        "content": {
+          "text/plain": {
+            "schema": {
+              "$ref": "#/components/schemas/error_list"
+            },
+            "example": "Invalid phone number"
+          }
+        }
+      },
+      "200": {
+        "description": "Ok",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "Customer_Account_Id": {
+                  "description": "Customer Account Id of the pre authorized phone number",
+                  "type": "string"
+                },
+                "Service_Account_Info": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "Service_Account_Id": {
+                        "description": "Service Account Id of the pre authorized phone number",
+                        "type" : "string"
+                      },
+                      "Language": {
+                        "description": "The language the customer choose either EN Or ES",
+                        "type": "string",
+                        "enum": ["EN", "ES"]
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "example": {
+              "Customer_Account_Id": "12345",
+              "Service_Account_Info": [
+                {
+                  "Service_Account_Id": "34567",
+                  "Language": "EN"
+                },
+                {
+                  "Service_Account_Id": "56789",
+                  "Language": "EN"
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}

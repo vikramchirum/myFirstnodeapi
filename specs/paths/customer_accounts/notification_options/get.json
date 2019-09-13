@@ -1,0 +1,78 @@
+{
+  "tags": [
+    "customer_accounts",
+    "notifications"
+  ],
+  "summary": "Retrieves notification options for a customer account id",
+  "parameters": [
+    {
+      "name": "id",
+      "in": "path",
+      "description": "id of customer account to fetch notification options for",
+      "required": true,
+      "schema": {
+        "type": "string"
+      }
+    },
+    {
+      "name": "Type",
+      "in": "query",
+      "description": "type of notification option to search for",
+      "required": false,
+      "schema": {
+        "type": "string",
+        "enum": [
+          "Bill",
+          "Contract_Expiration",
+          "Payment_Due",
+          "Payment_Received"
+        ]
+      }
+    },
+    {
+      "name": "Status",
+      "in": "query",
+      "description": "status of notification option",
+      "required": false,
+      "schema": {
+        "type": "string",
+            "enum": [
+                "Active",
+                "Suspended",
+                "Canceled"
+            ]
+      }
+    }
+  ],
+  "responses": {
+    "400": {
+      "description": "Bad Request",
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "#/components/schemas/error_list"
+          }
+        }
+      }
+    },
+    "200": {
+      "description": "200 returns list of notification options",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "array",
+            "items": {
+              "$ref": "../../../definitions/notification_options/notification_option.json"
+            }
+          }
+        }
+      }
+    },
+    "401": {
+      "description": "Unauthorized"
+    },
+    "404": {
+      "description": "Customer Account not found"
+    }
+  }
+}

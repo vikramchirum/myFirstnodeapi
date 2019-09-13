@@ -1,0 +1,54 @@
+{
+    "type": "object",
+    "properties": {
+        "Id": {
+            "type": "string",
+            "pattern": "^[a-fA-F0-9]{24}$",
+            "readOnly": true
+        },
+        "Date_Created": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true
+        },
+        "Date_Last_Modified": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true
+        },
+        "Type": {
+            "type": "string",
+            "enum": [
+                "Bill",
+                "Contract_Expiration",
+                "Payment_Due",
+                "Payment_Received"
+            ]
+        },
+        "Status": {
+            "type": "string",
+            "enum": [
+                "Active",
+                "Suspended",
+                "Canceled"
+            ]
+        },
+        "Paperless": {
+            "type": "boolean"
+        },
+        "Preferred_Contact_Method": {
+            "type": "string",
+            "enum": [
+                "Email",
+                "Phone"
+            ]
+        },
+        "Email": {
+            "type": "string",
+            "format": "email"
+        },
+        "Phone_Number": {
+            "$ref": "../phone_number.json"
+        }
+    }
+}

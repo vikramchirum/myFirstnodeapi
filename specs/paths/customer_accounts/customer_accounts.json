@@ -1,15 +1,67 @@
 {
   "/customer_accounts/{id}": {
     "get": {
-      "$ref": "./customer_account_get_by_id.json"
+      "$ref": "./get_by_id.json"
     },
     "patch": {
-      "$ref": "./customer_account_update.json"
+      "$ref": "./update.json"
+    }
+  },
+  "/customer_accounts/{id}/past_due": {
+    "get": {
+      "$ref": "./past_due.json"
+    }
+  },
+  "/customer_accounts/{id}/notes": {
+    "post": {
+      "$ref": "./notes/add.json"
+    }
+  },
+  "/customer_accounts/{id}/notes/{count}": {
+    "get": {
+      "$ref": "./notes/get.json"
+    }
+  },
+  "/customer_accounts/{id}/notification_options": {
+    "get": {
+      "$ref": "./notification_options/get.json"
+    },
+    "post": {
+      "$ref": "./notification_options/setup.json"
+    }
+  },
+  "/customer_accounts/{id}/notification_options/{type}": {
+    "get": {
+      "$ref": "./notification_options/get_by_type.json"
+    },
+    "delete": {
+      "$ref": "./notification_options/cancel.json"
     }
   },
   "/customer_accounts/{id}/pay_methods": {
     "get": {
-      "$ref": "./customer_account_pay_methods.json"
+      "$ref": "./pay_methods/get.json"
+    },
+    "post": {
+      "$ref": "./pay_methods/add.json"
+    }
+  },
+  "/customer_accounts/{id}/pay_methods/{pay_method_id}": {
+    "patch": {
+      "$ref": "./pay_methods/patch.json"
+    },
+    "delete": {
+      "$ref": "./pay_methods/delete.json"
+    }
+  },
+  "/customer_accounts/{id}/service_accounts": {
+    "get": {
+      "$ref": "./service_accounts/get.json"
+    }
+  },
+  "/customer_accounts/fuzzy_search": {
+    "post": {
+      "$ref": "./customer_account_fuzzy_search.json"
     }
   }
 }

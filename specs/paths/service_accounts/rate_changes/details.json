@@ -1,21 +1,15 @@
 {
   "tags": [
-    "service_accounts"
+    "service_accounts",
+    "rate_changes"
   ],
-  "summary": "Retrieves service account information by id",
+  "summary": "Retrieves renewal/upgrade details for a service account",
   "parameters": [
     {
-      "name": "service_account_id",
-      "in": "query",
-      "description": "id of service account to search by",
-      "schema": {
-        "type": "string"
-      }
-    },
-    {
-      "name": "customer_account_id",
-      "in": "query",
-      "description": "id of customer account to search by",
+      "name": "id",
+      "in": "path",
+      "description": "id of service account to fetch renewal/upgrade details for",
+      "required": true,
       "schema": {
         "type": "string"
       }
@@ -33,13 +27,13 @@
       }
     },
     "200": {
-      "description": "200 returns a service account",
+      "description": "200 returns budget billing details",
       "content": {
         "application/json": {
           "schema": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/service_account"
+              "$ref": "../../../definitions/rate_changes/rate_change_detail.json"
             }
           }
         }
@@ -49,7 +43,7 @@
       "description": "Unauthorized"
     },
     "404": {
-      "description": "Service Account not found"
+      "description": "No renewal or upgrade details were found"
     }
   }
 }

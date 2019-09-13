@@ -1,4 +1,5 @@
 {
+  "$ref": "./announcements/announcements.json",
   "$ref": "./auth/auth.json",
   "$ref": "./customer_accounts/customer_accounts.json",
   "$ref": "./service_accounts/service_accounts.json"

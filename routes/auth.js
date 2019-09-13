@@ -29,12 +29,29 @@ router.post('/preauth',
     jwt_authorization.verify_claims('Can_Check_For_Pre_Auth', true),
     validation_helper.validation_middleware('pre_auth_request'),
     async function (req, res, next) {
+        try {
+            let phone_number = req.pre_auth_request.Phone_Number;
+            let cache_info = await cache_service.get_by_phone(phone_number);
+            res.send(cache_info);
+        } catch (err) {
+            next(err);
+        }
+    });
 
-        let phone_number = req.pre_auth_request.Phone_Number;
-        let csp_ids = await cache_service.get_by_phone(phone_number);
-        if (csp_ids && csp_ids.length > 0)
-            res.send({Service_Account_Id: csp_ids[0]});
-        res.send(csp_ids);
+router.post('/saveauth',
+    jwt_authorization.middleware({
+        audience: process.env.AUDIENCE,
+        issuer: process.env.INTERNAL_ISSUER
+    }),
+    jwt_authorization.verify_claims('Can_Save_Auth', true),
+    validation_helper.validation_middleware('save_auth_request'),
+    async function (req, res, next) {
+        try {
+            let cache_info = await cache_service.save_auth(req.save_auth_request);
+            res.send(cache_info);
+        } catch (err) {
+            next(err);
+        }
     });
 
 router.post('/generate',
@@ -50,12 +67,8 @@ router.post('/generate',
                 algorithm: 'RS256',
                 audience: audience_list,
                 issuer: process.env.INTERNAL_ISSUER,
-                expiresIn: '1 day',
                 subject: req.generate_token_request.Name
             };
-            if (req.generate_token_request.Expires_In) {
-                options.expiresIn = req.generate_token_request.Expires_In;
-            }
             const payload = {
                 claims: {Is_Admin: true}
             };
@@ -90,8 +103,7 @@ router.post('/',
     validation_helper.validation_middleware('login_request'),
     async function (req, res, next) {
         try {
-            let response = await external_api.post('/api/user/authenticate', req.body);
-            let user_creds = response.body;
+            let user_creds = await external_api.post('/api/user/authenticate', req.body);
             let payload = {
                 Email: user_creds.Profile.Email_Address,
                 claims: {}

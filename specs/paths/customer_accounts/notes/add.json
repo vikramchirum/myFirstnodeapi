@@ -1,0 +1,64 @@
+{
+  "tags": [
+    "customer_accounts",
+    "notes"
+  ],
+  "summary": "Adds a note to the customer account.",
+  "parameters": [
+    {
+      "name": "id",
+      "in": "path",
+      "description": "id of customer account to which note is added.",
+      "required": true,
+      "schema": {
+        "type": "string"
+      }
+    }
+  ],
+  "requestBody": {
+    "required": true,
+    "content": {
+      "application/json": {
+        "schema": {
+          "$ref": "#/components/schemas/customer_account_add_note_request"
+        }
+      }
+    }
+  },
+  "responses": {
+    "400": {
+      "description": "Bad Request",
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "#/components/schemas/error_list"
+          }
+        }
+      }
+    },
+    "200": {
+      "description": "200 returns a success flag",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "Is_Success": {
+                "type": "boolean"
+              }
+            }
+          },
+          "example": {
+            "Is_Success": true
+          }
+        }
+      }
+    },
+    "401": {
+      "description": "Unauthorized"
+    },
+    "404": {
+      "description": "Customer not found"
+    }
+  }
+}
