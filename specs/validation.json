@@ -334,7 +334,8 @@
             "Social_Security_Number",
             "Drivers_License",
             "Date_Of_Birth",
-            "Account_Password"
+            "Account_Password",
+            "Security_Question"
           ]
         }
       },

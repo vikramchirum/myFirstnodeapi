@@ -75,7 +75,7 @@ app.use(function (err, req, res, next) {
     }
     else {
 
-        logger.error({
+        logger.log({
             message: err.message,
             stack: err.stack,
             error: err,
@@ -85,7 +85,6 @@ app.use(function (err, req, res, next) {
             request_params: req.params,
             request_query: req.query
         });
-
 
         if (err.name === 'MongoError' && err.message.includes('duplicate')) {
             res.status(409);

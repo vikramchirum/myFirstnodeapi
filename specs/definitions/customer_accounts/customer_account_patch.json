@@ -5,6 +5,10 @@
       "type": "string",
       "format": "email"
     },
+    "Language": {
+      "type": "string",
+      "enum": ["en", "es"]
+    },
     "Primary_Phone_Number": {
       "$ref": "../phone_number.json"
     }

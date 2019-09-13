@@ -1,0 +1,22 @@
+{
+  "type": "object",
+  "properties": {
+    "Service_Stop_Date": {
+      "type": "string",
+      "format": "date",
+      "description": "Date when the service account is disconnected/moved out."
+    },
+    "Is_Final_Bill_To_Old_Billing_Address": {
+      "type": "boolean",
+      "description": "Flag indicating if the final bill needs to be sent to the old address."
+    },
+    "Final_Bill_Address": {
+      "$ref": "../address.json",
+      "description": "Final bill address after service account is disconnected."
+    }
+  },
+  "required": [
+    "Service_Stop_Date",
+    "Is_Final_Bill_To_Old_Billing_Address"
+  ]
+}
