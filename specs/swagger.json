@@ -377,27 +377,11 @@
       }
     },
     "/auth/refresh": {
-      "post": {
-        "security": [],
+      "get": {
         "tags": [
           "auth"
         ],
         "summary": "Gets new access token using a refresh token",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "refresh_token": {
-                    "type": "string"
-                  }
-                }
-              }
-            }
-          }
-        },
         "responses": {
           "200": {
             "description": "Ok",

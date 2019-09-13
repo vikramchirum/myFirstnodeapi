@@ -1,0 +1,17 @@
+{
+  "$ref": "./disconnect_request.json",
+  "if": {
+    "properties": {
+      "Is_Final_Bill_To_Old_Billing_Address": {
+        "enum": [
+          true
+        ]
+      }
+    }
+  },
+  "then": {
+    "required": [
+      "Final_Bill_Address"
+    ]
+  }
+}

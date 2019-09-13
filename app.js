@@ -1,6 +1,15 @@
 require('dotenv').config();
+const package = require('./package');
 
 const express = require('express');
+
+const Sentry = require('@sentry/node');
+Sentry.init({
+    dsn: 'https://794935177d3a42d7aad3bbdfc9d964fe@sentry.io/1725905',
+    environment: process.env.ENV,
+    release: package.name + '@' + package.version
+});
+
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const logger = require('log-driver')({ level: 'info' });
@@ -18,6 +27,11 @@ let swaggerUi = require('swagger-ui-express'),
 
 let app = express();
 
+app.use(Sentry.Handlers.requestHandler({
+    user: ['sub', 'aud']
+}));
+
+app.use(morgan('combined'));
 //app.use(morgan(logger.format, { stream: logger.loggerstream }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -57,6 +71,8 @@ app.use(function (req, res, next) {
     next(err);
 });
 
+app.use(Sentry.Handlers.errorHandler());
+
 // error handler
 app.use(function (err, req, res, next) {
     // set locals, only providing error in development
@@ -75,7 +91,7 @@ app.use(function (err, req, res, next) {
     }
     else {
 
-        logger.error({
+        logger.log({
             message: err.message,
             stack: err.stack,
             error: err,
@@ -86,14 +102,13 @@ app.use(function (err, req, res, next) {
             request_query: req.query
         });
 
-
         if (err.name === 'MongoError' && err.message.includes('duplicate')) {
             res.status(409);
             res.send({ Messsage: err.message });
         }
         else {
             res.status(err.status || 500);
-            res.send({ Message: 'Uh Oh... an error occured. We are already working on it.' });
+            res.send({Message: 'Uh Oh... an error occured. We are already working on it. Ref_Num: ' + res.sentry});
         }
     }
 });
