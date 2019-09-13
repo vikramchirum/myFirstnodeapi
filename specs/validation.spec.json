@@ -1,5 +1,8 @@
 {
   "definitions": {
+    "service_account_patch": {
+      "$ref": "./definitions/service_accounts/service_account_patch.json"
+    },
     "customer_account_patch": {
       "$ref": "./definitions/customer_accounts/customer_account_patch.spec.json"
     },

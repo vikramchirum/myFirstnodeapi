@@ -5,11 +5,11 @@ const service_account_service = require('../../lib/services/service_account_serv
 const validation_helper = require('../../lib/helpers/validation.helper');
 
 router.use('/:id/auth', require('./service_accounts.auth'));
-
+/*
 router.use(jwt_authorization.middleware({
     audience: process.env.AUDIENCE,
     issuer: [process.env.CUSTOMER_ISSUER, process.env.INTERNAL_ISSUER]
-}));
+})); */
 
 router.use('/:id/invoices', require('./service_accounts.invoices'));
 
@@ -115,5 +115,23 @@ router.put('/:id/Disconnect',
                }
            }
 );
+
+router.patch('/:id',
+    validation_helper.validation_middleware('service_account_patch'),
+    async function (req, res, next) {
+        try {
+            let updated_service_account = await service_account_service.update(req.params.id, req.service_account_patch);
+            if (updated_service_account) {
+                res.send(format_customer_response(req.user, updated_service_account));
+            }
+            else{
+                res.sendStatus(404);
+            }
+        }
+        catch (err) {
+            next(err);
+        }
+    });
+
 
 module.exports = router;
