@@ -1,7 +1,6 @@
 const express = require('express');
-const router = express.Router({mergeParams: true});
+const router = express.Router({ mergeParams: true });
 const service_account_service = require('../../lib/services/service_account_service');
-const validation_helper = require('../../lib/helpers/validation.helper');
 
 router.use('/autopay', require('./service_accounts.autopay'));
 
@@ -12,7 +11,7 @@ router.use('/invoices', require('./service_accounts.invoices'));
 router.get('/Meter_Read_Details/:count',
     async function (req, res, next) {
         try {
-            if (!req.params.count || req.params.count === "0") {
+            if(!req.params.count || req.params.count === "0") {
                 req.params.count = 20;
             }
 
