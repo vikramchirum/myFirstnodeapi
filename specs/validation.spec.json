@@ -1,5 +1,11 @@
 {
   "definitions": {
+    "autopay_request": {
+      "$ref": "./definitions/payments/autopay/autopay_request.json"
+    },
+    "budget_billing_sign_up_request": {
+      "$ref": "./definitions/budget_billing/budget_billing_sign_up_request.json"
+    },
     "customer_account_patch": {
       "$ref": "./definitions/customer_accounts/customer_account_patch.spec.json"
     },
@@ -12,8 +18,17 @@
     "payment_extension_request": {
       "$ref": "./definitions/payments/extensions/payment_extension_request.json"
     },
+    "notification_option_create_request": {
+      "$ref": "./definitions/notification_options/notification_option_create_request.json"
+    },
     "waiver_request": {
       "$ref": "./definitions/service_accounts/waiver_request.json"
+    },
+    "pay_method_create_request": {
+      "$ref": "./definitions/payments/pay_methods/pay_method_create_request.json"
+    },
+    "pay_method_update_request": {
+      "$ref": "./definitions/payments/pay_methods/pay_method_update_request.json"
     },
     "payment_request": {
       "$ref": "./definitions/payments/payment_request.json"
@@ -27,11 +42,11 @@
     "fuzzy_search_request": {
       "$ref": "./definitions/customer_accounts/fuzzy_search_request.json"
     },
-    "customer_account_add_note_request" : {
+    "customer_account_add_note_request": {
       "$ref": "./definitions/customer_accounts/add_note_request.json"
     },
-    "disconnect_request" : {
-      "$ref": "./definitions/service_accounts/disconnect_request.schema.json"
+    "contact_us_request": {
+      "$ref": "./definitions/support/contact_us_request.json"
     }
   }
 }

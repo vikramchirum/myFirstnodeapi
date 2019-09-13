@@ -1,0 +1,65 @@
+{
+  "tags": [
+    "customer_accounts",
+    "payments"
+  ],
+  "summary": "Allows updating cvv and expiration date of a pay method",
+  "parameters": [
+    {
+      "name": "id",
+      "in": "path",
+      "description": "id of customer account the pay method belongs to",
+      "required": true,
+      "schema": {
+        "type": "string"
+      }
+    },
+    {
+      "name": "pay_method_id",
+      "in": "path",
+      "description": "Id of the pay method to modify",
+      "required": true,
+      "schema": {
+        "type": "integer"
+      }
+    }
+  ],
+  "requestBody": {
+    "required": true,
+    "content": {
+      "application/json": {
+        "schema": {
+          "$ref": "../../../definitions/payments/pay_methods/pay_method_update_request.json"
+        }
+      }
+    }
+  },
+  "responses": {
+    "400": {
+      "description": "Bad Request",
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "#/components/schemas/error_list"
+          }
+        }
+      }
+    },
+    "200": {
+      "description": "200 returns a pay method",
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "../../../definitions/payments/pay_methods/pay_method.json"
+          }
+        }
+      }
+    },
+    "401": {
+      "description": "Unauthorized"
+    },
+    "404": {
+      "description": "Customer Account not found"
+    }
+  }
+}

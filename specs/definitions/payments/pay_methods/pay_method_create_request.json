@@ -1,0 +1,10 @@
+{
+    "type": "object",
+    "properties": {
+        "Token": {
+            "description": "temporary use token issued from the payment vendor",
+            "type": "string",
+            "pattern": "^ott_"
+        }
+    }
+}

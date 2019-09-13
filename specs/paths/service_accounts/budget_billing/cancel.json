@@ -1,0 +1,39 @@
+{
+  "tags": [
+    "service_accounts",
+    "budget_billing"
+  ],
+  "summary": "Cancels budget billing for a service account id",
+  "parameters": [
+    {
+      "name": "id",
+      "in": "path",
+      "description": "id of service account to cancel budget billing for",
+      "required": true,
+      "schema": {
+        "type": "string"
+      }
+    }
+  ],
+  "responses": {
+    "400": {
+      "description": "Bad Request",
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "#/components/schemas/error_list"
+          }
+        }
+      }
+    },
+    "200": {
+      "description": "200 returns OK"
+    },
+    "401": {
+      "description": "Unauthorized"
+    },
+    "404": {
+      "description": "Service Account not found"
+    }
+  }
+}

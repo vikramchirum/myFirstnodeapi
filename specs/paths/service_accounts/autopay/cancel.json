@@ -1,0 +1,39 @@
+{
+  "tags": [
+    "service_accounts",
+    "payments"
+  ],
+  "summary": "Cancels autopay for service account id",
+  "parameters": [
+    {
+      "name": "id",
+      "in": "path",
+      "description": "id of service account to cancel autopay for",
+      "required": true,
+      "schema": {
+        "type": "string"
+      }
+    }
+  ],
+  "responses": {
+    "400": {
+      "description": "Bad Request",
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "#/components/schemas/error_list"
+          }
+        }
+      }
+    },
+    "200": {
+      "description": "Autopay canceled"
+    },
+    "401": {
+      "description": "Unauthorized"
+    },
+    "404": {
+      "description": "Service Account or autopay not found"
+    }
+  }
+}

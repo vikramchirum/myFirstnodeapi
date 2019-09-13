@@ -1,5 +1,24 @@
 {
   "definitions": {
+    "autopay_request": {
+      "type": "object",
+      "properties": {
+        "pay_method_id": {
+          "type": "string"
+        }
+      }
+    },
+    "budget_billing_sign_up_request": {
+      "type": "object",
+      "properties": {
+        "Amount": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "Amount"
+      ]
+    },
     "customer_account_patch": {
       "type": "object",
       "properties": {
@@ -93,6 +112,74 @@
         }
       }
     },
+    "notification_option_create_request": {
+      "type": "object",
+      "properties": {
+        "Type": {
+          "type": "string",
+          "enum": [
+            "Bill",
+            "Contract_Expiration",
+            "Payment_Due",
+            "Payment_Received"
+          ]
+        },
+        "Paperless": {
+          "type": "boolean"
+        },
+        "Preferred_Contact_Method": {
+          "type": "string",
+          "enum": [
+            "Email",
+            "Phone"
+          ]
+        },
+        "Email": {
+          "type": "string",
+          "format": "email"
+        },
+        "Phone_Number": {
+          "type": "object",
+          "properties": {
+            "Type": {
+              "type": "string",
+              "enum": [
+                "Landline",
+                "Mobile"
+              ]
+            },
+            "Area_Code": {
+              "type": "string",
+              "minLength": 3,
+              "maxLength": 3,
+              "pattern": "^\\d{3}$"
+            },
+            "Number": {
+              "type": "string",
+              "minLength": 7,
+              "maxLength": 7,
+              "pattern": "^\\d{7}$"
+            },
+            "Extension": {
+              "type": "string"
+            },
+            "Agree_To_Marketing": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "Type",
+            "Area_Code",
+            "Number"
+          ]
+        }
+      },
+      "required": [
+        "Type",
+        "Paperless",
+        "Preferred_Contact_Method"
+      ]
+    },
     "waiver_request": {
       "type": "object",
       "properties": {
@@ -119,6 +206,34 @@
         "FeeCreationDate",
         "FeeWaiverType"
       ]
+    },
+    "pay_method_create_request": {
+      "type": "object",
+      "properties": {
+        "Token": {
+          "description": "temporary use token issued from the payment vendor",
+          "type": "string",
+          "pattern": "^ott_"
+        }
+      }
+    },
+    "pay_method_update_request": {
+      "type": "object",
+      "properties": {
+        "CVVNumber": {
+          "description": "new cvv of the credit card",
+          "type": "string",
+          "pattern": "^\\d{3}$"
+        },
+        "ExpirationMonth": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 12
+        },
+        "ExpirationYear": {
+          "type": "integer"
+        }
+      }
     },
     "payment_request": {
       "oneOf": [
@@ -291,123 +406,52 @@
         "Note_Type"
       ]
     },
-    "disconnect_request": {
+    "contact_us_request": {
       "type": "object",
       "properties": {
-        "Service_Stop_Date": {
-          "type": "string",
-          "format": "date",
-          "description": "Date when the service account is disconnected/moved out."
-        },
-        "Is_Final_Bill_To_Old_Billing_Address": {
-          "type": "boolean",
-          "description": "Flag indicating if the final bill needs to be sent to the old address."
-        },
-        "Final_Bill_Address": {
+        "DaytimePhone": {
           "type": "object",
           "properties": {
-            "Line_1": {
-              "type": "string"
-            },
-            "Line_2": {
-              "type": "string"
-            },
-            "City": {
-              "type": "string",
-              "pattern": "^[A-Za-z\\s\\-\\.]*$"
-            },
-            "State": {
+            "Type": {
               "type": "string",
               "enum": [
-                "AL",
-                "AK",
-                "AR",
-                "AZ",
-                "CA",
-                "CO",
-                "CT",
-                "DC",
-                "DE",
-                "FL",
-                "GA",
-                "HI",
-                "IA",
-                "ID",
-                "IL",
-                "IN",
-                "KS",
-                "KY",
-                "LA",
-                "MA",
-                "MD",
-                "ME",
-                "MI",
-                "MN",
-                "MO",
-                "MS",
-                "MT",
-                "NC",
-                "NE",
-                "NH",
-                "NJ",
-                "NM",
-                "NV",
-                "NY",
-                "ND",
-                "OH",
-                "OK",
-                "OR",
-                "PA",
-                "RI",
-                "SC",
-                "SD",
-                "TN",
-                "TX",
-                "UT",
-                "VT",
-                "VA",
-                "WA",
-                "WI",
-                "WV",
-                "WY"
+                "Landline",
+                "Mobile"
               ]
             },
-            "Zip": {
+            "Area_Code": {
               "type": "string",
-              "pattern": "^\\d{5}$"
+              "minLength": 3,
+              "maxLength": 3,
+              "pattern": "^\\d{3}$"
             },
-            "Zip_4": {
+            "Number": {
               "type": "string",
-              "pattern": "^\\d{4}$"
+              "minLength": 7,
+              "maxLength": 7,
+              "pattern": "^\\d{7}$"
+            },
+            "Extension": {
+              "type": "string"
+            },
+            "Agree_To_Marketing": {
+              "type": "boolean"
             }
           },
           "required": [
-            "Line_1",
-            "City",
-            "State",
-            "Zip"
-          ],
-          "description": "Final bill address after service account is disconnected."
+            "Type",
+            "Area_Code",
+            "Number"
+          ]
+        },
+        "Question": {
+          "type": "string"
         }
       },
       "required": [
-        "Service_Stop_Date",
-        "Is_Final_Bill_To_Old_Billing_Address"
-      ],
-      "if": {
-        "properties": {
-          "Is_Final_Bill_To_Old_Billing_Address": {
-            "enum": [
-              true
-            ]
-          }
-        }
-      },
-      "then": {
-        "required": [
-          "Final_Bill_Address"
-        ]
-      }
+        "Question",
+        "DaytimePhone"
+      ]
     }
   }
 }

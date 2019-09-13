@@ -1,0 +1,58 @@
+{
+  "tags": [
+    "customer_accounts",
+    "payments"
+  ],
+  "summary": "Retrieves payment methods for a customer by id",
+  "parameters": [
+    {
+      "name": "id",
+      "in": "path",
+      "description": "id of customer to fetch payment methods for",
+      "required": true,
+      "schema": {
+        "type": "string"
+      }
+    },
+    {
+      "name": "active",
+      "in": "query",
+      "description": "active status of pay method",
+      "required": false,
+      "schema": {
+        "type": "boolean"
+      }
+    }
+  ],
+  "responses": {
+    "400": {
+      "description": "Bad Request",
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "#/components/schemas/error_list"
+          }
+        }
+      }
+    },
+    "200": {
+      "description": "200 returns a list of pay methods",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/pay_method"
+            }
+          }
+        }
+      }
+    },
+    "401": {
+      "description": "Unauthorized"
+    },
+    "404": {
+      "description": "No payment methods not found"
+    }
+  }
+}

@@ -1,0 +1,32 @@
+{
+    "type": "object",
+    "properties": {
+        "TotalKWH": {
+            "type": "number"
+        },
+        "TotalMonths": {
+            "type": "number"
+        },
+        "Amount": {
+            "type": "number"
+        },
+        "AverageKWH": {
+            "type": "number"
+        },
+        "IsBudgetBillingDefaultAmount": {
+            "type": "boolean"
+        },
+        "Variance": {
+            "type": "number"
+        },
+        "Past_Due": {
+            "type": "number"
+        },
+        "Check_Past_Due": {
+            "type": "number"
+        },
+        "IsVarianceBillGenerated": {
+            "type": "boolean"
+        }
+    }
+}

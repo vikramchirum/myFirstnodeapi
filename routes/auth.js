@@ -103,8 +103,7 @@ router.post('/',
     validation_helper.validation_middleware('login_request'),
     async function (req, res, next) {
         try {
-            let response = await external_api.post('/api/user/authenticate', req.body);
-            let user_creds = response.body;
+            let user_creds = await external_api.post('/api/user/authenticate', req.body);
             let payload = {
                 Email: user_creds.Profile.Email_Address,
                 claims: {}

@@ -1,0 +1,36 @@
+{
+    "type": "object",
+    "properties":{
+        "Type": {
+            "type": "string",
+            "enum": [
+                "Bill",
+                "Contract_Expiration",
+                "Payment_Due",
+                "Payment_Received"
+            ]
+        },
+        "Paperless": {
+            "type": "boolean"
+        },
+        "Preferred_Contact_Method": {
+            "type": "string",
+            "enum": [
+                "Email",
+                "Phone"
+            ]
+        },
+        "Email": {
+            "type": "string",
+            "format": "email"
+        },
+        "Phone_Number": {
+            "$ref": "../phone_number.json"
+        }
+    },
+    "required": [
+        "Type",
+        "Paperless",
+        "Preferred_Contact_Method"
+    ]
+}
