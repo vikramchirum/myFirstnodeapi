@@ -12,8 +12,8 @@
     },
     "ExpirationMonth": {
       "type": "integer",
-      "min": 1,
-      "max": 12
+      "minimum": 1,
+      "maximum": 12
     },
     "Type": {
       "type": "string",

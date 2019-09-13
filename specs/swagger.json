@@ -12,7 +12,13 @@
   ],
   "tags": [
     {
+      "name": "announcements"
+    },
+    {
       "name": "auth"
+    },
+    {
+      "name": "budget_billing"
     },
     {
       "name": "customer_accounts"
@@ -21,13 +27,88 @@
       "name": "invoices"
     },
     {
+      "name": "notes"
+    },
+    {
+      "name": "notifications"
+    },
+    {
       "name": "payments"
     },
     {
+      "name": "rate_changes"
+    },
+    {
       "name": "service_accounts"
+    },
+    {
+      "name": "support"
     }
   ],
   "paths": {
+    "/announcements": {
+      "get": {
+        "tags": [
+          "announcements"
+        ],
+        "summary": "Retrieves announcements by search criteria",
+        "parameters": [
+          {
+            "name": "Active",
+            "in": "query",
+            "description": "Active flag of the announcement",
+            "required": true,
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 returns a list of announcements",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "Title": {
+                        "type": "string"
+                      },
+                      "Body": {
+                        "type": "string"
+                      },
+                      "Start_Date": {
+                        "type": "string",
+                        "format": "date-time"
+                      },
+                      "End_Date": {
+                        "type": "string",
+                        "format": "date-time"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_list"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
     "/auth": {
       "post": {
         "security": [],
@@ -40,15 +121,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "Username": {
-                    "type": "string"
-                  },
-                  "Password": {
-                    "type": "string"
-                  }
-                }
+                "$ref": "#/components/schemas/login_request"
               }
             }
           }
@@ -101,21 +174,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "Name": {
-                    "description": "Name of the user who the token will be issued for",
-                    "type": "string"
-                  },
-                  "Expires_In": {
-                    "description": "Number of seconds for the token to live for.  Defaults to 1 day or 86,400 seconds.  Max is one day.",
-                    "type": "integer",
-                    "max": 86400
-                  }
-                },
-                "required": [
-                  "Name"
-                ]
+                "$ref": "#/components/schemas/generate_token_request"
               }
             }
           }
@@ -167,7 +226,9 @@
           "required": true,
           "content": {
             "application/json": {
-              "$ref": "#/components/schemas/pre_auth_request"
+              "schema": {
+                "$ref": "#/components/schemas/pre_auth_request"
+              }
             }
           }
         },
@@ -179,13 +240,125 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "Service_Account_Id": {
-                      "description": "service account id of the pre authorized phone number",
+                    "Customer_Account_Id": {
+                      "description": "Customer Account Id of the pre authorized phone number",
                       "type": "string"
+                    },
+                    "Service_Account_Info": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "Service_Account_Id": {
+                            "description": "Service Account Id of the pre authorized phone number",
+                            "type": "string"
+                          },
+                          "Language": {
+                            "description": "The language the customer choose either EN Or ES",
+                            "type": "string",
+                            "enum": [
+                              "EN",
+                              "ES"
+                            ]
+                          }
+                        }
+                      }
                     }
                   }
                 },
-                "example": "1234567"
+                "example": {
+                  "Customer_Account_Id": "12345",
+                  "Service_Account_Info": [
+                    {
+                      "Service_Account_Id": "34567",
+                      "Language": "EN"
+                    },
+                    {
+                      "Service_Account_Id": "56789",
+                      "Language": "EN"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Authentication failed",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_list"
+                },
+                "example": "Invalid phone number"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/saveauth": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Save the authenticated customer/service account based on the input phone number after verifying the customer.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/save_auth_request"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Customer_Account_Id": {
+                      "description": "Customer Account Id of the pre authorized phone number",
+                      "type": "string"
+                    },
+                    "Service_Account_Info": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "Service_Account_Id": {
+                            "description": "Service Account Id of the pre authorized phone number",
+                            "type": "string"
+                          },
+                          "Language": {
+                            "description": "The language the customer choose either EN Or ES",
+                            "type": "string",
+                            "enum": [
+                              "EN",
+                              "ES"
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "Customer_Account_Id": "12345",
+                  "Service_Account_Info": [
+                    {
+                      "Service_Account_Id": "34567",
+                      "Language": "EN"
+                    },
+                    {
+                      "Service_Account_Id": "56789",
+                      "Language": "EN"
+                    }
+                  ]
+                }
               }
             }
           },
@@ -337,6 +510,836 @@
         }
       }
     },
+    "/customer_accounts/{id}/past_due": {
+      "get": {
+        "tags": [
+          "customer_accounts"
+        ],
+        "summary": "Retrieves customer past due amount by id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of customer to get past due amount",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 returns a customer account past due amount",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "number"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_list"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Customer not found"
+          }
+        }
+      }
+    },
+    "/customer_accounts/{id}/notes": {
+      "post": {
+        "tags": [
+          "customer_accounts",
+          "notes"
+        ],
+        "summary": "Adds a note to the customer account.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of customer account to which note is added.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/customer_account_add_note_request"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "200 returns a success flag",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Is_Success": {
+                      "type": "boolean"
+                    }
+                  }
+                },
+                "example": {
+                  "Is_Success": true
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_list"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Customer not found"
+          }
+        }
+      }
+    },
+    "/customer_accounts/{id}/notes/{count}": {
+      "get": {
+        "tags": [
+          "customer_accounts",
+          "notes"
+        ],
+        "summary": "Retrieves the notes for the customer account.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of customer account to retrieve the notes",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "count",
+            "in": "path",
+            "description": "count of the notes to be retrieved",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 returns a list of customer account notes",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/customer_account_note"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_list"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Customer Account not found"
+          }
+        }
+      }
+    },
+    "/customer_accounts/{id}/notification_options": {
+      "get": {
+        "tags": [
+          "customer_accounts",
+          "notifications"
+        ],
+        "summary": "Retrieves notification options for a customer account id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of customer account to fetch notification options for",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Type",
+            "in": "query",
+            "description": "type of notification option to search for",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "Bill",
+                "Contract_Expiration",
+                "Payment_Due",
+                "Payment_Received"
+              ]
+            }
+          },
+          {
+            "name": "Status",
+            "in": "query",
+            "description": "status of notification option",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "Active",
+                "Suspended",
+                "Canceled"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 returns list of notification options",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "Id": {
+                        "type": "string",
+                        "pattern": "^[a-fA-F0-9]{24}$",
+                        "readOnly": true
+                      },
+                      "Date_Created": {
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": true
+                      },
+                      "Date_Last_Modified": {
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": true
+                      },
+                      "Type": {
+                        "type": "string",
+                        "enum": [
+                          "Bill",
+                          "Contract_Expiration",
+                          "Payment_Due",
+                          "Payment_Received"
+                        ]
+                      },
+                      "Status": {
+                        "type": "string",
+                        "enum": [
+                          "Active",
+                          "Suspended",
+                          "Canceled"
+                        ]
+                      },
+                      "Paperless": {
+                        "type": "boolean"
+                      },
+                      "Preferred_Contact_Method": {
+                        "type": "string",
+                        "enum": [
+                          "Email",
+                          "Phone"
+                        ]
+                      },
+                      "Email": {
+                        "type": "string",
+                        "format": "email"
+                      },
+                      "Phone_Number": {
+                        "type": "object",
+                        "properties": {
+                          "Type": {
+                            "type": "string",
+                            "enum": [
+                              "Landline",
+                              "Mobile"
+                            ]
+                          },
+                          "Area_Code": {
+                            "type": "string",
+                            "minLength": 3,
+                            "maxLength": 3,
+                            "pattern": "^\\d{3}$"
+                          },
+                          "Number": {
+                            "type": "string",
+                            "minLength": 7,
+                            "maxLength": 7,
+                            "pattern": "^\\d{7}$"
+                          },
+                          "Extension": {
+                            "type": "string"
+                          },
+                          "Agree_To_Marketing": {
+                            "type": "boolean"
+                          }
+                        },
+                        "required": [
+                          "Type",
+                          "Area_Code",
+                          "Number"
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_list"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Customer Account not found"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "customer_accounts",
+          "notifications"
+        ],
+        "summary": "Set notification option",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of customer account to set notification option for",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "Type": {
+                    "type": "string",
+                    "enum": [
+                      "Bill",
+                      "Contract_Expiration",
+                      "Payment_Due",
+                      "Payment_Received"
+                    ]
+                  },
+                  "Paperless": {
+                    "type": "boolean"
+                  },
+                  "Preferred_Contact_Method": {
+                    "type": "string",
+                    "enum": [
+                      "Email",
+                      "Phone"
+                    ]
+                  },
+                  "Email": {
+                    "type": "string",
+                    "format": "email"
+                  },
+                  "Phone_Number": {
+                    "type": "object",
+                    "properties": {
+                      "Type": {
+                        "type": "string",
+                        "enum": [
+                          "Landline",
+                          "Mobile"
+                        ]
+                      },
+                      "Area_Code": {
+                        "type": "string",
+                        "minLength": 3,
+                        "maxLength": 3,
+                        "pattern": "^\\d{3}$"
+                      },
+                      "Number": {
+                        "type": "string",
+                        "minLength": 7,
+                        "maxLength": 7,
+                        "pattern": "^\\d{7}$"
+                      },
+                      "Extension": {
+                        "type": "string"
+                      },
+                      "Agree_To_Marketing": {
+                        "type": "boolean"
+                      }
+                    },
+                    "required": [
+                      "Type",
+                      "Area_Code",
+                      "Number"
+                    ]
+                  }
+                },
+                "required": [
+                  "Type",
+                  "Paperless",
+                  "Preferred_Contact_Method"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "200 returns a notification option",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Id": {
+                      "type": "string",
+                      "pattern": "^[a-fA-F0-9]{24}$",
+                      "readOnly": true
+                    },
+                    "Date_Created": {
+                      "type": "string",
+                      "format": "date-time",
+                      "readOnly": true
+                    },
+                    "Date_Last_Modified": {
+                      "type": "string",
+                      "format": "date-time",
+                      "readOnly": true
+                    },
+                    "Type": {
+                      "type": "string",
+                      "enum": [
+                        "Bill",
+                        "Contract_Expiration",
+                        "Payment_Due",
+                        "Payment_Received"
+                      ]
+                    },
+                    "Status": {
+                      "type": "string",
+                      "enum": [
+                        "Active",
+                        "Suspended",
+                        "Canceled"
+                      ]
+                    },
+                    "Paperless": {
+                      "type": "boolean"
+                    },
+                    "Preferred_Contact_Method": {
+                      "type": "string",
+                      "enum": [
+                        "Email",
+                        "Phone"
+                      ]
+                    },
+                    "Email": {
+                      "type": "string",
+                      "format": "email"
+                    },
+                    "Phone_Number": {
+                      "type": "object",
+                      "properties": {
+                        "Type": {
+                          "type": "string",
+                          "enum": [
+                            "Landline",
+                            "Mobile"
+                          ]
+                        },
+                        "Area_Code": {
+                          "type": "string",
+                          "minLength": 3,
+                          "maxLength": 3,
+                          "pattern": "^\\d{3}$"
+                        },
+                        "Number": {
+                          "type": "string",
+                          "minLength": 7,
+                          "maxLength": 7,
+                          "pattern": "^\\d{7}$"
+                        },
+                        "Extension": {
+                          "type": "string"
+                        },
+                        "Agree_To_Marketing": {
+                          "type": "boolean"
+                        }
+                      },
+                      "required": [
+                        "Type",
+                        "Area_Code",
+                        "Number"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_list"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Customer Account not found"
+          }
+        }
+      }
+    },
+    "/customer_accounts/{id}/notification_options/{type}": {
+      "get": {
+        "tags": [
+          "customer_accounts",
+          "notifications"
+        ],
+        "summary": "Retrieves notification options of a specified type for a customer account id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of customer account to fetch notification options for",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "type",
+            "in": "path",
+            "description": "type of notification option to search for",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "Bill",
+                "Contract_Expiration",
+                "Payment_Due",
+                "Payment_Received"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 returns a single notification options",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Id": {
+                      "type": "string",
+                      "pattern": "^[a-fA-F0-9]{24}$",
+                      "readOnly": true
+                    },
+                    "Date_Created": {
+                      "type": "string",
+                      "format": "date-time",
+                      "readOnly": true
+                    },
+                    "Date_Last_Modified": {
+                      "type": "string",
+                      "format": "date-time",
+                      "readOnly": true
+                    },
+                    "Type": {
+                      "type": "string",
+                      "enum": [
+                        "Bill",
+                        "Contract_Expiration",
+                        "Payment_Due",
+                        "Payment_Received"
+                      ]
+                    },
+                    "Status": {
+                      "type": "string",
+                      "enum": [
+                        "Active",
+                        "Suspended",
+                        "Canceled"
+                      ]
+                    },
+                    "Paperless": {
+                      "type": "boolean"
+                    },
+                    "Preferred_Contact_Method": {
+                      "type": "string",
+                      "enum": [
+                        "Email",
+                        "Phone"
+                      ]
+                    },
+                    "Email": {
+                      "type": "string",
+                      "format": "email"
+                    },
+                    "Phone_Number": {
+                      "type": "object",
+                      "properties": {
+                        "Type": {
+                          "type": "string",
+                          "enum": [
+                            "Landline",
+                            "Mobile"
+                          ]
+                        },
+                        "Area_Code": {
+                          "type": "string",
+                          "minLength": 3,
+                          "maxLength": 3,
+                          "pattern": "^\\d{3}$"
+                        },
+                        "Number": {
+                          "type": "string",
+                          "minLength": 7,
+                          "maxLength": 7,
+                          "pattern": "^\\d{7}$"
+                        },
+                        "Extension": {
+                          "type": "string"
+                        },
+                        "Agree_To_Marketing": {
+                          "type": "boolean"
+                        }
+                      },
+                      "required": [
+                        "Type",
+                        "Area_Code",
+                        "Number"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_list"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Customer Account not found"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "customer_accounts",
+          "notifications"
+        ],
+        "summary": "Cancels a notification options of a specified type and customer account id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of customer account to cancel notification option for",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "type",
+            "in": "path",
+            "description": "type of notification option to cancel",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "Bill",
+                "Contract_Expiration",
+                "Payment_Due",
+                "Payment_Received"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 returns a single notification options",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Id": {
+                      "type": "string",
+                      "pattern": "^[a-fA-F0-9]{24}$",
+                      "readOnly": true
+                    },
+                    "Date_Created": {
+                      "type": "string",
+                      "format": "date-time",
+                      "readOnly": true
+                    },
+                    "Date_Last_Modified": {
+                      "type": "string",
+                      "format": "date-time",
+                      "readOnly": true
+                    },
+                    "Type": {
+                      "type": "string",
+                      "enum": [
+                        "Bill",
+                        "Contract_Expiration",
+                        "Payment_Due",
+                        "Payment_Received"
+                      ]
+                    },
+                    "Status": {
+                      "type": "string",
+                      "enum": [
+                        "Active",
+                        "Suspended",
+                        "Canceled"
+                      ]
+                    },
+                    "Paperless": {
+                      "type": "boolean"
+                    },
+                    "Preferred_Contact_Method": {
+                      "type": "string",
+                      "enum": [
+                        "Email",
+                        "Phone"
+                      ]
+                    },
+                    "Email": {
+                      "type": "string",
+                      "format": "email"
+                    },
+                    "Phone_Number": {
+                      "type": "object",
+                      "properties": {
+                        "Type": {
+                          "type": "string",
+                          "enum": [
+                            "Landline",
+                            "Mobile"
+                          ]
+                        },
+                        "Area_Code": {
+                          "type": "string",
+                          "minLength": 3,
+                          "maxLength": 3,
+                          "pattern": "^\\d{3}$"
+                        },
+                        "Number": {
+                          "type": "string",
+                          "minLength": 7,
+                          "maxLength": 7,
+                          "pattern": "^\\d{7}$"
+                        },
+                        "Extension": {
+                          "type": "string"
+                        },
+                        "Agree_To_Marketing": {
+                          "type": "boolean"
+                        }
+                      },
+                      "required": [
+                        "Type",
+                        "Area_Code",
+                        "Number"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_list"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Customer Account not found"
+          }
+        }
+      }
+    },
     "/customer_accounts/{id}/pay_methods": {
       "get": {
         "tags": [
@@ -353,44 +1356,26 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "active",
+            "in": "query",
+            "description": "active status of pay method",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "200 returns a customer account",
+            "description": "200 returns a list of pay methods",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "array",
                   "items": {
-                    "type": "object",
-                    "properties": {
-                      "Id": {
-                        "type": "integer"
-                      },
-                      "Active": {
-                        "type": "boolean"
-                      },
-                      "Type": {
-                        "type": "string",
-                        "enum": [
-                          "CreditCard",
-                          "eCheck",
-                          "Unknown"
-                        ]
-                      },
-                      "CreditCard": {
-                        "$ref": "./credit_card.json"
-                      },
-                      "BankAccount": {
-                        "$ref": "./e_check.json"
-                      }
-                    },
-                    "required": [
-                      "Id",
-                      "Active",
-                      "Type"
-                    ]
+                    "$ref": "#/components/schemas/pay_method"
                   }
                 }
               }
@@ -413,27 +1398,478 @@
             "description": "No payment methods not found"
           }
         }
-      }
-    },
-    "/service_accounts": {
-      "get": {
+      },
+      "post": {
         "tags": [
-          "service_accounts"
+          "customer_accounts",
+          "payments"
         ],
-        "summary": "Retrieves service account information by id",
+        "summary": "Add payment account for the customer account specified",
         "parameters": [
           {
-            "name": "service_account_id",
-            "in": "query",
-            "description": "id of service account to search by",
+            "name": "id",
+            "in": "path",
+            "description": "id of customer account to add paymethod for",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "Token": {
+                    "description": "temporary use token issued from the payment vendor",
+                    "type": "string",
+                    "pattern": "^ott_"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "200 returns a pay method",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Id": {
+                      "type": "integer"
+                    },
+                    "Active": {
+                      "type": "boolean"
+                    },
+                    "Type": {
+                      "type": "string",
+                      "enum": [
+                        "CreditCard",
+                        "eCheck",
+                        "Unknown"
+                      ]
+                    },
+                    "CreditCard": {
+                      "type": "object",
+                      "properties": {
+                        "AccountNumber": {
+                          "type": "string"
+                        },
+                        "AccountHolder": {
+                          "type": "string"
+                        },
+                        "ExpirationYear": {
+                          "type": "integer"
+                        },
+                        "ExpirationMonth": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 12
+                        },
+                        "Type": {
+                          "type": "string",
+                          "enum": [
+                            "Visa",
+                            "MasterCard",
+                            "Discover",
+                            "AmericanExpress",
+                            "Unknown"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "AccountNumber",
+                        "AccountHolder",
+                        "Type",
+                        "ExpirationMonth",
+                        "ExpirationYear"
+                      ]
+                    },
+                    "BankAccount": {
+                      "type": "object",
+                      "properties": {
+                        "AccountNumber": {
+                          "type": "string"
+                        },
+                        "RoutingNumber": {
+                          "type": "string"
+                        },
+                        "AccountHolder": {
+                          "type": "string"
+                        },
+                        "Type": {
+                          "type": "string",
+                          "enum": [
+                            "Checking",
+                            "Savings",
+                            "MoneyMarket",
+                            "Unknown"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "AccountNumber",
+                        "RoutingNumber",
+                        "AccountHolder",
+                        "Type"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "Id",
+                    "Active",
+                    "Type"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_list"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Customer Account not found"
+          }
+        }
+      }
+    },
+    "/customer_accounts/{id}/pay_methods/{pay_method_id}": {
+      "patch": {
+        "tags": [
+          "customer_accounts",
+          "payments"
+        ],
+        "summary": "Allows updating cvv and expiration date of a pay method",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of customer account the pay method belongs to",
+            "required": true,
             "schema": {
               "type": "string"
             }
           },
           {
-            "name": "customer_account_id",
-            "in": "query",
-            "description": "id of customer account to search by",
+            "name": "pay_method_id",
+            "in": "path",
+            "description": "Id of the pay method to modify",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "CVVNumber": {
+                    "description": "new cvv of the credit card",
+                    "type": "string",
+                    "pattern": "^\\d{3}$"
+                  },
+                  "ExpirationMonth": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 12
+                  },
+                  "ExpirationYear": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "200 returns a pay method",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Id": {
+                      "type": "integer"
+                    },
+                    "Active": {
+                      "type": "boolean"
+                    },
+                    "Type": {
+                      "type": "string",
+                      "enum": [
+                        "CreditCard",
+                        "eCheck",
+                        "Unknown"
+                      ]
+                    },
+                    "CreditCard": {
+                      "type": "object",
+                      "properties": {
+                        "AccountNumber": {
+                          "type": "string"
+                        },
+                        "AccountHolder": {
+                          "type": "string"
+                        },
+                        "ExpirationYear": {
+                          "type": "integer"
+                        },
+                        "ExpirationMonth": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 12
+                        },
+                        "Type": {
+                          "type": "string",
+                          "enum": [
+                            "Visa",
+                            "MasterCard",
+                            "Discover",
+                            "AmericanExpress",
+                            "Unknown"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "AccountNumber",
+                        "AccountHolder",
+                        "Type",
+                        "ExpirationMonth",
+                        "ExpirationYear"
+                      ]
+                    },
+                    "BankAccount": {
+                      "type": "object",
+                      "properties": {
+                        "AccountNumber": {
+                          "type": "string"
+                        },
+                        "RoutingNumber": {
+                          "type": "string"
+                        },
+                        "AccountHolder": {
+                          "type": "string"
+                        },
+                        "Type": {
+                          "type": "string",
+                          "enum": [
+                            "Checking",
+                            "Savings",
+                            "MoneyMarket",
+                            "Unknown"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "AccountNumber",
+                        "RoutingNumber",
+                        "AccountHolder",
+                        "Type"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "Id",
+                    "Active",
+                    "Type"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_list"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Customer Account not found"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "customer_accounts",
+          "payments"
+        ],
+        "summary": "Deletes a payment method for a customer by id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of customer the pay method belongs to",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pay_method_id",
+            "in": "path",
+            "description": "id of the pay method to delete",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 returns OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Id": {
+                      "type": "integer"
+                    },
+                    "Active": {
+                      "type": "boolean"
+                    },
+                    "Type": {
+                      "type": "string",
+                      "enum": [
+                        "CreditCard",
+                        "eCheck",
+                        "Unknown"
+                      ]
+                    },
+                    "CreditCard": {
+                      "type": "object",
+                      "properties": {
+                        "AccountNumber": {
+                          "type": "string"
+                        },
+                        "AccountHolder": {
+                          "type": "string"
+                        },
+                        "ExpirationYear": {
+                          "type": "integer"
+                        },
+                        "ExpirationMonth": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 12
+                        },
+                        "Type": {
+                          "type": "string",
+                          "enum": [
+                            "Visa",
+                            "MasterCard",
+                            "Discover",
+                            "AmericanExpress",
+                            "Unknown"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "AccountNumber",
+                        "AccountHolder",
+                        "Type",
+                        "ExpirationMonth",
+                        "ExpirationYear"
+                      ]
+                    },
+                    "BankAccount": {
+                      "type": "object",
+                      "properties": {
+                        "AccountNumber": {
+                          "type": "string"
+                        },
+                        "RoutingNumber": {
+                          "type": "string"
+                        },
+                        "AccountHolder": {
+                          "type": "string"
+                        },
+                        "Type": {
+                          "type": "string",
+                          "enum": [
+                            "Checking",
+                            "Savings",
+                            "MoneyMarket",
+                            "Unknown"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "AccountNumber",
+                        "RoutingNumber",
+                        "AccountHolder",
+                        "Type"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "Id",
+                    "Active",
+                    "Type"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_list"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Payment method not found"
+          }
+        }
+      }
+    },
+    "/customer_accounts/{id}/service_accounts": {
+      "get": {
+        "tags": [
+          "customer_accounts",
+          "service_accounts"
+        ],
+        "summary": "Retrieves service accounts for a customer id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of customer account to get service accounts for",
             "schema": {
               "type": "string"
             }
@@ -467,7 +1903,77 @@
             "description": "Unauthorized"
           },
           "404": {
-            "description": "Service Account not found"
+            "description": "No Service Accounts not found"
+          }
+        }
+      }
+    },
+    "/customer_accounts/fuzzy_search": {
+      "post": {
+        "tags": [
+          "customer_accounts"
+        ],
+        "summary": "Retrieves customer information by fuzzy search",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "CSPId": {
+                    "type": "string"
+                  },
+                  "LastName": {
+                    "type": "string"
+                  },
+                  "SSN": {
+                    "type": "string"
+                  },
+                  "DL": {
+                    "type": "string"
+                  },
+                  "PhoneNumber": {
+                    "type": "string"
+                  },
+                  "Email": {
+                    "type": "string",
+                    "format": "email"
+                  },
+                  "ESIID": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "200 returns a customer account",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/fuzzy_search_response"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_list"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Customer not found"
           }
         }
       }
@@ -496,6 +2002,543 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/service_account"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_list"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Service Account not found"
+          }
+        }
+      }
+    },
+    "/service_accounts/{id}/autopay": {
+      "get": {
+        "tags": [
+          "service_accounts",
+          "payments"
+        ],
+        "summary": "Retrieves autopay details service account id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of service account to fetch autopay details",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 returns a service account",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Id": {
+                      "type": "string"
+                    },
+                    "StartDate": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "StopDate": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "PayMethodId": {
+                      "type": "number"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_list"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Service Account not found"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "service_accounts",
+          "payments"
+        ],
+        "summary": "Sign up for autopay",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of service account to sign up in autopay",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/autopay_request"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "200 returns a service account",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Id": {
+                      "type": "string"
+                    },
+                    "StartDate": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "StopDate": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "PayMethodId": {
+                      "type": "number"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_list"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Service Account not found"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "service_accounts",
+          "payments"
+        ],
+        "summary": "Cancels autopay for service account id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of service account to cancel autopay for",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Autopay canceled"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_list"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Service Account or autopay not found"
+          }
+        }
+      }
+    },
+    "/service_accounts/{id}/budget_billing": {
+      "get": {
+        "tags": [
+          "service_accounts",
+          "budget_billing"
+        ],
+        "summary": "Retrieves budget billing information by service account id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of service account to fetch budget billing info for",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 returns budget billing information",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "Indicator": {
+                        "type": "boolean"
+                      },
+                      "Amount": {
+                        "type": "number"
+                      },
+                      "Create_Date": {
+                        "type": "string",
+                        "format": "date-time"
+                      },
+                      "Variance": {
+                        "type": "number"
+                      },
+                      "Pending_Cancel_Count": {
+                        "type": "number"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_list"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Service Account not found"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "service_accounts",
+          "budget_billing"
+        ],
+        "summary": "Signs up for budget billing for service account specified",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of service account to sign up on budget billing for",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "Amount": {
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "Amount"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "200 returns a budget billing confirmation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_list"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Service Account not found"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "service_accounts",
+          "budget_billing"
+        ],
+        "summary": "Cancels budget billing for a service account id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of service account to cancel budget billing for",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 returns OK"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_list"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Service Account not found"
+          }
+        }
+      }
+    },
+    "/service_accounts/{id}/budget_billing/details": {
+      "get": {
+        "tags": [
+          "service_accounts",
+          "budget_billing"
+        ],
+        "summary": "Retrieves budget billing details by service account id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of service account to fetch budget billing details for",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 returns budget billing details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "TotalKWH": {
+                        "type": "number"
+                      },
+                      "TotalMonths": {
+                        "type": "number"
+                      },
+                      "Amount": {
+                        "type": "number"
+                      },
+                      "AverageKWH": {
+                        "type": "number"
+                      },
+                      "IsBudgetBillingDefaultAmount": {
+                        "type": "boolean"
+                      },
+                      "Variance": {
+                        "type": "number"
+                      },
+                      "Past_Due": {
+                        "type": "number"
+                      },
+                      "Check_Past_Due": {
+                        "type": "number"
+                      },
+                      "IsVarianceBillGenerated": {
+                        "type": "boolean"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_list"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Service Account not found"
+          }
+        }
+      }
+    },
+    "/service_accounts/{id}/contact_us": {
+      "post": {
+        "tags": [
+          "service_accounts",
+          "support"
+        ],
+        "summary": "Sends a message to support for the customer account.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of service account to message support for.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "DaytimePhone": {
+                    "type": "object",
+                    "properties": {
+                      "Type": {
+                        "type": "string",
+                        "enum": [
+                          "Landline",
+                          "Mobile"
+                        ]
+                      },
+                      "Area_Code": {
+                        "type": "string",
+                        "minLength": 3,
+                        "maxLength": 3,
+                        "pattern": "^\\d{3}$"
+                      },
+                      "Number": {
+                        "type": "string",
+                        "minLength": 7,
+                        "maxLength": 7,
+                        "pattern": "^\\d{7}$"
+                      },
+                      "Extension": {
+                        "type": "string"
+                      },
+                      "Agree_To_Marketing": {
+                        "type": "boolean"
+                      }
+                    },
+                    "required": [
+                      "Type",
+                      "Area_Code",
+                      "Number"
+                    ]
+                  },
+                  "Question": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "Question",
+                  "DaytimePhone"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "200 returns a success flag",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Is_Success": {
+                      "type": "boolean"
+                    }
+                  }
+                },
+                "example": {
+                  "Is_Success": true
                 }
               }
             }
@@ -687,6 +2730,301 @@
         }
       }
     },
+    "/service_accounts/{id}/invoices/{invoice_id}/meter_read_details": {
+      "get": {
+        "tags": [
+          "service_accounts",
+          "invoices"
+        ],
+        "summary": "Retrieves meter read details for an invoice by service account id and invoice id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of service account to fetch read details for",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "invoice_id",
+            "in": "path",
+            "description": "id of invoice to fetch read details",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 returns a list of invoice meter read details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/invoice_meter_read_detail"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_list"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Service Account or Invoice Not Found"
+          }
+        }
+      }
+    },
+    "/service_accounts/{id}/invoices/{invoice_id}/download": {
+      "get": {
+        "tags": [
+          "service_accounts",
+          "invoices"
+        ],
+        "summary": "Downloads a single invoice by service account id and invoice id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of service account to fetch invoice for",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "invoice_id",
+            "in": "path",
+            "description": "id of invoice to download",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 returns an invoice",
+            "content": {
+              "application/pdf": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_list"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Service Account or Invoice Not Found"
+          }
+        }
+      }
+    },
+    "/service_accounts/{id}/Meter_Read_Details/{count}": {
+      "get": {
+        "tags": [
+          "service_accounts"
+        ],
+        "summary": "Retrieves meter read details for a service account",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of service account to search by",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "count",
+            "in": "path",
+            "description": "count of meter read details to be retrieved",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 returns a service account meter read details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/invoice_meter_read_detail"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_list"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Service Account not found"
+          }
+        }
+      }
+    },
+    "/service_accounts/{id}/notes/{count}": {
+      "get": {
+        "tags": [
+          "service_accounts",
+          "notes"
+        ],
+        "summary": "Retrieves service account notes",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of service account to search by",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "count",
+            "in": "path",
+            "description": "number of notes to be retrieved",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 returns a service account notes",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/csp_notes_response"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_list"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Service Account not found"
+          }
+        }
+      }
+    },
+    "/service_accounts/{id}/notes": {
+      "post": {
+        "tags": [
+          "service_accounts",
+          "notes"
+        ],
+        "summary": "save service account notes",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of service account to add note to",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/csp_notes"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "200 returns a service account notes response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_list"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Service Account not found"
+          }
+        }
+      }
+    },
     "/service_accounts/{id}/payment_extension": {
       "get": {
         "tags": [
@@ -784,6 +3122,186 @@
           },
           "401": {
             "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/service_accounts/{id}/waivers": {
+      "get": {
+        "tags": [
+          "service_accounts"
+        ],
+        "summary": "Retrieves standard waivers for a service account",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of service account to get waivers",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 returns service account waivers",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "FeeCreationDate": {
+                        "type": "string",
+                        "format": "date-time"
+                      },
+                      "FeeType": {
+                        "type": "string",
+                        "enum": [
+                          "Billed",
+                          "ManualPending",
+                          "ServicePending"
+                        ]
+                      },
+                      "Fee": {
+                        "type": "string"
+                      },
+                      "Tax": {
+                        "type": "string"
+                      },
+                      "WaiveStatus": {
+                        "type": "string",
+                        "enum": [
+                          "Billed",
+                          "Approved",
+                          "Rejected",
+                          "Pending",
+                          "None"
+                        ]
+                      },
+                      "Description": {
+                        "type": "string"
+                      },
+                      "FeeWaiverType": {
+                        "type": "string",
+                        "enum": [
+                          "Late_Fee",
+                          "NSF_Fees",
+                          "Disconnect_Fees",
+                          "Reconnect_Fees",
+                          "Disconnect_Letter_Fees"
+                        ]
+                      }
+                    }
+                  }
+                },
+                "example": [
+                  {
+                    "FeeCreationDate": "06/14/2019",
+                    "FeeType": "ServicePending",
+                    "Fee": 6.82,
+                    "Tax": 0.14756434,
+                    "WaiveStatus": "None",
+                    "Description": "",
+                    "FeeWaiverType": "Late_Fee"
+                  },
+                  {
+                    "FeeCreationDate": "03/31/2019",
+                    "FeeType": "ServicePending",
+                    "Fee": 7.29,
+                    "Tax": 0.15773373,
+                    "WaiveStatus": "None",
+                    "Description": "",
+                    "FeeWaiverType": "Late_Fee"
+                  }
+                ]
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_list"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Service Account not found"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "service_accounts"
+        ],
+        "summary": "Requests a waiver for the service account.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of the service account for which the waiver is requested.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/waiver_request"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "200 returns a success flag",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Is_Success": {
+                      "type": "boolean"
+                    },
+                    "Description": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "example": {
+                  "Is_Success": true,
+                  "Description": "test"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_list"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Service Account not found"
           }
         }
       }
@@ -894,6 +3412,889 @@
           }
         }
       }
+    },
+    "/service_accounts/{id}/rate_change": {
+      "get": {
+        "tags": [
+          "service_accounts",
+          "rate_changes"
+        ],
+        "summary": "Retrieves renewal/upgrade for a service account",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of service account to fetch renewal/upgrade for",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 returns budget billing details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "Id": {
+                        "type": "number"
+                      },
+                      "Service_Account_Id": {
+                        "type": "number"
+                      },
+                      "User_Name": {
+                        "type": "string"
+                      },
+                      "OfferingName": {
+                        "type": "string"
+                      },
+                      "Offer": {
+                        "type": "object",
+                        "properties": {
+                          "Rate_Code": {
+                            "type": "string"
+                          },
+                          "Client_Key": {
+                            "type": "string"
+                          },
+                          "Product_Name": {
+                            "type": "string"
+                          },
+                          "Product_Description": {
+                            "type": "string"
+                          },
+                          "RateAt500kwh": {
+                            "type": "number"
+                          },
+                          "RateAt1000kwh": {
+                            "type": "number"
+                          },
+                          "RateAt2000kwh": {
+                            "type": "number"
+                          },
+                          "Term": {
+                            "type": "integer"
+                          },
+                          "TDU_Name": {
+                            "type": "string"
+                          },
+                          "TDU_DUNS_Number": {
+                            "type": "string"
+                          },
+                          "Meter_Charge": {
+                            "type": "number"
+                          },
+                          "Delivery_Charge": {
+                            "type": "number"
+                          },
+                          "Family": {
+                            "type": "string",
+                            "enum": [
+                              "LEVEL_1",
+                              "LEVEL_2",
+                              "LEVEL_3",
+                              "LEVEL_4",
+                              "LEVEL_5"
+                            ]
+                          },
+                          "Type": {
+                            "type": "string",
+                            "enum": [
+                              "Acquisition",
+                              "Renewal"
+                            ]
+                          },
+                          "Early_Termination_Fee": {
+                            "type": "number"
+                          },
+                          "Base_Charge": {
+                            "type": "number"
+                          },
+                          "Energy_Charges": {
+                            "type": "array",
+                            "minItems": 1,
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "Min": {
+                                  "type": "integer"
+                                },
+                                "Max": {
+                                  "type": "integer"
+                                },
+                                "Amount": {
+                                  "type": "number"
+                                }
+                              }
+                            }
+                          },
+                          "Usage_Credits": {
+                            "type": "array",
+                            "minItems": 1,
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "Min": {
+                                  "type": "integer"
+                                },
+                                "Max": {
+                                  "type": "integer"
+                                },
+                                "Amount": {
+                                  "type": "number"
+                                }
+                              }
+                            }
+                          },
+                          "Usage_Charges": {
+                            "type": "array",
+                            "minItems": 1,
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "Min": {
+                                  "type": "integer"
+                                },
+                                "Max": {
+                                  "type": "integer"
+                                },
+                                "Amount": {
+                                  "type": "number"
+                                }
+                              }
+                            }
+                          },
+                          "Start_Date": {
+                            "type": "string",
+                            "format": "date-time"
+                          },
+                          "End_Date": {
+                            "type": "string",
+                            "format": "date-time"
+                          },
+                          "Partner_Info": {
+                            "type": "array",
+                            "minItems": 1,
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "Partner": {
+                                  "type": "object",
+                                  "properties": {
+                                    "Id": {
+                                      "type": "string"
+                                    },
+                                    "Name": {
+                                      "type": "string"
+                                    },
+                                    "Description": {
+                                      "type": "string"
+                                    },
+                                    "Billing_Code": {
+                                      "type": "string"
+                                    },
+                                    "Creation_Time": {
+                                      "type": "string",
+                                      "format": "date-time"
+                                    },
+                                    "Date_Created": {
+                                      "type": "string",
+                                      "format": "date-time"
+                                    },
+                                    "Date_Last_Modified": {
+                                      "type": "string",
+                                      "format": "date-time"
+                                    }
+                                  }
+                                },
+                                "Code": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          },
+                          "Featured_Usage_Level": {
+                            "type": "string"
+                          },
+                          "IsHoldOverRate": {
+                            "type": "boolean"
+                          },
+                          "IsLegacyOffer": {
+                            "type": "boolean"
+                          },
+                          "IsFixed": {
+                            "type": "boolean"
+                          },
+                          "Has_Partner": {
+                            "type": "boolean"
+                          },
+                          "Cost_Components": {
+                            "type": "array",
+                            "minItems": 1,
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "Min": {
+                                  "type": "integer"
+                                },
+                                "Max": {
+                                  "type": "integer"
+                                },
+                                "Amount": {
+                                  "type": "number"
+                                },
+                                "Operation_Type": {
+                                  "type": "string",
+                                  "enum": [
+                                    "Additive",
+                                    "Multiplicative"
+                                  ]
+                                },
+                                "IsCompound": {
+                                  "type": "boolean"
+                                },
+                                "TimeOfUseInterval": {
+                                  "type": "string"
+                                },
+                                "DisplayContent": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          },
+                          "Is_BOGO": {
+                            "type": "boolean"
+                          },
+                          "Is_TOU": {
+                            "type": "boolean"
+                          },
+                          "Is_RTP": {
+                            "type": "boolean"
+                          }
+                        }
+                      },
+                      "Start_Date": {
+                        "type": "string",
+                        "format": "date-time"
+                      },
+                      "Execution_Date": {
+                        "type": "string",
+                        "format": "date-time"
+                      },
+                      "Tos_Fee_Id": {
+                        "type": "number"
+                      },
+                      "Is_Pending": {
+                        "type": "boolean"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_list"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "No upgrade or renewal was found"
+          }
+        }
+      }
+    },
+    "/service_accounts/{id}/rate_change/details": {
+      "get": {
+        "tags": [
+          "service_accounts",
+          "rate_changes"
+        ],
+        "summary": "Retrieves renewal/upgrade details for a service account",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of service account to fetch renewal/upgrade details for",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 returns budget billing details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "Service_Account_Id": {
+                        "type": "string"
+                      },
+                      "Service_Account_Status": {
+                        "type": "string",
+                        "enum": [
+                          "None",
+                          "Signed_Up",
+                          "Active",
+                          "Temporarily_Inactive",
+                          "Disconnected",
+                          "Suspended",
+                          "Voided",
+                          "Unapproved",
+                          "Rejected",
+                          "Approved",
+                          "Closed"
+                        ]
+                      },
+                      "Is_Account_Eligible_Renewal": {
+                        "type": "boolean"
+                      },
+                      "Is_Pending_Renewal": {
+                        "type": "boolean"
+                      },
+                      "Is_MoveOut_Scheduled": {
+                        "type": "boolean"
+                      },
+                      "Contract_EndDate": {
+                        "type": "string",
+                        "format": "date-time"
+                      },
+                      "TDU_DUNS_Number": {
+                        "type": "string"
+                      },
+                      "Remaining_ContractTerm_In_Days": {
+                        "type": "number"
+                      },
+                      "Existing_Renewal": {
+                        "type": "object",
+                        "properties": {
+                          "Id": {
+                            "type": "number"
+                          },
+                          "Service_Account_Id": {
+                            "type": "number"
+                          },
+                          "User_Name": {
+                            "type": "string"
+                          },
+                          "OfferingName": {
+                            "type": "string"
+                          },
+                          "Offer": {
+                            "type": "object",
+                            "properties": {
+                              "Rate_Code": {
+                                "type": "string"
+                              },
+                              "Client_Key": {
+                                "type": "string"
+                              },
+                              "Product_Name": {
+                                "type": "string"
+                              },
+                              "Product_Description": {
+                                "type": "string"
+                              },
+                              "RateAt500kwh": {
+                                "type": "number"
+                              },
+                              "RateAt1000kwh": {
+                                "type": "number"
+                              },
+                              "RateAt2000kwh": {
+                                "type": "number"
+                              },
+                              "Term": {
+                                "type": "integer"
+                              },
+                              "TDU_Name": {
+                                "type": "string"
+                              },
+                              "TDU_DUNS_Number": {
+                                "type": "string"
+                              },
+                              "Meter_Charge": {
+                                "type": "number"
+                              },
+                              "Delivery_Charge": {
+                                "type": "number"
+                              },
+                              "Family": {
+                                "type": "string",
+                                "enum": [
+                                  "LEVEL_1",
+                                  "LEVEL_2",
+                                  "LEVEL_3",
+                                  "LEVEL_4",
+                                  "LEVEL_5"
+                                ]
+                              },
+                              "Type": {
+                                "type": "string",
+                                "enum": [
+                                  "Acquisition",
+                                  "Renewal"
+                                ]
+                              },
+                              "Early_Termination_Fee": {
+                                "type": "number"
+                              },
+                              "Base_Charge": {
+                                "type": "number"
+                              },
+                              "Energy_Charges": {
+                                "type": "array",
+                                "minItems": 1,
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "Min": {
+                                      "type": "integer"
+                                    },
+                                    "Max": {
+                                      "type": "integer"
+                                    },
+                                    "Amount": {
+                                      "type": "number"
+                                    }
+                                  }
+                                }
+                              },
+                              "Usage_Credits": {
+                                "type": "array",
+                                "minItems": 1,
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "Min": {
+                                      "type": "integer"
+                                    },
+                                    "Max": {
+                                      "type": "integer"
+                                    },
+                                    "Amount": {
+                                      "type": "number"
+                                    }
+                                  }
+                                }
+                              },
+                              "Usage_Charges": {
+                                "type": "array",
+                                "minItems": 1,
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "Min": {
+                                      "type": "integer"
+                                    },
+                                    "Max": {
+                                      "type": "integer"
+                                    },
+                                    "Amount": {
+                                      "type": "number"
+                                    }
+                                  }
+                                }
+                              },
+                              "Start_Date": {
+                                "type": "string",
+                                "format": "date-time"
+                              },
+                              "End_Date": {
+                                "type": "string",
+                                "format": "date-time"
+                              },
+                              "Partner_Info": {
+                                "type": "array",
+                                "minItems": 1,
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "Partner": {
+                                      "type": "object",
+                                      "properties": {
+                                        "Id": {
+                                          "type": "string"
+                                        },
+                                        "Name": {
+                                          "type": "string"
+                                        },
+                                        "Description": {
+                                          "type": "string"
+                                        },
+                                        "Billing_Code": {
+                                          "type": "string"
+                                        },
+                                        "Creation_Time": {
+                                          "type": "string",
+                                          "format": "date-time"
+                                        },
+                                        "Date_Created": {
+                                          "type": "string",
+                                          "format": "date-time"
+                                        },
+                                        "Date_Last_Modified": {
+                                          "type": "string",
+                                          "format": "date-time"
+                                        }
+                                      }
+                                    },
+                                    "Code": {
+                                      "type": "string"
+                                    }
+                                  }
+                                }
+                              },
+                              "Featured_Usage_Level": {
+                                "type": "string"
+                              },
+                              "IsHoldOverRate": {
+                                "type": "boolean"
+                              },
+                              "IsLegacyOffer": {
+                                "type": "boolean"
+                              },
+                              "IsFixed": {
+                                "type": "boolean"
+                              },
+                              "Has_Partner": {
+                                "type": "boolean"
+                              },
+                              "Cost_Components": {
+                                "type": "array",
+                                "minItems": 1,
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "Min": {
+                                      "type": "integer"
+                                    },
+                                    "Max": {
+                                      "type": "integer"
+                                    },
+                                    "Amount": {
+                                      "type": "number"
+                                    },
+                                    "Operation_Type": {
+                                      "type": "string",
+                                      "enum": [
+                                        "Additive",
+                                        "Multiplicative"
+                                      ]
+                                    },
+                                    "IsCompound": {
+                                      "type": "boolean"
+                                    },
+                                    "TimeOfUseInterval": {
+                                      "type": "string"
+                                    },
+                                    "DisplayContent": {
+                                      "type": "string"
+                                    }
+                                  }
+                                }
+                              },
+                              "Is_BOGO": {
+                                "type": "boolean"
+                              },
+                              "Is_TOU": {
+                                "type": "boolean"
+                              },
+                              "Is_RTP": {
+                                "type": "boolean"
+                              }
+                            }
+                          },
+                          "Start_Date": {
+                            "type": "string",
+                            "format": "date-time"
+                          },
+                          "Execution_Date": {
+                            "type": "string",
+                            "format": "date-time"
+                          },
+                          "Tos_Fee_Id": {
+                            "type": "number"
+                          },
+                          "Is_Pending": {
+                            "type": "boolean"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_list"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "No renewal or upgrade details were found"
+          }
+        }
+      }
+    },
+    "/service_accounts/{id}/service_orders": {
+      "get": {
+        "tags": [
+          "service_accounts"
+        ],
+        "summary": "Gets the list of service orders for a service account.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of service account to fetch",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 returns service orders for a service account",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "Service_Order_Description": {
+                        "type": "string"
+                      },
+                      "Date_Processed": {
+                        "type": "string",
+                        "format": "date-time"
+                      },
+                      "Distributor_Name": {
+                        "type": "string"
+                      },
+                      "Priority_Code": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "example": [
+                  {
+                    "Service_Order_Description": "Reconnect Complete",
+                    "Date_Processed": "05/02/2019",
+                    "Distributor_Name": "AEP - Texas Central",
+                    "priority_code": ""
+                  },
+                  {
+                    "Service_Order_Description": "Initiate Reconnect",
+                    "Date_Processed": "05/02/2019",
+                    "Distributor_Name": "AEP - Texas Central",
+                    "priority_code": "01"
+                  }
+                ]
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_list"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Service Account not found"
+          }
+        }
+      }
+    },
+    "/service_accounts/{id}/suspension_letters": {
+      "get": {
+        "tags": [
+          "service_accounts"
+        ],
+        "summary": "Retrieves suspension letters by service account id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of service account to get suspension letters for",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 returns a disconnect letter info",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Letter_Info_Id": {
+                      "type": "string"
+                    },
+                    "Letter_Name": {
+                      "type": "string"
+                    },
+                    "Requested_Date": {
+                      "type": "string",
+                      "format": "date"
+                    },
+                    "XML_Data": {
+                      "type": "string"
+                    },
+                    "XSLT_Data": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "format": "byte"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_list"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Service Account not found"
+          }
+        }
+      }
+    },
+    "/service_accounts/{id}/usage_history": {
+      "get": {
+        "tags": [
+          "service_accounts"
+        ],
+        "summary": "Retrieves usage history for a service account.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of service account to fetch",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 returns usage history for a service account",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "Service_Account_Id": {
+                        "type": "string"
+                      },
+                      "Usage_Type": {
+                        "type": "string"
+                      },
+                      "Usage_Month": {
+                        "type": "string"
+                      },
+                      "Usage_Start_Date": {
+                        "type": "string"
+                      },
+                      "Usage_End_Date": {
+                        "type": "string"
+                      },
+                      "Usage": {
+                        "type": "string"
+                      },
+                      "Usage_Uom": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "example": [
+                  {
+                    "Service_Account_Id": 2204002,
+                    "Usage_Month": "2016-04-01T00:00:00",
+                    "Usage_Start_Date": "2016-04-30T00:00:00",
+                    "Usage_End_Date": "2016-05-04T00:00:00",
+                    "Usage_Type": "Actual",
+                    "Usage": 137,
+                    "Usage_Uom": "kWh"
+                  }
+                ]
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error_list"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Service Account not found"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -905,6 +4306,14 @@
       }
     },
     "schemas": {
+      "autopay_request": {
+        "type": "object",
+        "properties": {
+          "pay_method_id": {
+            "type": "string"
+          }
+        }
+      },
       "customer_account": {
         "type": "object",
         "properties": {
@@ -1030,6 +4439,72 @@
           }
         }
       },
+      "customer_account_add_note_request": {
+        "type": "object",
+        "properties": {
+          "Note": {
+            "type": "string"
+          },
+          "Note_Type": {
+            "type": "string",
+            "enum": [
+              "CC: ACCT NUMBER INQ",
+              "CC: BALANCE INQUIRY",
+              "CC: CUSTOMER COMPLAINT",
+              "CC: EXTENSION GRANTED",
+              "CC: INELIGIBLE FOR PYMT ARRG",
+              "CC: NO BILL/DISC NOTICE RECVD",
+              "CC: OTHER",
+              "CC: PAYMENT CONFIRMATION",
+              "CC: RECONNECT INQUIRY"
+            ]
+          },
+          "Followup_Required": {
+            "type": "boolean"
+          },
+          "Followup_Required_Date": {
+            "type": "string",
+            "format": "date"
+          }
+        },
+        "required": [
+          "Note",
+          "Note_Type"
+        ]
+      },
+      "customer_account_note": {
+        "type": "object",
+        "properties": {
+          "Note": {
+            "type": "string"
+          },
+          "Note_Type": {
+            "type": "string",
+            "enum": [
+              "CC: ACCT NUMBER INQ",
+              "CC: BALANCE INQUIRY",
+              "CC: CUSTOMER COMPLAINT",
+              "CC: EXTENSION GRANTED",
+              "CC: INELIGIBLE FOR PYMT ARRG",
+              "CC: NO BILL/DISC NOTICE RECVD",
+              "CC: OTHER",
+              "CC: PAYMENT CONFIRMATION",
+              "CC: RECONNECT INQUIRY"
+            ]
+          },
+          "Followup_Required": {
+            "type": "boolean"
+          },
+          "Followup_Date": {
+            "type": "string",
+            "format": "date"
+          },
+          "Added_By": {
+            "type": "string",
+            "format": "date"
+          }
+        }
+      },
       "error_list": {
         "type": "array",
         "items": {
@@ -1106,6 +4581,34 @@
               "None",
               "Energy"
             ]
+          }
+        }
+      },
+      "invoice_meter_read_detail": {
+        "type": "object",
+        "properties": {
+          "Invoice_Id": {
+            "type": "string"
+          },
+          "From_Date": {
+            "type": "string",
+            "format": "date"
+          },
+          "To_Date": {
+            "type": "string",
+            "format": "date"
+          },
+          "Read_Type": {
+            "type": "string"
+          },
+          "From_Read": {
+            "type": "string"
+          },
+          "To_Read": {
+            "type": "string"
+          },
+          "Usage": {
+            "type": "string"
           }
         }
       },
@@ -1277,8 +4780,8 @@
                 "properties": {
                   "Amount": {
                     "type": "number",
-                    "min": 10,
-                    "max": 3000
+                    "minimum": 10,
+                    "maximum": 3000
                   }
                 },
                 "required": [
@@ -1305,8 +4808,8 @@
                 "properties": {
                   "Amount": {
                     "type": "number",
-                    "min": 10,
-                    "max": 3000
+                    "minimum": 10,
+                    "maximum": 3000
                   }
                 },
                 "required": [
@@ -1340,6 +4843,43 @@
             "pattern": "^\\d{10}$"
           }
         }
+      },
+      "save_auth_request": {
+        "type": "object",
+        "properties": {
+          "Phone_Number": {
+            "type": "string",
+            "pattern": "^\\d{10}$"
+          },
+          "Customer_Account_Id": {
+            "type": "string"
+          },
+          "Service_Account_Id": {
+            "type": "string"
+          },
+          "Language": {
+            "type": "string",
+            "enum": [
+              "EN",
+              "ES"
+            ]
+          },
+          "Verification_Type": {
+            "type": "string",
+            "enum": [
+              "Social_Security_Number",
+              "Drivers_License",
+              "Date_Of_Birth",
+              "Account_Password"
+            ]
+          }
+        },
+        "required": [
+          "Phone_Number",
+          "Customer_Account_Id",
+          "Service_Account_Id",
+          "Language"
+        ]
       },
       "service_account": {
         "type": "object",
@@ -1856,6 +5396,291 @@
             "type": "string"
           }
         }
+      },
+      "csp_notes_response": {
+        "type": "object",
+        "properties": {
+          "Note": {
+            "type": "string"
+          },
+          "Note_Type": {
+            "type": "string"
+          },
+          "Generated_By": {
+            "type": "string"
+          },
+          "Generated_Date": {
+            "type": "string",
+            "format": "date"
+          },
+          "Followup_Required": {
+            "type": "string"
+          },
+          "Followup_Required_Date": {
+            "type": "string",
+            "format": "date"
+          }
+        }
+      },
+      "csp_notes": {
+        "type": "object",
+        "properties": {
+          "Note": {
+            "type": "string"
+          },
+          "Followup_Ind": {
+            "type": "number"
+          }
+        }
+      },
+      "waiver_request": {
+        "type": "object",
+        "properties": {
+          "Notes": {
+            "type": "string"
+          },
+          "FeeCreationDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "FeeWaiverType": {
+            "type": "string",
+            "enum": [
+              "Late_Fee",
+              "NSF_Fees",
+              "Disconnect_Fees",
+              "Reconnect_Fees",
+              "Disconnect_Letter_Fees"
+            ]
+          }
+        },
+        "required": [
+          "Notes",
+          "FeeCreationDate",
+          "FeeWaiverType"
+        ]
+      },
+      "fuzzy_search_request": {
+        "type": "object",
+        "properties": {
+          "CSPId": {
+            "type": "string"
+          },
+          "LastName": {
+            "type": "string"
+          },
+          "SSN": {
+            "type": "string"
+          },
+          "DL": {
+            "type": "string"
+          },
+          "PhoneNumber": {
+            "type": "string"
+          },
+          "Email": {
+            "type": "string",
+            "format": "email"
+          },
+          "ESIID": {
+            "type": "string"
+          }
+        }
+      },
+      "fuzzy_search_response": {
+        "type": "object",
+        "properties": {
+          "FirstName": {
+            "type": "string"
+          },
+          "LastName": {
+            "type": "string"
+          },
+          "EntityID": {
+            "type": "number"
+          },
+          "PrimaryPhoneNumber": {
+            "type": "string"
+          },
+          "SecondaryPhoneNumber": {
+            "type": "string"
+          },
+          "SSN": {
+            "type": "number"
+          },
+          "DL": {
+            "type": "string"
+          },
+          "DateOfBirth": {
+            "type": "string",
+            "format": "date"
+          },
+          "PrimaryEmail": {
+            "type": "string",
+            "format": "email"
+          },
+          "SecondaryEmail": {
+            "type": "string",
+            "format": "email"
+          },
+          "CSPId": {
+            "type": "string"
+          },
+          "CSPStatus": {
+            "type": "string"
+          },
+          "CSPStartDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "ESIID": {
+            "type": "string"
+          },
+          "ZipCode": {
+            "type": "string"
+          },
+          "AddressLine1": {
+            "type": "string"
+          },
+          "AddressLine2": {
+            "type": "string"
+          },
+          "AddressLine3": {
+            "type": "string"
+          },
+          "AddressLine4": {
+            "type": "string"
+          },
+          "AsOfDateDueAmount": {
+            "type": "number"
+          },
+          "BadDebtAmount": {
+            "type": "number"
+          },
+          "SearchResultBasedOn": {
+            "type": "string"
+          }
+        }
+      },
+      "generate_token_request": {
+        "type": "object",
+        "properties": {
+          "Name": {
+            "description": "Name of the user who the token will be issued for",
+            "type": "string"
+          },
+          "Expires_In": {
+            "description": "Number of seconds for the token to live for.  Defaults to 1 day or 86,400 seconds.  Max is one day.",
+            "type": "integer",
+            "maximum": 86400
+          }
+        },
+        "required": [
+          "Name"
+        ]
+      },
+      "login_request": {
+        "type": "object",
+        "properties": {
+          "Username": {
+            "type": "string"
+          },
+          "Password": {
+            "type": "string"
+          }
+        }
+      },
+      "pay_method": {
+        "type": "object",
+        "properties": {
+          "Id": {
+            "type": "integer"
+          },
+          "Active": {
+            "type": "boolean"
+          },
+          "Type": {
+            "type": "string",
+            "enum": [
+              "CreditCard",
+              "eCheck",
+              "Unknown"
+            ]
+          },
+          "CreditCard": {
+            "type": "object",
+            "properties": {
+              "AccountNumber": {
+                "type": "string"
+              },
+              "AccountHolder": {
+                "type": "string"
+              },
+              "ExpirationYear": {
+                "type": "integer"
+              },
+              "ExpirationMonth": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 12
+              },
+              "Type": {
+                "type": "string",
+                "enum": [
+                  "Visa",
+                  "MasterCard",
+                  "Discover",
+                  "AmericanExpress",
+                  "Unknown"
+                ]
+              }
+            },
+            "required": [
+              "AccountNumber",
+              "AccountHolder",
+              "Type",
+              "ExpirationMonth",
+              "ExpirationYear"
+            ]
+          },
+          "BankAccount": {
+            "type": "object",
+            "properties": {
+              "AccountNumber": {
+                "type": "string"
+              },
+              "RoutingNumber": {
+                "type": "string"
+              },
+              "AccountHolder": {
+                "type": "string"
+              },
+              "Type": {
+                "type": "string",
+                "enum": [
+                  "Checking",
+                  "Savings",
+                  "MoneyMarket",
+                  "Unknown"
+                ]
+              }
+            },
+            "required": [
+              "AccountNumber",
+              "RoutingNumber",
+              "AccountHolder",
+              "Type"
+            ]
+          }
+        },
+        "required": [
+          "Id",
+          "Active",
+          "Type"
+        ]
+      },
+      "disconnect_letter_info_response": {
+        "$ref": "./customer_correspondence/disconnect_letter_info_response.json"
       }
     }
   },

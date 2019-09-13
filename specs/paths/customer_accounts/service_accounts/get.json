@@ -1,15 +1,14 @@
 {
   "tags": [
     "customer_accounts",
-    "payments"
+    "service_accounts"
   ],
-  "summary": "Retrieves payment methods for a customer by id",
+  "summary": "Retrieves service accounts for a customer id",
   "parameters": [
     {
       "name": "id",
       "in": "path",
-      "description": "id of customer to fetch payment methods for",
-      "required": true,
+      "description": "id of customer account to get service accounts for",
       "schema": {
         "type": "string"
       }
@@ -27,13 +26,13 @@
       }
     },
     "200": {
-      "description": "200 returns a customer account",
+      "description": "200 returns a service account",
       "content": {
         "application/json": {
           "schema": {
             "type": "array",
             "items": {
-              "$ref": "../../definitions/payments/pay_methods/pay_method.json"
+              "$ref": "#/components/schemas/service_account"
             }
           }
         }
@@ -43,7 +42,7 @@
       "description": "Unauthorized"
     },
     "404": {
-      "description": "No payment methods not found"
+      "description": "No Service Accounts not found"
     }
   }
 }

@@ -8,7 +8,7 @@
     "Expires_In": {
       "description": "Number of seconds for the token to live for.  Defaults to 1 day or 86,400 seconds.  Max is one day.",
       "type": "integer",
-      "max": 86400
+      "maximum": 86400
     }
   },
   "required": [

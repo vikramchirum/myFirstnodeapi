@@ -1,0 +1,19 @@
+{
+    "type": "object",
+    "properties": {
+        "Id": {
+            "type": "string"
+        },
+        "StartDate": {
+            "type": "string",
+            "format": "date-time"
+        },
+        "StopDate": {
+            "type": "string",
+            "format": "date-time"
+        },
+        "PayMethodId":{
+            "type": "number"
+        }
+    }
+}

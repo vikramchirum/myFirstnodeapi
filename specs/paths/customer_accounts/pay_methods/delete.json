@@ -1,0 +1,55 @@
+{
+  "tags": [
+    "customer_accounts",
+    "payments"
+  ],
+  "summary": "Deletes a payment method for a customer by id",
+  "parameters": [
+    {
+      "name": "id",
+      "in": "path",
+      "description": "id of customer the pay method belongs to",
+      "required": true,
+      "schema": {
+        "type": "string"
+      }
+    },
+    {
+      "name": "pay_method_id",
+      "in": "path",
+      "description": "id of the pay method to delete",
+      "required": true,
+      "schema": {
+        "type": "integer"
+      }
+    }
+  ],
+  "responses": {
+    "400": {
+      "description": "Bad Request",
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "#/components/schemas/error_list"
+          }
+        }
+      }
+    },
+    "200": {
+      "description": "200 returns OK",
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "../../../definitions/payments/pay_methods/pay_method.json"
+          }
+        }
+      }
+    },
+    "401": {
+      "description": "Unauthorized"
+    },
+    "404": {
+      "description": "Payment method not found"
+    }
+  }
+}

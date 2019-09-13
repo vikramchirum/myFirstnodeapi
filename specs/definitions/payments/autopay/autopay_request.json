@@ -1,0 +1,8 @@
+{
+    "type": "object",
+    "properties": {
+        "pay_method_id": {
+            "type": "string"
+        }
+    }
+}

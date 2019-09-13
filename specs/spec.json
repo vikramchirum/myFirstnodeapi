@@ -12,7 +12,13 @@
   ],
   "tags": [
     {
+      "name": "announcements"
+    },
+    {
       "name": "auth"
+    },
+    {
+      "name": "budget_billing"
     },
     {
       "name": "customer_accounts"
@@ -21,10 +27,22 @@
       "name": "invoices"
     },
     {
+      "name": "notes"
+    },
+    {
+      "name": "notifications"
+    },
+    {
       "name": "payments"
     },
     {
+      "name": "rate_changes"
+    },
+    {
       "name": "service_accounts"
+    },
+    {
+      "name": "support"
     }
   ],
   "paths": {

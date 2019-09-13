@@ -1,0 +1,33 @@
+{
+  "type": "object",
+  "properties": {
+    "Note": {
+      "type": "string"
+    },
+    "Note_Type" : {
+      "type": "string",
+      "enum": [
+        "CC: ACCT NUMBER INQ",
+        "CC: BALANCE INQUIRY",
+        "CC: CUSTOMER COMPLAINT",
+        "CC: EXTENSION GRANTED",
+        "CC: INELIGIBLE FOR PYMT ARRG",
+        "CC: NO BILL/DISC NOTICE RECVD",
+        "CC: OTHER",
+        "CC: PAYMENT CONFIRMATION",
+        "CC: RECONNECT INQUIRY"
+      ]
+    },
+    "Followup_Required" : {
+      "type" : "boolean"
+    },
+    "Followup_Required_Date" : {
+      "type" : "string",
+      "format": "date"
+    }
+  },
+  "required": [
+    "Note",
+    "Note_Type"
+  ]
+}

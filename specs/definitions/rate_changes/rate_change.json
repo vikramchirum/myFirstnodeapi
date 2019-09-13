@@ -1,0 +1,34 @@
+{
+  "type": "object",
+  "properties": {
+    "Id": {
+      "type": "number"
+    },
+    "Service_Account_Id": {
+      "type": "number"
+    },
+    "User_Name": {
+      "type": "string"
+    },
+    "OfferingName": {
+      "type": "string"
+    },
+    "Offer": {
+      "$ref": "../generic_offers/generic_offer.json"
+    },
+    "Start_Date": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "Execution_Date": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "Tos_Fee_Id": {
+      "type": "number"
+    },
+    "Is_Pending": {
+      "type": "boolean"
+    }
+  }
+}

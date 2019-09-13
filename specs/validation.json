@@ -1,5 +1,24 @@
 {
   "definitions": {
+    "autopay_request": {
+      "type": "object",
+      "properties": {
+        "pay_method_id": {
+          "type": "string"
+        }
+      }
+    },
+    "budget_billing_sign_up_request": {
+      "type": "object",
+      "properties": {
+        "Amount": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "Amount"
+      ]
+    },
     "customer_account_patch": {
       "type": "object",
       "properties": {
@@ -66,7 +85,7 @@
         "Expires_In": {
           "description": "Number of seconds for the token to live for.  Defaults to 1 day or 86,400 seconds.  Max is one day.",
           "type": "integer",
-          "max": 86400
+          "maximum": 86400
         }
       },
       "required": [
@@ -93,6 +112,129 @@
         }
       }
     },
+    "notification_option_create_request": {
+      "type": "object",
+      "properties": {
+        "Type": {
+          "type": "string",
+          "enum": [
+            "Bill",
+            "Contract_Expiration",
+            "Payment_Due",
+            "Payment_Received"
+          ]
+        },
+        "Paperless": {
+          "type": "boolean"
+        },
+        "Preferred_Contact_Method": {
+          "type": "string",
+          "enum": [
+            "Email",
+            "Phone"
+          ]
+        },
+        "Email": {
+          "type": "string",
+          "format": "email"
+        },
+        "Phone_Number": {
+          "type": "object",
+          "properties": {
+            "Type": {
+              "type": "string",
+              "enum": [
+                "Landline",
+                "Mobile"
+              ]
+            },
+            "Area_Code": {
+              "type": "string",
+              "minLength": 3,
+              "maxLength": 3,
+              "pattern": "^\\d{3}$"
+            },
+            "Number": {
+              "type": "string",
+              "minLength": 7,
+              "maxLength": 7,
+              "pattern": "^\\d{7}$"
+            },
+            "Extension": {
+              "type": "string"
+            },
+            "Agree_To_Marketing": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "Type",
+            "Area_Code",
+            "Number"
+          ]
+        }
+      },
+      "required": [
+        "Type",
+        "Paperless",
+        "Preferred_Contact_Method"
+      ]
+    },
+    "waiver_request": {
+      "type": "object",
+      "properties": {
+        "Notes": {
+          "type": "string"
+        },
+        "FeeCreationDate": {
+          "type": "string",
+          "format": "date"
+        },
+        "FeeWaiverType": {
+          "type": "string",
+          "enum": [
+            "Late_Fee",
+            "NSF_Fees",
+            "Disconnect_Fees",
+            "Reconnect_Fees",
+            "Disconnect_Letter_Fees"
+          ]
+        }
+      },
+      "required": [
+        "Notes",
+        "FeeCreationDate",
+        "FeeWaiverType"
+      ]
+    },
+    "pay_method_create_request": {
+      "type": "object",
+      "properties": {
+        "Token": {
+          "description": "temporary use token issued from the payment vendor",
+          "type": "string",
+          "pattern": "^ott_"
+        }
+      }
+    },
+    "pay_method_update_request": {
+      "type": "object",
+      "properties": {
+        "CVVNumber": {
+          "description": "new cvv of the credit card",
+          "type": "string",
+          "pattern": "^\\d{3}$"
+        },
+        "ExpirationMonth": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 12
+        },
+        "ExpirationYear": {
+          "type": "integer"
+        }
+      }
+    },
     "payment_request": {
       "oneOf": [
         {
@@ -102,8 +244,8 @@
               "properties": {
                 "Amount": {
                   "type": "number",
-                  "min": 10,
-                  "max": 3000
+                  "minimum": 10,
+                  "maximum": 3000
                 }
               },
               "required": [
@@ -130,8 +272,8 @@
               "properties": {
                 "Amount": {
                   "type": "number",
-                  "min": 10,
-                  "max": 3000
+                  "minimum": 10,
+                  "maximum": 3000
                 }
               },
               "required": [
@@ -165,6 +307,151 @@
           "pattern": "^\\d{10}$"
         }
       }
+    },
+    "save_auth_request": {
+      "type": "object",
+      "properties": {
+        "Phone_Number": {
+          "type": "string",
+          "pattern": "^\\d{10}$"
+        },
+        "Customer_Account_Id": {
+          "type": "string"
+        },
+        "Service_Account_Id": {
+          "type": "string"
+        },
+        "Language": {
+          "type": "string",
+          "enum": [
+            "EN",
+            "ES"
+          ]
+        },
+        "Verification_Type": {
+          "type": "string",
+          "enum": [
+            "Social_Security_Number",
+            "Drivers_License",
+            "Date_Of_Birth",
+            "Account_Password",
+            "Security_Question"
+          ]
+        }
+      },
+      "required": [
+        "Phone_Number",
+        "Customer_Account_Id",
+        "Service_Account_Id",
+        "Language"
+      ]
+    },
+    "fuzzy_search_request": {
+      "type": "object",
+      "properties": {
+        "CSPId": {
+          "type": "string"
+        },
+        "LastName": {
+          "type": "string"
+        },
+        "SSN": {
+          "type": "string"
+        },
+        "DL": {
+          "type": "string"
+        },
+        "PhoneNumber": {
+          "type": "string"
+        },
+        "Email": {
+          "type": "string",
+          "format": "email"
+        },
+        "ESIID": {
+          "type": "string"
+        }
+      }
+    },
+    "customer_account_add_note_request": {
+      "type": "object",
+      "properties": {
+        "Note": {
+          "type": "string"
+        },
+        "Note_Type": {
+          "type": "string",
+          "enum": [
+            "CC: ACCT NUMBER INQ",
+            "CC: BALANCE INQUIRY",
+            "CC: CUSTOMER COMPLAINT",
+            "CC: EXTENSION GRANTED",
+            "CC: INELIGIBLE FOR PYMT ARRG",
+            "CC: NO BILL/DISC NOTICE RECVD",
+            "CC: OTHER",
+            "CC: PAYMENT CONFIRMATION",
+            "CC: RECONNECT INQUIRY"
+          ]
+        },
+        "Followup_Required": {
+          "type": "boolean"
+        },
+        "Followup_Required_Date": {
+          "type": "string",
+          "format": "date"
+        }
+      },
+      "required": [
+        "Note",
+        "Note_Type"
+      ]
+    },
+    "contact_us_request": {
+      "type": "object",
+      "properties": {
+        "DaytimePhone": {
+          "type": "object",
+          "properties": {
+            "Type": {
+              "type": "string",
+              "enum": [
+                "Landline",
+                "Mobile"
+              ]
+            },
+            "Area_Code": {
+              "type": "string",
+              "minLength": 3,
+              "maxLength": 3,
+              "pattern": "^\\d{3}$"
+            },
+            "Number": {
+              "type": "string",
+              "minLength": 7,
+              "maxLength": 7,
+              "pattern": "^\\d{7}$"
+            },
+            "Extension": {
+              "type": "string"
+            },
+            "Agree_To_Marketing": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "Type",
+            "Area_Code",
+            "Number"
+          ]
+        },
+        "Question": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "Question",
+        "DaytimePhone"
+      ]
     }
   }
 }

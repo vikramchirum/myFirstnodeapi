@@ -12,7 +12,10 @@ Sentry.init({
 
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
-const logger = require('log-driver')({level: 'info'});
+const logger = require('log-driver')({ level: 'info' });
+const custom_error = require('./lib/custom_error');
+const http_status_error = require('gexa.http_client.basic_auth').http_status_error;
+//const logger = require('./lib/logger');
 
 logger.info({
     message: 'Server Started',
@@ -29,10 +32,11 @@ app.use(Sentry.Handlers.requestHandler({
 }));
 
 app.use(morgan('combined'));
+//app.use(morgan(logger.format, { stream: logger.loggerstream }));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.urlencoded({ extended: false }));
 
-const get_base_url = function(req){
+const get_base_url = function (req) {
     return process.env.SCHEME + '://' + req.get('host') + '/api';
 };
 
@@ -76,12 +80,18 @@ app.use(function (err, req, res, next) {
     if (err.name === 'UnauthorizedError') {
         res.status(err.status).send(err.message);
     }
+    else if (err instanceof http_status_error) {
+        res.status(err.status).send(err.errors);
+    }
+    else if (err instanceof custom_error) {
+        res.status(err.status).send(err.errors);
+    }
     else if (err.status && err.status < 500 && err.message) {
         res.status(err.status).send(err.message);
     }
     else {
 
-        logger.error({
+        logger.log({
             message: err.message,
             stack: err.stack,
             error: err,
@@ -92,10 +102,9 @@ app.use(function (err, req, res, next) {
             request_query: req.query
         });
 
-
         if (err.name === 'MongoError' && err.message.includes('duplicate')) {
             res.status(409);
-            res.send({Messsage: err.message});
+            res.send({ Messsage: err.message });
         }
         else {
             res.status(err.status || 500);

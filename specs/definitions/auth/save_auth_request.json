@@ -1,0 +1,35 @@
+{
+  "type": "object",
+  "properties": {
+    "Phone_Number": {
+      "type": "string",
+      "pattern": "^\\d{10}$"
+    },
+    "Customer_Account_Id": {
+      "type": "string"
+    },
+    "Service_Account_Id": {
+      "type": "string"
+    },
+    "Language": {
+      "type": "string",
+      "enum": ["EN", "ES"]
+    },
+    "Verification_Type": {
+      "type": "string",
+      "enum": [
+        "Social_Security_Number",
+        "Drivers_License",
+        "Date_Of_Birth",
+        "Account_Password",
+        "Security_Question"
+      ]
+    }
+  },
+  "required": [
+    "Phone_Number",
+    "Customer_Account_Id",
+    "Service_Account_Id",
+    "Language"
+  ]
+}

@@ -8,7 +8,9 @@
       "required": true,
       "content": {
         "application/json": {
-          "$ref": "#/components/schemas/pre_auth_request"
+          "schema": {
+            "$ref": "#/components/schemas/pre_auth_request"
+          }
         }
       }
     },
@@ -31,13 +33,45 @@
             "schema": {
               "type": "object",
               "properties": {
-                "Service_Account_Id": {
-                  "description": "service account id of the pre authorized phone number",
+                "Customer_Account_Id": {
+                  "description": "Customer Account Id of the pre authorized phone number",
                   "type": "string"
+                },
+                "Service_Account_Info": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "Service_Account_Id": {
+                        "description": "Service Account Id of the pre authorized phone number",
+                        "type": "string"
+                      },
+                      "Language": {
+                        "description": "The language the customer choose either EN Or ES",
+                        "type": "string",
+                        "enum": [
+                          "EN",
+                          "ES"
+                        ]
+                      }
+                    }
+                  }
                 }
               }
             },
-            "example": "1234567"
+            "example": {
+              "Customer_Account_Id": "12345",
+              "Service_Account_Info": [
+                {
+                  "Service_Account_Id": "34567",
+                  "Language": "EN"
+                },
+                {
+                  "Service_Account_Id": "56789",
+                  "Language": "EN"
+                }
+              ]
+            }
           }
         }
       }
