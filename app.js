@@ -1,9 +1,8 @@
 require('dotenv').config();
 const package = require('./package');
-
 const express = require('express');
-
 const Sentry = require('@sentry/node');
+
 Sentry.init({
     dsn: 'https://794935177d3a42d7aad3bbdfc9d964fe@sentry.io/1725905',
     environment: process.env.ENV,
@@ -12,12 +11,12 @@ Sentry.init({
 
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
-const logger = require('log-driver')({ level: 'info' });
+const logger = require('./lib/logger');
 const custom_error = require('./lib/custom_error');
 const http_status_error = require('gexa.http_client.basic_auth').http_status_error;
 //const logger = require('./lib/logger');
 
-logger.info({
+logger.log({
     message: 'Server Started',
     level: 'info'
 });
@@ -31,8 +30,7 @@ app.use(Sentry.Handlers.requestHandler({
     user: ['sub', 'aud']
 }));
 
-app.use(morgan('combined'));
-//app.use(morgan(logger.format, { stream: logger.loggerstream }));
+app.use(morgan(logger.format, {stream: logger.loggerstream}));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -104,7 +102,7 @@ app.use(function (err, req, res, next) {
 
         if (err.name === 'MongoError' && err.message.includes('duplicate')) {
             res.status(409);
-            res.send({ Messsage: err.message });
+            res.send({ Message: err.message });
         }
         else {
             res.status(err.status || 500);

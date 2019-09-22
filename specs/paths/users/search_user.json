@@ -1,0 +1,80 @@
+{
+  "tags": [
+    "users"
+  ],
+  "security": [],
+  "summary": "Searches the username by search criteria.",
+  "parameters": [
+    {
+      "name": "Email",
+      "in": "query",
+      "description": "Email address of the user.",
+      "required": false,
+      "schema": {
+        "type": "string",
+        "format": "email"
+      }
+    },
+    {
+      "name": "Service_Account_Id",
+      "in": "query",
+      "description": "Service Account Id of the user.",
+      "required": false,
+      "schema": {
+        "type": "string"
+      }
+    }
+  ],
+  "responses": {
+    "400": {
+      "description": "Bad Request",
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "#/components/schemas/error_list"
+          }
+        }
+      }
+    },
+    "200": {
+      "description": "200 returns a found user name.",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "User_Name": {
+                  "type": "string"
+                },
+                "Email": {
+                  "type": "string",
+                  "format": "email"
+                },
+                "Account_Status": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "example": [
+            {
+              "User_Name": "JohnDoe123",
+              "Email": "JohnDoe@123.com",
+              "Account_Status": "Active"
+            },
+            {
+              "User_Name": "JohnDoe456",
+              "Email": "JohnDoe@456.com",
+              "Account_Status": "Locked"
+            }
+          ]
+        }
+      }
+    },
+    "404": {
+      "description": "No User found."
+    }
+  }
+}

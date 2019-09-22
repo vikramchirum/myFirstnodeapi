@@ -7,6 +7,7 @@
     "test": "mocha",
     "swagger_join": "swagger-merger -i ./specs/spec.json -o ./specs/swagger.json",
     "validation_join": "swagger-merger -i ./specs/validation.spec.json -o ./specs/validation.json",
+    "swagger_join_all": "npm run swagger_join && npm run validation_join",
     "release": "standard-version && git push && git push --tags"
   },
   "config": {

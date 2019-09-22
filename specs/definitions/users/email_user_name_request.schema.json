@@ -1,0 +1,7 @@
+{
+  "$ref": "./email_user_name_request.json",
+  "anyOf": [
+    {"required":  ["Service_Account_Id"]},
+    {"required":  ["Email"]}
+  ]
+}

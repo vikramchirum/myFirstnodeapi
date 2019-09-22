@@ -1,0 +1,27 @@
+{
+  "/users": {
+    "get": {
+      "$ref": "./search_user.json"
+    }
+  },
+  "/users/primary_user_account": {
+    "get": {
+      "$ref": "./get_primary_user_account.json"
+    }
+  },
+  "/users/unlock_user_account": {
+    "put": {
+      "$ref": "./unlock_user_account.json"
+    }
+  },
+  "/users/send_reset_password_email": {
+    "put": {
+      "$ref": "./send_reset_password_email.json"
+    }
+  },
+  "/users/email_user_name": {
+    "put": {
+      "$ref": "./email_user_name.json"
+    }
+  }
+}

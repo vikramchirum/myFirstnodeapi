@@ -12,6 +12,8 @@ if (process.env.CA_CERT) {
 
 router.use('/auth', require('./auth'));
 
+router.use('/users', require('./users'));
+
 router.use('/announcements', require('./announcements'));
 
 //Require jwt token for all account resources
@@ -65,5 +67,7 @@ router.post('/customer_accounts/fuzzy_search',
             next(err);
         }
     });
+
+
 
 module.exports = router;
