@@ -1,0 +1,51 @@
+{
+  "tags": [
+    "users"
+  ],
+  "security": [],
+  "summary": "Send an email with the user name to the email address specified in the request body.",
+  "parameters": [],
+  "requestBody": {
+    "required": true,
+    "content": {
+      "application/json": {
+        "schema": {
+          "$ref": "#/components/schemas/email_user_name_request"
+        }
+      }
+    }
+  },
+  "responses": {
+    "400": {
+      "description": "Bad Request",
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "#/components/schemas/error_list"
+          }
+        }
+      }
+    },
+    "200": {
+      "description": "200 returns a flag indicating if the email send is successful.",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "Is_Success": {
+                "type": "boolean"
+              }
+            }
+          },
+          "example": {
+            "Is_Success": true
+          }
+        }
+      }
+    },
+    "404": {
+      "description": "No User found."
+    }
+  }
+}

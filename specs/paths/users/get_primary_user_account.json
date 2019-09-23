@@ -1,0 +1,60 @@
+{
+  "tags": [
+    "users"
+  ],
+  "security": [],
+  "summary": "Gets the primary user account for a service account Id.",
+  "parameters": [
+    {
+      "name": "Service_Account_Id",
+      "in": "query",
+      "description": "Service Account Id of the user.",
+      "required": true,
+      "schema": {
+        "type": "string"
+      }
+    }
+  ],
+  "responses": {
+    "400": {
+      "description": "Bad Request",
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "#/components/schemas/error_list"
+          }
+        }
+      }
+    },
+    "200": {
+      "description": "200 returns a found user name.",
+      "content": {
+        "application/json": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "User_Name": {
+                "type": "string"
+              },
+              "Email": {
+                "type": "string",
+                "format": "email"
+              },
+              "Account_Status": {
+                "type": "string"
+              }
+            }
+          },
+          "example": {
+            "User_Name": "JohnDoe123",
+            "Email": "JohnDoe@123.com",
+            "Account_Status": "Active"
+          }
+        }
+      }
+    },
+    "404": {
+      "description": "No User found."
+    }
+  }
+}

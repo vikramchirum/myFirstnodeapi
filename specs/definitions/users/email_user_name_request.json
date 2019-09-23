@@ -1,0 +1,12 @@
+{
+  "type": "object",
+  "properties": {
+    "Service_Account_Id": {
+      "type": "string"
+    },
+    "Email": {
+      "type": "string",
+      "format": "email"
+    }
+  }
+}

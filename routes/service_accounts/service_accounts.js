@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router({ mergeParams: true });
 const service_account_service = require('../../lib/services/service_account_service');
+const validation_helper = require('../../lib/helpers/validation.helper');
 
 router.use('/autopay', require('./service_accounts.autopay'));
 
@@ -78,5 +79,22 @@ router.get('/',
         }
     }
 );
+
+router.patch('/',
+    validation_helper.validation_middleware('service_account_patch'),
+    async function (req, res, next) {
+        try {
+            let updated_service_account = await service_account_service.update(req.params.id, req.service_account_patch);
+            if (updated_service_account) {
+                res.send(format_customer_response(req.user, updated_service_account));
+            }
+            else{
+                res.sendStatus(404);
+            }
+        }
+        catch (err) {
+            next(err);
+        }
+    });
 
 module.exports = router;

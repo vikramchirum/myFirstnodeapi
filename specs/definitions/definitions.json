@@ -91,5 +91,14 @@
   },
   "disconnect_letter_info_response": {
     "$ref": "./customer_correspondence/disconnect_letter_info_response.json"
+  },
+  "search_user_request": {
+    "$ref": "./users/search_user_request.json"
+  },
+  "email_user_name_request": {
+    "$ref": "./users/email_user_name_request.json"
+  },
+  "send_reset_password_email_request": {
+    "$ref": "./users/send_reset_password_email_request.json"
   }
 }

@@ -1,0 +1,59 @@
+{
+    "tags": [
+        "users"
+    ],
+    "security": [],
+    "summary": "Unlocks the locked user account.",
+    "parameters": [],
+    "requestBody": {
+        "required": true,
+        "content": {
+            "application/json": {
+                "schema": {
+                    "type": "object",
+                    "properties": {
+                        "User_Name": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "User_Name"
+                    ]
+                }
+            }
+        }
+    },
+    "responses": {
+        "400": {
+            "description": "Bad Request",
+            "content": {
+                "application/json": {
+                    "schema": {
+                        "$ref": "#/components/schemas/error_list"
+                    }
+                }
+            }
+        },
+        "200": {
+            "description": "200 returns a flag indicating if the unlock of the user account is successful.",
+            "content": {
+                "application/json": {
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "Is_Success": {
+                                "type": "boolean"
+                            }
+                        }
+                    },
+                    "example": {
+                        "Is_Success": true
+                    }
+                }
+            }
+        },
+        "404": {
+            "description": "No User found."
+        }
+    }
+}
