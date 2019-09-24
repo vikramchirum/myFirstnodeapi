@@ -6251,9 +6251,6 @@
           "Type"
         ]
       },
-      "disconnect_letter_info_response": {
-        "$ref": "./customer_correspondence/disconnect_letter_info_response.json"
-      },
       "search_user_request": {
         "type": "object",
         "properties": {
