@@ -8,6 +8,7 @@
     {
       "name": "id",
       "in": "path",
+      "required": true,
       "description": "id of customer account to get service accounts for",
       "schema": {
         "type": "string"
