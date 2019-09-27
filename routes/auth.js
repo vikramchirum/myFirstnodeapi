@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const audience_list = process.env.CUSTOMER_AUDIENCE_LIST.split(',');
 const external_api = require('../lib/external_api');
 const _ = require('lodash');
 const jwt_authorization = require('../lib/jwt_authorization');
