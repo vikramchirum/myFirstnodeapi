@@ -4501,7 +4501,6 @@
         "tags": [
           "users"
         ],
-        "security": [],
         "summary": "Unlocks the locked user account.",
         "parameters": [],
         "requestBody": {

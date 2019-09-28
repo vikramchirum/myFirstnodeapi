@@ -5,6 +5,7 @@ const jwt_authorization = require("../lib/jwt_authorization");
 const validation_helper = require('../lib/helpers/validation.helper');
 const service_account_service = require('../lib/services/service_account_service');
 const customer_account_service = require('../lib/services/customer_account_service');
+const users_service = require('../lib/services/user.service');
 
 if (process.env.CA_CERT) {
     router.use(auth_client_cert(process.env.CA_CERT));
@@ -68,6 +69,18 @@ router.post('/customer_accounts/fuzzy_search',
         }
     });
 
-
+router.put('/users/unlock_user_account',
+    async function (req, res, next) {
+        try {
+            if (!req.body.User_Name) {
+                res.status(400);
+                res.send({Message: "User Name is required to unlock an account."});
+            }
+            await users_service.unlock_user_account(req.body.User_Name);
+            res.send({Is_Success: true});
+        } catch (err) {
+            next(err);
+        }
+    });
 
 module.exports = router;

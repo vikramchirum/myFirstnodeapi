@@ -45,22 +45,7 @@ router.put('/email_user_name',
         }
     });
 
-router.put('/unlock_user_account',
-    jwt_authorization.verify_admin,
-    async function (req, res, next) {
-        try {
 
-            if (!req.body.User_Name) {
-                res.status(400);
-                res.send({Message: "User Name is required to unlock an account."});
-            }
-
-            await users_service.unlock_user_account(req.body.User_Name);
-            res.send({Is_Success: true});
-        } catch (err) {
-            next(err);
-        }
-    });
 
 router.put('/send_reset_password_email',
     async function (req, res, next) {
