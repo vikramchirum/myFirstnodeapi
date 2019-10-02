@@ -24,9 +24,9 @@ router.post('/',
             request.service_account_id = req.params.id;
             request.CreationDate = new Date;
             request.CSRName = req.user.sub;
-            request.Amount = req.Amount;
-            request.Notes = req.Notes;
-            request.CreditType = req.Credit_Type;
+            request.Amount = req.body.Amount;
+            request.Notes = req.body.Notes;
+            request.CreditType = req.body.Credit_Type;
 
           //  var request = req.service_account_credit_request;
           //  request.CSRName = req.user.sub;
