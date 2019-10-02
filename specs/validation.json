@@ -113,7 +113,26 @@
       ]
     },
     "service_account_credit_request": {
-      "$ref": "./definitions/service_accounts/service_account_credit_request.json"
+      "type": "object",
+      "properties": {
+        "Amount": {
+          "type": "number"
+        },
+        "Notes": {
+          "type": "string"
+        },
+        "Credit_Type": {
+          "type": "string",
+          "enum": [
+            "Customer_Satisfaction_Credit"
+          ]
+        }
+      },
+      "required": [
+        "Amount",
+        "Notes",
+        "Credit_Type"
+      ]
     },
     "customer_account_patch": {
       "type": "object",

@@ -15,8 +15,8 @@
     }
   },
   "required": [
-    "amount",
-    "notes",
-    "credit_type"
+    "Amount",
+    "Notes",
+    "Credit_Type"
   ]
 }

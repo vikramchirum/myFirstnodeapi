@@ -6017,9 +6017,9 @@
           }
         },
         "required": [
-          "amount",
-          "notes",
-          "credit_type"
+          "Amount",
+          "Notes",
+          "Credit_Type"
         ]
       },
       "service_account_disconnect_request": {
