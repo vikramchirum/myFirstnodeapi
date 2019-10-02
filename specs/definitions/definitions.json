@@ -68,6 +68,9 @@
   "waiver_request": {
     "$ref": "./service_accounts/waiver_request.json"
   },
+  "service_account_credit_request": {
+    "$ref": "./service_accounts/credit_request.json"
+  },
   "service_account_disconnect_request": {
     "$ref": "./service_accounts/disconnect_request.json"
   },

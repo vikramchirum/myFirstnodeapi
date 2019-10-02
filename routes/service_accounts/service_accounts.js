@@ -8,6 +8,8 @@ router.use('/autopay', require('./service_accounts.autopay'));
 router.use('/budget_billing', require('./service_accounts.budget_billing'));
 
 router.use('/invoices', require('./service_accounts.invoices'));
+``
+router.use('/credits', require('./service_accounts.credits'));
 
 router.get('/Meter_Read_Details/:count',
     async function (req, res, next) {

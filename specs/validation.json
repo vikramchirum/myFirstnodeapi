@@ -112,6 +112,9 @@
         "Mailing_Address"
       ]
     },
+    "service_account_credit_request": {
+      "$ref": "./definitions/service_accounts/service_account_credit_request.json"
+    },
     "customer_account_patch": {
       "type": "object",
       "properties": {
