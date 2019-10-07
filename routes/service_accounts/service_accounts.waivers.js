@@ -8,7 +8,7 @@ router.get('/',
     jwt_authorization.verify_admin,
     async function (req, res, next) {
         try {
-            let result = await service_account_service.get_standard_waivers(req.params.id);
+            let result = await service_account_service.get_waivers(req.params.id);
             res.send(result);
         }
         catch (err) {
