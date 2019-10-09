@@ -2,6 +2,32 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+# [1.5.0](http://neer-bitbucket:7999/gd/gexa-saas/compare/v1.4.0...v1.5.0) (2019-10-09)
+
+
+### Bug Fixes
+
+* **auth:** bug fix in generate token ([ee94472](http://neer-bitbucket:7999/gd/gexa-saas/commits/ee94472))
+* **autopay_service:** fixed a bug in auto pay service ([5b1ff15](http://neer-bitbucket:7999/gd/gexa-saas/commits/5b1ff15))
+* **customer_acount:** fix an issue with auth token ([33cccb3](http://neer-bitbucket:7999/gd/gexa-saas/commits/33cccb3))
+* **refresh:** changed refresh to be a get that sends refresh token in header ([fd4559d](http://neer-bitbucket:7999/gd/gexa-saas/commits/fd4559d))
+* **service_account:** Take fields on post from body of request ([dc1171b](http://neer-bitbucket:7999/gd/gexa-saas/commits/dc1171b))
+* **service_accounts:** fix an issue with getting waivers ([f25f8c6](http://neer-bitbucket:7999/gd/gexa-saas/commits/f25f8c6))
+* **swagger:** fixed definition used for credits on service accounts ([642d1c2](http://neer-bitbucket:7999/gd/gexa-saas/commits/642d1c2))
+* **users:** fix the issue with unlocking users ([6f92299](http://neer-bitbucket:7999/gd/gexa-saas/commits/6f92299))
+
+
+### Features
+
+* **logging:** added sentry logging to the project ([db20ca1](http://neer-bitbucket:7999/gd/gexa-saas/commits/db20ca1))
+* **serivce_account:** api methods to update customer and service accounts ([bff7aa3](http://neer-bitbucket:7999/gd/gexa-saas/commits/bff7aa3))
+* **service_account:** add an api method to disconnect a service account ([4ffff27](http://neer-bitbucket:7999/gd/gexa-saas/commits/4ffff27))
+* **service_account:** add credit get and post apis ([023c767](http://neer-bitbucket:7999/gd/gexa-saas/commits/023c767))
+* **swagger:** updated swagger to include security question for caching ([7c6841d](http://neer-bitbucket:7999/gd/gexa-saas/commits/7c6841d))
+* **users:** built the functionality for user accounts ([5e8f1e9](http://neer-bitbucket:7999/gd/gexa-saas/commits/5e8f1e9))
+
+
+
 # [1.4.0](http://neer-bitbucket:7999/gd/gexa-saas/compare/v1.3.0...v1.4.0) (2019-09-13)
 
 
