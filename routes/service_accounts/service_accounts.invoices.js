@@ -60,7 +60,7 @@ router.get('/:invoice_id/download',
             res.setHeader('Content-Type', 'application/pdf');
             res.setHeader('Content-Length', response.bytes.bytes.length);
             res.setHeader('Content-Disposition', 'attachment; filename=' + req.params.invoice_id + '.pdf');
-            res.send(response.bytes);
+            res.send(response.bytes.bytes);
         }
         catch (err) {
             next(err);
