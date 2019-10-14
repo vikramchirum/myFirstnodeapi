@@ -58,7 +58,7 @@ router.get('/:invoice_id/download',
         try {
             let response = await invoice_service.download_invoice(req.params.invoice_id);
             res.setHeader('Content-Type', 'application/pdf');
-            res.setHeader('Content-Length', response.bytes.length);
+            res.setHeader('Content-Length', response.bytes.bytes.length);
             res.setHeader('Content-Disposition', 'attachment; filename=' + req.params.invoice_id + '.pdf');
             res.send(response.bytes);
         }
